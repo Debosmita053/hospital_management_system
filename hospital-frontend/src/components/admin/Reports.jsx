@@ -1,314 +1,947 @@
 import React, { useState } from 'react';
-import {
-    TrendingUp, Users, DollarSign, Calendar, Download,
-    BarChart3, PieChart, Activity
+import { 
+  Search, Plus, Edit2, Trash2, Eye, Upload, Download, 
+  FileText, CheckCircle, Clock, Beaker,
+  TrendingUp, Activity, DollarSign
 } from 'lucide-react';
+import toast from 'react-hot-toast';
 
-// --- Reports Component ---
 const Reports = () => {
-    const [dateRange, setDateRange] = useState('thisMonth');
-    const [reportType, setReportType] = useState('all');
+  const [activeTab, setActiveTab] = useState('overview'); // overview, lab-requests, test-types, results
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
 
-    // Mock report data (no changes needed here)
-    const reportStats = {
-        totalPatients: 2543,
-        newPatients: 145,
-        totalAppointments: 1256,
-        completedAppointments: 1089,
-        revenue: 245630,
-        expenses: 98450,
-        profit: 147180,
-        occupancyRate: 78.5,
-    };
+  // Mock data - Test Types
+  const [testTypes, setTestTypes] = useState([
+    { id: 1, name: 'Complete Blood Count (CBC)', category: 'Hematology', price: 500, turnaroundTime: '24 hours', description: 'Measures different components of blood' },
+    { id: 2, name: 'Lipid Profile', category: 'Biochemistry', price: 800, turnaroundTime: '24 hours', description: 'Cholesterol and triglyceride levels' },
+    { id: 3, name: 'Blood Sugar (Fasting)', category: 'Biochemistry', price: 200, turnaroundTime: '12 hours', description: 'Measures fasting blood glucose' },
+    { id: 4, name: 'Liver Function Test (LFT)', category: 'Biochemistry', price: 1200, turnaroundTime: '48 hours', description: 'Evaluates liver health' },
+    { id: 5, name: 'Thyroid Profile', category: 'Endocrinology', price: 1500, turnaroundTime: '48 hours', description: 'T3, T4, TSH levels' },
+    { id: 6, name: 'X-Ray Chest', category: 'Radiology', price: 600, turnaroundTime: '2 hours', description: 'Chest radiography' },
+    { id: 7, name: 'Urine Routine', category: 'Pathology', price: 300, turnaroundTime: '12 hours', description: 'Urine analysis' },
+    { id: 8, name: 'ECG', category: 'Cardiology', price: 400, turnaroundTime: '1 hour', description: 'Electrocardiogram' },
+  ]);
 
-    const departmentStats = [
-        { name: 'Cardiology', patients: 345, revenue: 78500, appointments: 289 },
-        { name: 'Neurology', patients: 234, revenue: 56700, appointments: 198 },
-        { name: 'Orthopedics', patients: 456, revenue: 89200, appointments: 412 },
-        { name: 'Pediatrics', patients: 389, revenue: 45600, appointments: 357 },
-        { name: 'Emergency', patients: 567, revenue: 123400, appointments: 489 },
-    ];
+  // Mock data - Test Requests
+  const [testRequests, setTestRequests] = useState([
+    { id: 'TR001', patientName: 'John Doe', patientId: 'P001', doctorName: 'Dr. Sarah Smith', testName: 'Complete Blood Count (CBC)', requestDate: '2024-10-15', priority: 'urgent', status: 'pending', labAssigned: null },
+    { id: 'TR002', patientName: 'Jane Smith', patientId: 'P002', doctorName: 'Dr. Mike Johnson', testName: 'Lipid Profile', requestDate: '2024-10-15', priority: 'routine', status: 'in-progress', labAssigned: 'Lab A' },
+    { id: 'TR003', patientName: 'Bob Wilson', patientId: 'P003', doctorName: 'Dr. Sarah Smith', testName: 'Thyroid Profile', requestDate: '2024-10-14', priority: 'routine', status: 'completed', labAssigned: 'Lab B' },
+    { id: 'TR004', patientName: 'Alice Brown', patientId: 'P004', doctorName: 'Dr. Emily Davis', testName: 'X-Ray Chest', requestDate: '2024-10-15', priority: 'urgent', status: 'in-progress', labAssigned: 'Radiology Lab' },
+    { id: 'TR005', patientName: 'Charlie Green', patientId: 'P005', doctorName: 'Dr. Mike Johnson', testName: 'Blood Sugar (Fasting)', requestDate: '2024-10-13', priority: 'routine', status: 'completed', labAssigned: 'Lab A' },
+  ]);
 
-    const doctorPerformance = [
-        { name: 'Dr. Sarah Smith', patients: 145, revenue: 34500, rating: 4.9 },
-        { name: 'Dr. Mike Davis', patients: 132, revenue: 29800, rating: 4.8 },
-        { name: 'Dr. Emily Brown', patients: 156, revenue: 38900, rating: 4.7 },
-        { name: 'Dr. John Lee', patients: 128, revenue: 31200, rating: 4.9 },
-        { name: 'Dr. Robert Wilson', patients: 167, revenue: 42300, rating: 4.8 },
-    ];
+  // Mock data - Test Results
+  const [testResults, setTestResults] = useState([
+    { id: 'TR003', patientName: 'Bob Wilson', testName: 'Thyroid Profile', completedDate: '2024-10-14', resultFile: 'thyroid_report.pdf', uploadedBy: 'Lab Technician A', notes: 'All values within normal range' },
+    { id: 'TR005', patientName: 'Charlie Green', testName: 'Blood Sugar (Fasting)', completedDate: '2024-10-13', resultFile: 'blood_sugar.pdf', uploadedBy: 'Lab Technician B', notes: 'Slightly elevated, follow-up recommended' },
+  ]);
 
-    const monthlyRevenue = [
-        { month: 'Jan', revenue: 185000, expenses: 89000 },
-        { month: 'Feb', revenue: 198000, expenses: 92000 },
-        { month: 'Mar', revenue: 212000, expenses: 95000 },
-        { month: 'Apr', revenue: 205000, expenses: 91000 },
-        { month: 'May', revenue: 225000, expenses: 98000 },
-        { month: 'Jun', revenue: 245630, expenses: 98450 },
-    ];
+  const [formData, setFormData] = useState({
+    name: '',
+    category: '',
+    price: '',
+    turnaroundTime: '',
+    description: '',
+    labAssigned: '',
+    resultFile: null,
+    notes: ''
+  });
 
-    // Added a 'category' key to link reports to the filter
-    const availableReports = [
-        { id: 1, name: 'Patient Registration Report', icon: Users, color: 'blue', category: 'clinical' },
-        { id: 2, name: 'Appointment Statistics', icon: Calendar, color: 'green', category: 'operational' },
-        { id: 3, name: 'Revenue & Financial Report', icon: DollarSign, color: 'yellow', category: 'financial' },
-        { id: 4, name: 'Department Performance', icon: BarChart3, color: 'purple', category: 'operational' },
-        { id: 5, name: 'Doctor Performance Report', icon: Activity, color: 'red', category: 'clinical' },
-        { id: 6, name: 'Bed Occupancy Report', icon: PieChart, color: 'indigo', category: 'operational' },
-    ];
+  // Stats calculation
+  const stats = {
+    totalRequests: testRequests.length,
+    pending: testRequests.filter(t => t.status === 'pending').length,
+    inProgress: testRequests.filter(t => t.status === 'in-progress').length,
+    completed: testRequests.filter(t => t.status === 'completed').length,
+    totalTestTypes: testTypes.length,
+    urgentRequests: testRequests.filter(t => t.priority === 'urgent').length,
+    totalRevenue: testResults.length * 850,
+    avgTurnaround: '28 hours'
+  };
 
-    const handleDownloadReport = (reportName) => {
-        // Mock download
-        alert(`Downloading ${reportName} report for ${dateRange}...`);
-    };
+  // Handlers
+  const handleAddTestType = () => {
+    setModalType('addTest');
+    setSelectedItem(null);
+    setFormData({ name: '', category: '', price: '', turnaroundTime: '', description: '' });
+    setShowModal(true);
+  };
 
-    // CORE FIX: Filter the available reports based on reportType state
-    const filteredAvailableReports = availableReports.filter(report => {
-        if (reportType === 'all') {
-            return true; // Show all reports
-        }
-        // Match the report's category to the selected reportType
-        return report.category === reportType;
+  const handleEditTestType = (test) => {
+    setModalType('addTest');
+    setSelectedItem(test);
+    setFormData({
+      name: test.name,
+      category: test.category,
+      price: test.price,
+      turnaroundTime: test.turnaroundTime,
+      description: test.description
     });
+    setShowModal(true);
+  };
 
-    // Helper function for Indian Rupee formatting
-    const formatRupees = (amount) => {
-        return amount.toLocaleString('en-IN');
+  const handleDeleteTestType = (testId) => {
+    if (window.confirm('Are you sure you want to delete this test type?')) {
+      setTestTypes(testTypes.filter(t => t.id !== testId));
+      toast.success('Test type deleted successfully');
+    }
+  };
+
+  const handleSubmitTestType = (e) => {
+    e.preventDefault();
+    if (selectedItem) {
+      setTestTypes(testTypes.map(t => t.id === selectedItem.id ? { ...t, ...formData } : t));
+      toast.success('Test type updated successfully');
+    } else {
+      const newTest = { id: testTypes.length + 1, ...formData };
+      setTestTypes([...testTypes, newTest]);
+      toast.success('Test type added successfully');
+    }
+    setShowModal(false);
+  };
+
+  const handleAssignLab = (requestId, lab) => {
+    setTestRequests(testRequests.map(r => 
+      r.id === requestId ? { ...r, labAssigned: lab, status: 'in-progress' } : r
+    ));
+    toast.success(`Test assigned to ${lab}`);
+  };
+
+  const handleUploadResult = (request) => {
+    setModalType('uploadResult');
+    setSelectedItem(request);
+    setFormData({ resultFile: null, notes: '' });
+    setShowModal(true);
+  };
+
+  const handleSubmitResult = (e) => {
+    e.preventDefault();
+    const newResult = {
+      id: selectedItem.id,
+      patientName: selectedItem.patientName,
+      testName: selectedItem.testName,
+      completedDate: new Date().toISOString().split('T')[0],
+      resultFile: formData.resultFile ? formData.resultFile.name : 'result.pdf',
+      uploadedBy: 'Current Admin',
+      notes: formData.notes
     };
+    setTestResults([...testResults, newResult]);
+    setTestRequests(testRequests.map(r => 
+      r.id === selectedItem.id ? { ...r, status: 'completed' } : r
+    ));
+    toast.success('Test result uploaded successfully');
+    setShowModal(false);
+  };
 
+  const handleViewResult = (result) => {
+    setModalType('viewResult');
+    setSelectedItem(result);
+    setShowModal(true);
+  };
+
+  const handleDownloadReport = (result) => {
+    toast.success(`Downloading ${result.resultFile}...`);
+  };
+
+  // Filter functions
+  const filteredRequests = testRequests.filter(request => {
+    const matchesSearch = request.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         request.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         request.testName.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'all' || request.status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  const filteredTests = testTypes.filter(test =>
+    test.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    test.category.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const filteredResults = testResults.filter(result =>
+    result.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    result.testName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Helper functions
+  const getStatusBadge = (status) => {
+    const styles = {
+      pending: 'bg-yellow-100 text-yellow-800',
+      'in-progress': 'bg-blue-100 text-blue-800',
+      completed: 'bg-green-100 text-green-800'
+    };
+    const icons = {
+      pending: <Clock className="w-3 h-3" />,
+      'in-progress': <Beaker className="w-3 h-3" />,
+      completed: <CheckCircle className="w-3 h-3" />
+    };
     return (
-        <div className="space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
-                    <p className="text-gray-600 mt-1">View hospital performance and generate reports</p>
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${styles[status]}`}>
+        {icons[status]}
+        {status.replace('-', ' ')}
+      </span>
+    );
+  };
+
+  const getPriorityBadge = (priority) => {
+    const styles = {
+      urgent: 'bg-red-100 text-red-800',
+      routine: 'bg-gray-100 text-gray-800'
+    };
+    return (
+      <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${styles[priority]}`}>
+        {priority}
+      </span>
+    );
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Reports & Lab Management</h1>
+          <p className="text-gray-600 mt-1">Analytics, lab tests, and report generation</p>
+        </div>
+      </div>
+
+      {/* Overview Stats - Always Visible */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-blue-100 text-sm font-medium">Total Lab Requests</p>
+              <p className="text-3xl font-bold mt-2">{stats.totalRequests}</p>
+              <p className="text-blue-100 text-xs mt-2">↑ 12% from last month</p>
+            </div>
+            <div className="w-14 h-14 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <FileText className="w-7 h-7" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-green-100 text-sm font-medium">Completed Tests</p>
+              <p className="text-3xl font-bold mt-2">{stats.completed}</p>
+              <p className="text-green-100 text-xs mt-2">{((stats.completed/stats.totalRequests)*100).toFixed(0)}% completion rate</p>
+            </div>
+            <div className="w-14 h-14 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <CheckCircle className="w-7 h-7" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-yellow-100 text-sm font-medium">Pending Tests</p>
+              <p className="text-3xl font-bold mt-2">{stats.pending}</p>
+              <p className="text-yellow-100 text-xs mt-2">{stats.urgentRequests} urgent</p>
+            </div>
+            <div className="w-14 h-14 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <Clock className="w-7 h-7" />
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-purple-100 text-sm font-medium">Test Revenue</p>
+              <p className="text-3xl font-bold mt-2">₹{stats.totalRevenue.toLocaleString()}</p>
+              <p className="text-purple-100 text-xs mt-2">This month</p>
+            </div>
+            <div className="w-14 h-14 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <DollarSign className="w-7 h-7" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="border-b border-gray-200">
+          <nav className="flex space-x-8 px-6" aria-label="Tabs">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'overview'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4" />
+                Overview & Analytics
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('lab-requests')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'lab-requests'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                Lab Requests ({testRequests.length})
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('test-types')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'test-types'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <Beaker className="w-4 h-4" />
+                Test Types ({testTypes.length})
+              </div>
+            </button>
+            <button
+              onClick={() => setActiveTab('results')}
+              className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                activeTab === 'results'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4" />
+                Test Results ({testResults.length})
+              </div>
+            </button>
+          </nav>
+        </div>
+
+        {/* Tab Content */}
+        <div className="p-6">
+          {/* Overview Tab */}
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              {/* Quick Stats Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Test Categories</h3>
+                    <Beaker className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div className="space-y-3">
+                    {['Hematology', 'Biochemistry', 'Radiology', 'Pathology'].map((cat, idx) => (
+                      <div key={cat} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-600">{cat}</span>
+                        <span className="text-sm font-semibold text-gray-900">{testTypes.filter(t => t.category === cat).length}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Status Breakdown</h3>
+                    <Activity className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Completed</span>
+                      <span className="text-sm font-semibold text-green-600">{stats.completed}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">In Progress</span>
+                      <span className="text-sm font-semibold text-blue-600">{stats.inProgress}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Pending</span>
+                      <span className="text-sm font-semibold text-yellow-600">{stats.pending}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Urgent</span>
+                      <span className="text-sm font-semibold text-red-600">{stats.urgentRequests}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900">Performance</h3>
+                    <TrendingUp className="w-6 h-6 text-purple-600" />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Avg Turnaround</span>
+                      <span className="text-sm font-semibold text-gray-900">{stats.avgTurnaround}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Total Tests</span>
+                      <span className="text-sm font-semibold text-gray-900">{stats.totalTestTypes}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Success Rate</span>
+                      <span className="text-sm font-semibold text-green-600">98.5%</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Monthly Revenue</span>
+                      <span className="text-sm font-semibold text-green-600">₹{stats.totalRevenue.toLocaleString()}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Recent Activity */}
+              <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Test Activity</h3>
+                <div className="space-y-3">
+                  {testRequests.slice(0, 5).map((request) => (
+                    <div key={request.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                          <Beaker className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-gray-900">{request.testName}</p>
+                          <p className="text-xs text-gray-500">{request.patientName} • {request.requestDate}</p>
+                        </div>
+                      </div>
+                      {getStatusBadge(request.status)}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Lab Requests Tab */}
+          {activeTab === 'lab-requests' && (
+            <div className="space-y-4">
+              {/* Filters */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      placeholder="Search by patient, test, or ID..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="all">All Status</option>
+                  <option value="pending">Pending</option>
+                  <option value="in-progress">In Progress</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+
+              {/* Requests Table */}
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Request ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Test Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priority</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lab</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {filteredRequests.map((request) => (
+                      <tr key={request.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="text-sm font-medium text-gray-900">{request.id}</span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">{request.patientName}</div>
+                            <div className="text-sm text-gray-500">{request.patientId}</div>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900">{request.testName}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{request.doctorName}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{request.requestDate}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {getPriorityBadge(request.priority)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {getStatusBadge(request.status)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          {request.status === 'pending' ? (
+                            <select
+                              onChange={(e) => handleAssignLab(request.id, e.target.value)}
+                              className="text-sm border border-gray-300 rounded px-2 py-1"
+                              defaultValue=""
+                            >
+                              <option value="" disabled>Assign Lab</option>
+                              <option value="Lab A">Lab A</option>
+                              <option value="Lab B">Lab B</option>
+                              <option value="Radiology Lab">Radiology Lab</option>
+                              <option value="Pathology Lab">Pathology Lab</option>
+                            </select>
+                          ) : (
+                            <span className="text-sm text-gray-900">{request.labAssigned}</span>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center gap-2">
+                            {request.status === 'in-progress' && (
+                              <button
+                                onClick={() => handleUploadResult(request)}
+                                className="text-green-600 hover:text-green-900"
+                                title="Upload Result"
+                              >
+                                <Upload className="w-5 h-5" />
+                              </button>
+                            )}
+                            {request.status === 'completed' && (
+                              <button
+                                onClick={() => handleViewResult(testResults.find(r => r.id === request.id))}
+                                className="text-blue-600 hover:text-blue-900"
+                                title="View Result"
+                              >
+                                <Eye className="w-5 h-5" />
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Test Types Tab */}
+          {activeTab === 'test-types' && (
+            <div className="space-y-4">
+              {/* Header */}
+              <div className="flex justify-between items-center">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      placeholder="Search test types..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="w-full max-w-md pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
                 </div>
                 <button
-                    onClick={() => handleDownloadReport('All Reports')} // Changed to use the existing mock function
-                    className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
+                  onClick={handleAddTestType}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                    <Download className="h-5 w-5" />
-                    <span>Export All</span>
+                  <Plus className="w-5 h-5" />
+                  Add Test Type
                 </button>
-            </div>
+              </div>
 
-            {/* Filters */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
-                        <select
-                            value={dateRange}
-                            onChange={(e) => setDateRange(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              {/* Test Types Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredTests.map((test) => (
+                  <div key={test.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <Beaker className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleEditTestType(test)}
+                          className="text-blue-600 hover:text-blue-900"
                         >
-                            <option value="today">Today</option>
-                            <option value="thisWeek">This Week</option>
-                            <option value="thisMonth">This Month</option>
-                            <option value="lastMonth">Last Month</option>
-                            <option value="thisYear">This Year</option>
-                            <option value="custom">Custom Range</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Report Type</label>
-                        <select
-                            value={reportType}
-                            onChange={(e) => setReportType(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                          <Edit2 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteTestType(test.id)}
+                          className="text-red-600 hover:text-red-900"
                         >
-                            <option value="all">All Reports</option>
-                            <option value="financial">Financial</option>
-                            <option value="operational">Operational</option>
-                            <option value="clinical">Clinical</option>
-                        </select>
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{test.name}</h3>
+                    <p className="text-sm text-gray-600 mb-4">{test.description}</p>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500">Category:</span>
+                        <span className="font-medium text-gray-900">{test.category}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500">Price:</span>
+                        <span className="font-medium text-green-600">₹{test.price}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-500">Turnaround:</span>
+                        <span className="font-medium text-gray-900">{test.turnaroundTime}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
+          )}
 
-            {/* Key Metrics - CURRENCY UPDATED HERE */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm text-gray-600">Total Patients</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">{reportStats.totalPatients}</p>
-                            <p className="text-xs text-green-600 mt-2 flex items-center">
-                                <TrendingUp className="h-3 w-3 mr-1" />
-                                +{reportStats.newPatients} new
-                            </p>
-                        </div>
-                        <div className="p-3 bg-blue-100 rounded-lg">
-                            <Users className="h-6 w-6 text-blue-600" />
-                        </div>
-                    </div>
-                </div>
+          {/* Test Results Tab */}
+          {activeTab === 'results' && (
+            <div className="space-y-4">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search results..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
 
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm text-gray-600">Appointments</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">{reportStats.totalAppointments}</p>
-                            <p className="text-xs text-gray-600 mt-2">
-                                {reportStats.completedAppointments} completed
-                            </p>
-                        </div>
-                        <div className="p-3 bg-green-100 rounded-lg">
-                            <Calendar className="h-6 w-6 text-green-600" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm text-gray-600">Total Revenue</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">₹{formatRupees(reportStats.revenue)}</p>
-                            <p className="text-xs text-green-600 mt-2">
-                                Profit: ₹{formatRupees(reportStats.profit)}
-                            </p>
-                        </div>
-                        <div className="p-3 bg-yellow-100 rounded-lg">
-                            <DollarSign className="h-6 w-6 text-yellow-600" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <p className="text-sm text-gray-600">Occupancy Rate</p>
-                            <p className="text-3xl font-bold text-gray-900 mt-1">{reportStats.occupancyRate}%</p>
-                            <p className="text-xs text-gray-600 mt-2">Bed utilization</p>
-                        </div>
-                        <div className="p-3 bg-purple-100 rounded-lg">
-                            <Activity className="h-6 w-6 text-purple-600" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Available Reports */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Available Reports</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {/* Iterate over the FILTERED list */}
-                    {filteredAvailableReports.map((report) => {
-                        const Icon = report.icon;
-                        return (
-                            <div
-                                key={report.id}
-                                className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+              {/* Results Table */}
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Request ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Test Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Completed Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Uploaded By</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {filteredResults.map((result) => (
+                      <tr key={result.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="text-sm font-medium text-gray-900">{result.id}</span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">{result.patientName}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900">{result.testName}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{result.completedDate}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{result.uploadedBy}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-600 max-w-xs truncate">{result.notes}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => handleViewResult(result)}
+                              className="text-blue-600 hover:text-blue-900"
+                              title="View Result"
                             >
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-start space-x-3">
-                                        {/* NOTE: Tailwind CSS JIT mode is required for dynamic color classes like this */}
-                                        <div className={`p-2 bg-${report.color}-100 rounded-lg`}>
-                                            <Icon className={`h-5 w-5 text-${report.color}-600`} />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="text-sm font-medium text-gray-900">{report.name}</h3>
-                                            <p className="text-xs text-gray-500 mt-1">Date Range: {dateRange}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => handleDownloadReport(report.name)}
-                                    className="mt-4 w-full flex items-center justify-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 hover:bg-gray-50 transition-colors"
-                                >
-                                    <Download className="h-4 w-4" />
-                                    <span>Download</span>
-                                </button>
-                            </div>
-                        );
-                    })}
-                    {filteredAvailableReports.length === 0 && (
-                        <p className="text-gray-500 col-span-full py-8 text-center">
-                            No reports match the selected type or filters.
-                        </p>
-                    )}
-                </div>
-            </div>
-
-            {/* Department Performance and Top Performing Doctors sections - CURRENCY UPDATED HERE */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">Department Performance</h2>
-                    <div className="space-y-4">
-                        {departmentStats.map((dept, index) => (
-                            <div key={index} className="border-b border-gray-100 pb-4 last:border-0">
-                                <div className="flex items-center justify-between mb-2">
-                                    <h3 className="text-sm font-medium text-gray-900">{dept.name}</h3>
-                                    <span className="text-sm font-bold text-green-600">₹{formatRupees(dept.revenue)}</span>
-                                </div>
-                                <div className="flex items-center justify-between text-xs text-gray-500">
-                                    <span>{dept.patients} patients</span>
-                                    <span>{dept.appointments} appointments</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-bold text-gray-900 mb-4">Top Performing Doctors</h2>
-                    <div className="space-y-4">
-                        {doctorPerformance.map((doctor, index) => (
-                            <div key={index} className="border-b border-gray-100 pb-4 last:border-0">
-                                <div className="flex items-center justify-between mb-2">
-                                    <div className="flex items-center space-x-3">
-                                        <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center">
-                                            <span className="text-indigo-600 font-medium text-sm">
-                                                {index + 1}
-                                            </span>
-                                        </div>
-                                        <div>
-                                            <h3 className="text-sm font-medium text-gray-900">{doctor.name}</h3>
-                                            <p className="text-xs text-gray-500">Rating: {doctor.rating}⭐</p>
-                                        </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-bold text-green-600">₹{formatRupees(doctor.revenue)}</p>
-                                        <p className="text-xs text-gray-500">{doctor.patients} patients</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Monthly Revenue Chart - CURRENCY UPDATED HERE */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                <h2 className="text-lg font-bold text-gray-900 mb-4">Revenue Trend (Last 6 Months)</h2>
-                <div className="space-y-3">
-                    {monthlyRevenue.map((month, index) => (
-                        <div key={index}>
-                            <div className="flex items-center justify-between mb-1">
-                                <span className="text-sm font-medium text-gray-700">{month.month}</span>
-                                <div className="flex items-center space-x-4">
-                                    <span className="text-xs text-green-600">Rev: ₹{formatRupees(month.revenue)}</span>
-                                    <span className="text-xs text-red-600">Exp: ₹{formatRupees(month.expenses)}</span>
-                                </div>
-                            </div>
-                            <div className="flex space-x-1">
-                                <div
-                                    className="h-2 bg-green-500 rounded"
-                                    // Style logic is based on maximum potential revenue (e.g., 300000)
-                                    style={{ width: `${(month.revenue / 300000) * 100}%` }}
-                                ></div>
-                                <div
-                                    className="h-2 bg-red-500 rounded"
-                                    // Style logic is based on maximum potential revenue (e.g., 300000)
-                                    style={{ width: `${(month.expenses / 300000) * 100}%` }}
-                                ></div>
-                            </div>
-                        </div>
+                              <Eye className="w-5 h-5" />
+                            </button>
+                            <button
+                              onClick={() => handleDownloadReport(result)}
+                              className="text-green-600 hover:text-green-900"
+                              title="Download Report"
+                            >
+                              <Download className="w-5 h-5" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
                     ))}
-                </div>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          )}
         </div>
-    );
+      </div>
+
+      {/* Modals */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            {/* Add/Edit Test Type Modal */}
+            {modalType === 'addTest' && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {selectedItem ? 'Edit Test Type' : 'Add New Test Type'}
+                  </h2>
+                </div>
+                <form onSubmit={handleSubmitTestType} className="p-6 space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Test Name *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.name}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., Complete Blood Count"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Category *
+                      </label>
+                      <select
+                        required
+                        value={formData.category}
+                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Select Category</option>
+                        <option value="Hematology">Hematology</option>
+                        <option value="Biochemistry">Biochemistry</option>
+                        <option value="Microbiology">Microbiology</option>
+                        <option value="Pathology">Pathology</option>
+                        <option value="Radiology">Radiology</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Endocrinology">Endocrinology</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Price (₹) *
+                      </label>
+                      <input
+                        type="number"
+                        required
+                        value={formData.price}
+                        onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="500"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Turnaround Time *
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={formData.turnaroundTime}
+                      onChange={(e) => setFormData({ ...formData, turnaroundTime: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., 24 hours, 2 days"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Description
+                    </label>
+                    <textarea
+                      value={formData.description}
+                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                      rows="3"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Brief description of the test..."
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      type="submit"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      {selectedItem ? 'Update Test Type' : 'Add Test Type'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+
+            {/* Upload Result Modal */}
+            {modalType === 'uploadResult' && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900">Upload Test Result</h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Patient: {selectedItem?.patientName} | Test: {selectedItem?.testName}
+                  </p>
+                </div>
+                <form onSubmit={handleSubmitResult} className="p-6 space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Upload Result File (PDF) *
+                    </label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
+                      <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={(e) => setFormData({ ...formData, resultFile: e.target.files[0] })}
+                        className="hidden"
+                        id="file-upload"
+                        required
+                      />
+                      <label htmlFor="file-upload" className="cursor-pointer">
+                        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                        <p className="text-sm text-gray-600">
+                          {formData.resultFile ? formData.resultFile.name : 'Click to upload or drag and drop'}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">PDF files only</p>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Notes (Optional)
+                    </label>
+                    <textarea
+                      value={formData.notes}
+                      onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                      rows="4"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Add any important notes about the test results..."
+                    />
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      type="submit"
+                      className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                    >
+                      Upload Result
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+
+            {/* View Result Modal */}
+            {modalType === 'viewResult' && selectedItem && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900">Test Result Details</h2>
+                </div>
+                <div className="p-6 space-y-4">
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-600">Request ID</p>
+                        <p className="text-base font-semibold text-gray-900">{selectedItem.id}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Patient Name</p>
+                        <p className="text-base font-semibold text-gray-900">{selectedItem.patientName}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Test Name</p>
+                        <p className="text-base font-semibold text-gray-900">{selectedItem.testName}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-600">Completed Date</p>
+                        <p className="text-base font-semibold text-gray-900">{selectedItem.completedDate}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-2">Uploaded By</p>
+                    <p className="text-gray-900">{selectedItem.uploadedBy}</p>
+                  </div>
+
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-2">Result File</p>
+                    <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                      <FileText className="w-5 h-5 text-red-600" />
+                      <span className="text-sm text-gray-900 flex-1">{selectedItem.resultFile}</span>
+                      <button
+                        onClick={() => handleDownloadReport(selectedItem)}
+                        className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download
+                      </button>
+                    </div>
+                  </div>
+
+                  {selectedItem.notes && (
+                    <div>
+                      <p className="text-sm font-medium text-gray-700 mb-2">Notes</p>
+                      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                        <p className="text-sm text-gray-700">{selectedItem.notes}</p>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      onClick={() => handleDownloadReport(selectedItem)}
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      <Download className="w-5 h-5" />
+                      Download Report
+                    </button>
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default Reports;
