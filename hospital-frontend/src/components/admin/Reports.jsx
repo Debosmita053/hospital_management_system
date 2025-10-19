@@ -112,13 +112,7 @@ const Reports = () => {
     toast.success(`Test assigned to ${lab}`);
   };
 
-  const handleUploadResult = (request) => {
-    setModalType('uploadResult');
-    setSelectedItem(request);
-    setFormData({ resultFile: null, notes: '' });
-    setShowModal(true);
-  };
-
+  
   const handleSubmitResult = (e) => {
     e.preventDefault();
     const newResult = {
@@ -511,13 +505,7 @@ const Reports = () => {
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center gap-2">
                             {request.status === 'in-progress' && (
-                              <button
-                                onClick={() => handleUploadResult(request)}
-                                className="text-green-600 hover:text-green-900"
-                                title="Upload Result"
-                              >
-                                <Upload className="w-5 h-5" />
-                              </button>
+                              <span className="text-sm text-gray-500 italic">Awaiting lab results</span>
                             )}
                             {request.status === 'completed' && (
                               <button

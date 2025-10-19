@@ -6,8 +6,6 @@ const AppointmentManagement = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
-
-  // NEW STATE: For handling the detail view modal
   const [selectedAppointment, setSelectedAppointment] = useState(null);
 
   // Mock appointments data
@@ -95,7 +93,6 @@ const AppointmentManagement = () => {
     toast.success(`Appointment status updated to ${newStatus}!`);
   };
 
-  // NEW FUNCTION: To handle opening the details modal
   const handleViewDetails = (appointment) => {
     setSelectedAppointment(appointment);
   };
@@ -113,16 +110,27 @@ const AppointmentManagement = () => {
 
   // Calculate stats
   const totalAppointments = appointments.length;
-  // NOTE: todayDate logic for a mock example needs data adjustment if no mock data has today's date
-  // For this example, let's keep the date logic simple for the mock data:
-  // We'll hardcode a date that is NOT in the mock data to show 0 for today's appts initially.
-  // In a real app, this would be a proper date check.
-  const todayDate = new Date().toISOString().split('T')[0]; // Current date YYYY-MM-DD
+  const todayDate = new Date().toISOString().split('T')[0];
   const todayAppointments = appointments.filter(a => a.date === todayDate).length; 
   const totalCompleted = appointments.filter(a => a.status === 'completed').length; 
   const totalCancelled = appointments.filter(a => a.status === 'cancelled').length;
 
-  // Detail Modal Component (Inline for simplicity)
+  // Stats Card Component
+  const StatCard = ({ title, value, icon: Icon, gradient, textColor = 'text-white' }) => (
+    <div className={`rounded-xl shadow-lg p-6 text-white ${gradient} hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-white/80 text-sm mb-1">{title}</p>
+          <p className={`text-3xl font-bold ${textColor}`}>{value}</p>
+        </div>
+        <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
+          <Icon className="h-6 w-6 text-white" />
+        </div>
+      </div>
+    </div>
+  );
+
+  // Detail Modal Component
   const AppointmentDetailModal = ({ appointment, onClose, getStatusColor }) => {
     if (!appointment) return null;
 
@@ -183,7 +191,6 @@ const AppointmentManagement = () => {
       </div>
     );
   };
-  // End of Detail Modal Component
 
   return (
     <div className="space-y-6">
@@ -193,58 +200,35 @@ const AppointmentManagement = () => {
         <p className="text-gray-600 mt-1">View and manage all patient appointments</p>
       </div>
 
-      {/* Stats Cards - No changes here */}
-      {/* ... (Stats Cards JSX) ... */}
+      {/* Colorful Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Appointments</p>
-              <p className="text-3xl font-bold text-gray-900 mt-1">{totalAppointments}</p>
-            </div>
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <Calendar className="h-6 w-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Today's Appointments</p>
-              <p className="text-3xl font-bold text-blue-600 mt-1">{todayAppointments}</p>
-            </div>
-            <div className="p-3 bg-blue-100 rounded-lg">
-              <Clock className="h-6 w-6 text-blue-600" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Completed</p>
-              <p className="text-3xl font-bold text-green-600 mt-1">{totalCompleted}</p>
-            </div>
-            <div className="p-3 bg-green-100 rounded-lg">
-              <CheckCircle className="h-6 w-6 text-green-600" />
-            </div>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">Total Cancelled</p>
-              <p className="text-3xl font-bold text-red-600 mt-1">{totalCancelled}</p>
-            </div>
-            <div className="p-3 bg-red-100 rounded-lg">
-              <XCircle className="h-6 w-6 text-red-600" />
-            </div>
-          </div>
-        </div>
+        <StatCard 
+          title="Total Appointments" 
+          value={totalAppointments} 
+          icon={Calendar}
+          gradient="bg-gradient-to-br from-blue-500 to-blue-600"
+        />
+        <StatCard 
+          title="Today's Appointments" 
+          value={todayAppointments} 
+          icon={Clock}
+          gradient="bg-gradient-to-br from-purple-500 to-purple-600"
+        />
+        <StatCard 
+          title="Total Completed" 
+          value={totalCompleted} 
+          icon={CheckCircle}
+          gradient="bg-gradient-to-br from-green-500 to-green-600"
+        />
+        <StatCard 
+          title="Total Cancelled" 
+          value={totalCancelled} 
+          icon={XCircle}
+          gradient="bg-gradient-to-br from-red-500 to-red-600"
+        />
       </div>
-      {/* --- */}
 
-      {/* Filters - No changes here */}
-      {/* ... (Filters JSX) ... */}
+      {/* Filters */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
@@ -285,7 +269,6 @@ const AppointmentManagement = () => {
           </div>
         </div>
       </div>
-      {/* --- */}
 
       {/* Appointments Table */}
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -324,7 +307,6 @@ const AppointmentManagement = () => {
                       {appointment.appointmentNumber}
                     </span>
                   </td>
-                  {/* USER ICON USAGE ADDED HERE */}
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <User className="h-5 w-5 text-gray-400 mr-2" />
@@ -334,7 +316,6 @@ const AppointmentManagement = () => {
                       </div>
                     </div>
                   </td>
-                  {/* END USER ICON USAGE */}
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                     {appointment.doctorName}
                   </td>
@@ -354,7 +335,6 @@ const AppointmentManagement = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-2">
-                      {/* UPDATED: Added onClick handler to open modal */}
                       <button
                         onClick={() => handleViewDetails(appointment)} 
                         className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
@@ -404,7 +384,7 @@ const AppointmentManagement = () => {
         </div>
       </div>
 
-      {/* RENDER THE MODAL */}
+      {/* Modal */}
       <AppointmentDetailModal 
         appointment={selectedAppointment} 
         onClose={() => setSelectedAppointment(null)} 

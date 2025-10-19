@@ -1,315 +1,543 @@
 import React, { useState } from 'react';
 import { 
-  Search, Plus, Edit2, Trash2, Users, Bed, 
-  UserPlus, X, CheckCircle, AlertCircle, User 
+  Search, Plus, Edit2, Trash2, Bed,
+  CheckCircle, XCircle, AlertCircle, Wrench, Eye, X, ArrowLeft
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const RoomManagement = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [showStaffModal, setShowStaffModal] = useState(false);
-  const [showBedModal, setShowBedModal] = useState(false);
+  const [modalType, setModalType] = useState(''); // add, edit, assignPatient, viewBeds
   const [selectedRoom, setSelectedRoom] = useState(null);
-  const [modalMode, setModalMode] = useState('add');
+  const [detailedView, setDetailedView] = useState(null);
 
-  // Mock data
+  // Mock data - Rooms
   const [rooms, setRooms] = useState([
     {
       id: 1,
-      roomNumber: '101',
-      floor: 1,
+      roomNumber: 'ICU-101',
       type: 'ICU',
-      capacity: 2,
-      occupied: 1,
+      floor: '3rd Floor',
+      department: 'Cardiology',
+      totalBeds: 4,
+      occupiedBeds: 3,
+      availableBeds: 1,
       status: 'available',
-      department: 'Critical Care',
+      maintenanceStatus: 'operational',
       chargePerDay: 5000,
-      assignedStaff: [
-        { id: 1, name: 'Nurse Sarah Wilson', role: 'nurse', shift: 'Morning' },
-        { id: 2, name: 'Ward Boy John', role: 'wardboy', shift: 'Night' }
-      ],
+      amenities: ['AC', 'Oxygen', 'Monitor', 'Ventilator'],
       beds: [
-        { id: 1, bedNumber: '101-A', status: 'occupied', patient: { id: 1, name: 'John Doe', admissionDate: '2024-10-10' } },
-        { id: 2, bedNumber: '101-B', status: 'available', patient: null }
+        { bedNumber: 'B1', status: 'occupied', patient: { id: 'P001', name: 'John Doe', admissionDate: '2024-10-10' } },
+        { bedNumber: 'B2', status: 'occupied', patient: { id: 'P002', name: 'Jane Smith', admissionDate: '2024-10-12' } },
+        { bedNumber: 'B3', status: 'occupied', patient: { id: 'P003', name: 'Bob Wilson', admissionDate: '2024-10-14' } },
+        { bedNumber: 'B4', status: 'available', patient: null }
       ]
     },
     {
       id: 2,
-      roomNumber: '201',
-      floor: 2,
-      type: 'Private',
-      capacity: 1,
-      occupied: 0,
-      status: 'available',
+      roomNumber: 'ICU-102',
+      type: 'ICU',
+      floor: '3rd Floor',
       department: 'Cardiology',
-      chargePerDay: 3000,
-      assignedStaff: [
-        { id: 3, name: 'Nurse Emily Brown', role: 'nurse', shift: 'Evening' }
-      ],
+      totalBeds: 4,
+      occupiedBeds: 4,
+      availableBeds: 0,
+      status: 'occupied',
+      maintenanceStatus: 'operational',
+      chargePerDay: 5000,
+      amenities: ['AC', 'Oxygen', 'Monitor', 'Ventilator'],
       beds: [
-        { id: 3, bedNumber: '201-A', status: 'available', patient: null }
+        { bedNumber: 'B1', status: 'occupied', patient: { id: 'P004', name: 'Alice Brown', admissionDate: '2024-10-11' } },
+        { bedNumber: 'B2', status: 'occupied', patient: { id: 'P005', name: 'Charlie Green', admissionDate: '2024-10-13' } },
+        { bedNumber: 'B3', status: 'occupied', patient: { id: 'P006', name: 'David Lee', admissionDate: '2024-10-14' } },
+        { bedNumber: 'B4', status: 'occupied', patient: { id: 'P007', name: 'Emma Davis', admissionDate: '2024-10-15' } }
       ]
     },
     {
       id: 3,
-      roomNumber: '301',
-      floor: 3,
-      type: 'General Ward',
-      capacity: 4,
-      occupied: 4,
+      roomNumber: 'Private-301',
+      type: 'Private',
+      floor: '3rd Floor',
+      department: 'Neurology',
+      totalBeds: 1,
+      occupiedBeds: 1,
+      availableBeds: 0,
       status: 'occupied',
-      department: 'General Medicine',
-      chargePerDay: 1500,
-      assignedStaff: [
-        { id: 4, name: 'Nurse Lisa Taylor', role: 'nurse', shift: 'Morning' },
-        { id: 5, name: 'Ward Boy Mike', role: 'wardboy', shift: 'Morning' },
-        { id: 6, name: 'Nurse Anna Lee', role: 'nurse', shift: 'Night' }
-      ],
+      maintenanceStatus: 'operational',
+      chargePerDay: 3000,
+      amenities: ['AC', 'TV', 'WiFi', 'Attached Bathroom'],
       beds: [
-        { id: 4, bedNumber: '301-A', status: 'occupied', patient: { id: 2, name: 'Jane Smith', admissionDate: '2024-10-12' } },
-        { id: 5, bedNumber: '301-B', status: 'occupied', patient: { id: 3, name: 'Bob Johnson', admissionDate: '2024-10-13' } },
-        { id: 6, bedNumber: '301-C', status: 'occupied', patient: { id: 4, name: 'Alice Brown', admissionDate: '2024-10-14' } },
-        { id: 7, bedNumber: '301-D', status: 'occupied', patient: { id: 5, name: 'Tom Wilson', admissionDate: '2024-10-15' } }
+        { bedNumber: 'B1', status: 'occupied', patient: { id: 'P008', name: 'Frank Miller', admissionDate: '2024-10-09' } }
+      ]
+    },
+    {
+      id: 4,
+      roomNumber: 'Private-302',
+      type: 'Private',
+      floor: '3rd Floor',
+      department: 'Neurology',
+      totalBeds: 1,
+      occupiedBeds: 0,
+      availableBeds: 1,
+      status: 'available',
+      maintenanceStatus: 'operational',
+      chargePerDay: 3000,
+      amenities: ['AC', 'TV', 'WiFi', 'Attached Bathroom'],
+      beds: [
+        { bedNumber: 'B1', status: 'available', patient: null }
+      ]
+    },
+    {
+      id: 5,
+      roomNumber: 'Ward-201',
+      type: 'General Ward',
+      floor: '2nd Floor',
+      department: 'Orthopedics',
+      totalBeds: 6,
+      occupiedBeds: 4,
+      availableBeds: 2,
+      status: 'available',
+      maintenanceStatus: 'operational',
+      chargePerDay: 1000,
+      amenities: ['Fan', 'Shared Bathroom'],
+      beds: [
+        { bedNumber: 'B1', status: 'occupied', patient: { id: 'P009', name: 'Grace Taylor', admissionDate: '2024-10-08' } },
+        { bedNumber: 'B2', status: 'occupied', patient: { id: 'P010', name: 'Henry Wilson', admissionDate: '2024-10-10' } },
+        { bedNumber: 'B3', status: 'available', patient: null },
+        { bedNumber: 'B4', status: 'occupied', patient: { id: 'P011', name: 'Ivy Brown', admissionDate: '2024-10-12' } },
+        { bedNumber: 'B5', status: 'available', patient: null },
+        { bedNumber: 'B6', status: 'occupied', patient: { id: 'P012', name: 'Jack Robinson', admissionDate: '2024-10-14' } }
+      ]
+    },
+    {
+      id: 6,
+      roomNumber: 'OT-1',
+      type: 'Operation Theatre',
+      floor: '4th Floor',
+      department: 'Surgery',
+      totalBeds: 1,
+      occupiedBeds: 0,
+      availableBeds: 1,
+      status: 'available',
+      maintenanceStatus: 'operational',
+      chargePerDay: 10000,
+      amenities: ['Surgical Equipment', 'Anesthesia', 'Monitoring'],
+      beds: [
+        { bedNumber: 'OT', status: 'available', patient: null }
+      ]
+    },
+    {
+      id: 7,
+      roomNumber: 'Ward-202',
+      type: 'General Ward',
+      floor: '2nd Floor',
+      department: 'Orthopedics',
+      totalBeds: 6,
+      occupiedBeds: 0,
+      availableBeds: 0,
+      status: 'maintenance',
+      maintenanceStatus: 'under-maintenance',
+      chargePerDay: 1000,
+      amenities: ['Fan', 'Shared Bathroom'],
+      beds: [
+        { bedNumber: 'B1', status: 'maintenance', patient: null },
+        { bedNumber: 'B2', status: 'maintenance', patient: null },
+        { bedNumber: 'B3', status: 'maintenance', patient: null },
+        { bedNumber: 'B4', status: 'maintenance', patient: null },
+        { bedNumber: 'B5', status: 'maintenance', patient: null },
+        { bedNumber: 'B6', status: 'maintenance', patient: null }
+      ]
+    },
+    {
+      id: 8,
+      roomNumber: 'Semi-Private-401',
+      type: 'Semi-Private',
+      floor: '4th Floor',
+      department: 'Pediatrics',
+      totalBeds: 2,
+      occupiedBeds: 1,
+      availableBeds: 1,
+      status: 'available',
+      maintenanceStatus: 'operational',
+      chargePerDay: 2000,
+      amenities: ['AC', 'TV', 'Shared Bathroom'],
+      beds: [
+        { bedNumber: 'B1', status: 'occupied', patient: { id: 'P013', name: 'Kelly White', admissionDate: '2024-10-13' } },
+        { bedNumber: 'B2', status: 'available', patient: null }
       ]
     }
   ]);
 
-  // Available staff for assignment
-  const availableStaff = [
-    { id: 1, name: 'Sarah Wilson', role: 'nurse', specialization: 'ICU Care', available: true },
-    { id: 2, name: 'John Davis', role: 'wardboy', department: 'General', available: true },
-    { id: 3, name: 'Emily Brown', role: 'nurse', specialization: 'Cardiology', available: true },
-    { id: 4, name: 'Lisa Taylor', role: 'nurse', specialization: 'General Medicine', available: true },
-    { id: 5, name: 'Mike Johnson', role: 'wardboy', department: 'Critical Care', available: true },
-    { id: 6, name: 'Anna Lee', role: 'nurse', specialization: 'Emergency', available: true },
-    { id: 7, name: 'Tom Brown', role: 'wardboy', department: 'General', available: true },
-    { id: 8, name: 'Kate Wilson', role: 'nurse', specialization: 'Pediatrics', available: true }
+  // Available patients for assignment
+  const availablePatients = [
+    { id: 'P014', name: 'Liam Johnson', age: 45, gender: 'Male', condition: 'Stable' },
+    { id: 'P015', name: 'Mia Davis', age: 32, gender: 'Female', condition: 'Critical' },
+    { id: 'P016', name: 'Noah Martinez', age: 28, gender: 'Male', condition: 'Stable' }
   ];
 
-  // Available patients for bed allocation
-  const availablePatients = [
-    { id: 6, name: 'Michael Scott', age: 45, gender: 'Male', condition: 'Post Surgery', priority: 'high' },
-    { id: 7, name: 'Pam Beesly', age: 32, gender: 'Female', condition: 'Observation', priority: 'medium' },
-    { id: 8, name: 'Jim Halpert', age: 38, gender: 'Male', condition: 'Recovery', priority: 'low' },
-    { id: 9, name: 'Dwight Schrute', age: 40, gender: 'Male', condition: 'Emergency', priority: 'high' },
-    { id: 10, name: 'Angela Martin', age: 35, gender: 'Female', condition: 'Treatment', priority: 'medium' }
-  ];
+  const [selectedBed, setSelectedBed] = useState(null);
+  const [selectedPatient, setSelectedPatient] = useState('');
 
   const [formData, setFormData] = useState({
     roomNumber: '',
+    type: '',
     floor: '',
-    type: 'General Ward',
-    capacity: 1,
     department: '',
+    totalBeds: 1,
     chargePerDay: '',
-    status: 'available'
+    amenities: '',
+    maintenanceStatus: 'operational'
   });
 
-  const [selectedStaff, setSelectedStaff] = useState([]);
-  const [selectedBed, setSelectedBed] = useState(null);
-  const [selectedPatient, setSelectedPatient] = useState(null);
-  const [selectedShift, setSelectedShift] = useState('Morning');
-
-  // Statistics
+  // Calculate stats
   const stats = {
-    total: rooms.length,
+    totalRooms: rooms.length,
     available: rooms.filter(r => r.status === 'available').length,
     occupied: rooms.filter(r => r.status === 'occupied').length,
-    occupancyRate: Math.round((rooms.reduce((sum, r) => sum + r.occupied, 0) / rooms.reduce((sum, r) => sum + r.capacity, 0)) * 100)
+    maintenance: rooms.filter(r => r.maintenanceStatus === 'under-maintenance').length,
+    totalBeds: rooms.reduce((sum, r) => sum + r.totalBeds, 0),
+    occupiedBeds: rooms.reduce((sum, r) => sum + r.occupiedBeds, 0),
+    availableBeds: rooms.reduce((sum, r) => sum + r.availableBeds, 0),
+    occupancyRate: Math.round(
+      (rooms.reduce((sum, r) => sum + r.occupiedBeds, 0) / rooms.reduce((sum, r) => sum + r.totalBeds, 0)) * 100
+    )
   };
 
-  // Filter rooms
-  const filteredRooms = rooms.filter(room => {
-    const matchesSearch = room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         room.department.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesType = filterType === 'all' || room.type === filterType;
-    const matchesStatus = filterStatus === 'all' || room.status === filterStatus;
-    return matchesSearch && matchesType && matchesStatus;
-  });
-
-  // Handle room operations
+  // Handlers
   const handleAddRoom = () => {
-    setModalMode('add');
+    setModalType('add');
+    setSelectedRoom(null);
     setFormData({
-      roomNumber: '',
-      floor: '',
-      type: 'General Ward',
-      capacity: 1,
-      department: '',
-      chargePerDay: '',
-      status: 'available'
+      roomNumber: '', type: '', floor: '', department: '', totalBeds: 1,
+      chargePerDay: '', amenities: '', maintenanceStatus: 'operational'
     });
     setShowModal(true);
   };
 
   const handleEditRoom = (room) => {
-    setModalMode('edit');
+    setModalType('edit');
     setSelectedRoom(room);
     setFormData({
       roomNumber: room.roomNumber,
-      floor: room.floor,
       type: room.type,
-      capacity: room.capacity,
+      floor: room.floor,
       department: room.department,
+      totalBeds: room.totalBeds,
       chargePerDay: room.chargePerDay,
-      status: room.status
+      amenities: room.amenities.join(', '),
+      maintenanceStatus: room.maintenanceStatus
     });
     setShowModal(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleDeleteRoom = (roomId) => {
+    const room = rooms.find(r => r.id === roomId);
+    if (room.occupiedBeds > 0) {
+      toast.error('Cannot delete room with occupied beds');
+      return;
+    }
+    if (window.confirm('Are you sure you want to delete this room?')) {
+      setRooms(rooms.filter(r => r.id !== roomId));
+      toast.success('Room deleted successfully');
+    }
+  };
+
+  const handleSubmitRoom = (e) => {
     e.preventDefault();
+    const amenitiesArray = formData.amenities.split(',').map(a => a.trim()).filter(a => a);
     
-    if (modalMode === 'add') {
-      const newRoom = {
-        id: rooms.length + 1,
-        ...formData,
-        occupied: 0,
-        assignedStaff: [],
-        beds: Array.from({ length: formData.capacity }, (_, i) => ({
-          id: Date.now() + i,
-          bedNumber: `${formData.roomNumber}-${String.fromCharCode(65 + i)}`,
-          status: 'available',
+    if (selectedRoom) {
+      // Update existing room
+      const updatedRooms = rooms.map(r => {
+        if (r.id === selectedRoom.id) {
+          const newTotalBeds = parseInt(formData.totalBeds);
+          const currentTotalBeds = r.totalBeds;
+          
+          let updatedBeds = [...r.beds];
+          
+          // Adjust bed count if total beds changed
+          if (newTotalBeds > currentTotalBeds) {
+            // Add new beds
+            for (let i = currentTotalBeds + 1; i <= newTotalBeds; i++) {
+              updatedBeds.push({
+                bedNumber: formData.type === 'Operation Theatre' ? `OT${i}` : `B${i}`,
+                status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
+                patient: null
+              });
+            }
+          } else if (newTotalBeds < currentTotalBeds) {
+            // Remove beds (only if they're not occupied)
+            const occupiedBeds = updatedBeds.filter(bed => bed.status === 'occupied').length;
+            if (occupiedBeds > newTotalBeds) {
+              toast.error(`Cannot reduce beds below ${occupiedBeds} as there are occupied beds`);
+              return r;
+            }
+            updatedBeds = updatedBeds.slice(0, newTotalBeds);
+          }
+          
+          // Update bed statuses based on maintenance status (preserve existing patient assignments)
+          updatedBeds = updatedBeds.map(bed => {
+            if (formData.maintenanceStatus === 'under-maintenance') {
+              return { ...bed, status: 'maintenance' };
+            } else {
+              // If operational, keep occupied beds as occupied, others as available
+              return {
+                ...bed,
+                status: bed.patient ? 'occupied' : 'available'
+              };
+            }
+          });
+          
+          const occupiedBedsCount = updatedBeds.filter(bed => bed.status === 'occupied').length;
+          const availableBedsCount = formData.maintenanceStatus === 'under-maintenance' ? 0 : (newTotalBeds - occupiedBedsCount);
+          
+          // Determine room status
+          let newStatus;
+          if (formData.maintenanceStatus === 'under-maintenance') {
+            newStatus = 'maintenance';
+          } else {
+            newStatus = occupiedBedsCount === 0 ? 'available' : 
+                       occupiedBedsCount === newTotalBeds ? 'occupied' : 'available';
+          }
+          
+          const updatedRoom = {
+            ...r,
+            roomNumber: formData.roomNumber,
+            type: formData.type,
+            floor: formData.floor,
+            department: formData.department,
+            chargePerDay: parseInt(formData.chargePerDay),
+            totalBeds: newTotalBeds,
+            amenities: amenitiesArray,
+            occupiedBeds: occupiedBedsCount,
+            availableBeds: availableBedsCount,
+            status: newStatus,
+            maintenanceStatus: formData.maintenanceStatus,
+            beds: updatedBeds
+          };
+
+          // Update detailed view if it's currently viewing this room
+          if (detailedView && detailedView.id === selectedRoom.id) {
+            setDetailedView(updatedRoom);
+          }
+
+          return updatedRoom;
+        }
+        return r;
+      });
+      
+      setRooms(updatedRooms);
+      toast.success('Room updated successfully');
+    } else {
+      // Add new room
+      const beds = [];
+      for (let i = 1; i <= formData.totalBeds; i++) {
+        beds.push({
+          bedNumber: formData.type === 'Operation Theatre' ? 'OT' : `B${i}`,
+          status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
           patient: null
-        }))
+        });
+      }
+
+      const newRoom = {
+        id: Math.max(...rooms.map(r => r.id)) + 1,
+        roomNumber: formData.roomNumber,
+        type: formData.type,
+        floor: formData.floor,
+        department: formData.department,
+        totalBeds: parseInt(formData.totalBeds),
+        chargePerDay: parseInt(formData.chargePerDay),
+        amenities: amenitiesArray,
+        maintenanceStatus: formData.maintenanceStatus,
+        occupiedBeds: 0,
+        availableBeds: formData.maintenanceStatus === 'under-maintenance' ? 0 : parseInt(formData.totalBeds),
+        status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
+        beds: beds
       };
       setRooms([...rooms, newRoom]);
-      toast.success('Room added successfully!');
-    } else {
-      setRooms(rooms.map(room => 
-        room.id === selectedRoom.id 
-          ? { ...room, ...formData }
-          : room
-      ));
-      toast.success('Room updated successfully!');
+      toast.success('Room added successfully');
     }
     setShowModal(false);
   };
 
-  const handleDeleteRoom = (id) => {
-    if (window.confirm('Are you sure you want to delete this room?')) {
-      setRooms(rooms.filter(room => room.id !== id));
-      toast.success('Room deleted successfully!');
-    }
-  };
-
-  // Staff assignment functions
-  const handleAssignStaff = (room) => {
+  const handleViewBeds = (room) => {
+    setModalType('viewBeds');
     setSelectedRoom(room);
-    setSelectedStaff([]);
-    setSelectedShift('Morning');
-    setShowStaffModal(true);
+    setShowModal(true);
   };
 
-  const handleStaffSelect = (staff) => {
-    setSelectedStaff(prev => {
-      const exists = prev.find(s => s.id === staff.id);
-      if (exists) {
-        return prev.filter(s => s.id !== staff.id);
-      } else {
-        return [...prev, staff];
-      }
-    });
-  };
-
-  const handleConfirmStaffAssignment = () => {
-    const staffWithShift = selectedStaff.map(staff => ({
-      ...staff,
-      shift: selectedShift
-    }));
-
-    setRooms(rooms.map(room => 
-      room.id === selectedRoom.id
-        ? {
-            ...room,
-            assignedStaff: [...room.assignedStaff, ...staffWithShift]
-          }
-        : room
-    ));
-
-    toast.success(`${selectedStaff.length} staff member(s) assigned successfully!`);
-    setShowStaffModal(false);
-    setSelectedStaff([]);
-  };
-
-  const handleRemoveStaff = (roomId, staffId) => {
-    setRooms(rooms.map(room => 
-      room.id === roomId
-        ? {
-            ...room,
-            assignedStaff: room.assignedStaff.filter(s => s.id !== staffId)
-          }
-        : room
-    ));
-    toast.success('Staff removed successfully!');
-  };
-
-  // Bed allocation functions
-  const handleAllocateBed = (room, bed) => {
+  const handleAssignPatient = (room, bed) => {
+    setModalType('assignPatient');
     setSelectedRoom(room);
     setSelectedBed(bed);
-    setSelectedPatient(null);
-    setShowBedModal(true);
+    setSelectedPatient('');
+    setShowModal(true);
   };
 
-  const handlePatientSelect = (patient) => {
-    setSelectedPatient(patient);
-  };
-
-  const handleConfirmBedAllocation = () => {
+  const handleSubmitAssignment = () => {
     if (!selectedPatient) {
-      toast.error('Please select a patient!');
+      toast.error('Please select a patient');
       return;
     }
 
-    setRooms(rooms.map(room => 
-      room.id === selectedRoom.id
-        ? {
-            ...room,
-            occupied: room.occupied + 1,
-            status: room.occupied + 1 >= room.capacity ? 'occupied' : 'available',
-            beds: room.beds.map(bed =>
-              bed.id === selectedBed.id
-                ? {
-                    ...bed,
-                    status: 'occupied',
-                    patient: {
-                      ...selectedPatient,
-                      admissionDate: new Date().toISOString().split('T')[0]
-                    }
-                  }
-                : bed
-            )
-          }
-        : room
-    ));
+    const patient = availablePatients.find(p => p.id === selectedPatient);
+    
+    setRooms(rooms.map(r => {
+      if (r.id === selectedRoom.id) {
+        const updatedBeds = r.beds.map(b => 
+          b.bedNumber === selectedBed.bedNumber 
+            ? { 
+                ...b, 
+                status: 'occupied', 
+                patient: { 
+                  id: patient.id, 
+                  name: patient.name, 
+                  admissionDate: new Date().toISOString().split('T')[0] 
+                } 
+              }
+            : b
+        );
+        const occupied = updatedBeds.filter(b => b.status === 'occupied').length;
+        const updatedRoom = {
+          ...r,
+          beds: updatedBeds,
+          occupiedBeds: occupied,
+          availableBeds: r.totalBeds - occupied,
+          status: occupied === r.totalBeds ? 'occupied' : 'available'
+        };
 
-    toast.success(`Bed ${selectedBed.bedNumber} allocated to ${selectedPatient.name}!`);
-    setShowBedModal(false);
-    setSelectedPatient(null);
+        // Update detailed view if it's currently viewing this room
+        if (detailedView && detailedView.id === selectedRoom.id) {
+          setDetailedView(updatedRoom);
+        }
+
+        return updatedRoom;
+      }
+      return r;
+    }));
+
+    toast.success(`Patient ${patient.name} assigned to ${selectedRoom.roomNumber} - ${selectedBed.bedNumber}`);
+    setShowModal(false);
   };
 
-  const handleDischargeBed = (roomId, bedId) => {
-    if (window.confirm('Are you sure you want to discharge this patient?')) {
-      setRooms(rooms.map(room => 
-        room.id === roomId
-          ? {
-              ...room,
-              occupied: room.occupied - 1,
-              status: 'available',
-              beds: room.beds.map(bed =>
-                bed.id === bedId
-                  ? { ...bed, status: 'available', patient: null }
-                  : bed
-              )
-            }
-          : room
-      ));
-      toast.success('Patient discharged successfully!');
+  const handleDischargeBed = (roomId, bedNumber) => {
+  if (window.confirm('Discharge patient from this bed?')) {
+    const updatedRooms = rooms.map(r => {
+      if (r.id === roomId) {
+        const updatedBeds = r.beds.map(b => 
+          b.bedNumber === bedNumber ? { ...b, status: 'available', patient: null } : b
+        );
+        const occupied = updatedBeds.filter(b => b.status === 'occupied').length;
+        const updatedRoom = {
+          ...r,
+          beds: updatedBeds,
+          occupiedBeds: occupied,
+          availableBeds: r.totalBeds - occupied,
+          status: occupied === 0 ? 'available' : r.status === 'maintenance' ? 'maintenance' : 'available'
+        };
+
+        // Update selectedRoom if it's currently being viewed in modal
+        if (selectedRoom && selectedRoom.id === roomId) {
+          setSelectedRoom(updatedRoom);
+        }
+
+        // Update detailed view if it's currently viewing this room
+        if (detailedView && detailedView.id === roomId) {
+          setDetailedView(updatedRoom);
+        }
+
+        return updatedRoom;
+      }
+      return r;
+    });
+    
+    setRooms(updatedRooms);
+    toast.success('Patient discharged successfully');
+  }
+};
+  const handleToggleMaintenance = (roomId) => {
+    const room = rooms.find(r => r.id === roomId);
+    if (room.occupiedBeds > 0 && room.maintenanceStatus === 'operational') {
+      toast.error('Cannot set room to maintenance with occupied beds');
+      return;
     }
+
+    const newStatus = room.maintenanceStatus === 'operational' ? 'under-maintenance' : 'operational';
+    
+    setRooms(rooms.map(r => {
+      if (r.id === roomId) {
+        const updatedRoom = { 
+          ...r, 
+          maintenanceStatus: newStatus,
+          status: newStatus === 'under-maintenance' ? 'maintenance' : (r.occupiedBeds === 0 ? 'available' : 'occupied'),
+          beds: r.beds.map(b => ({ ...b, status: newStatus === 'under-maintenance' ? 'maintenance' : (b.patient ? 'occupied' : 'available') }))
+        };
+
+        // Update detailed view if it's currently viewing this room
+        if (detailedView && detailedView.id === roomId) {
+          setDetailedView(updatedRoom);
+        }
+
+        return updatedRoom;
+      }
+      return r;
+    }));
+    toast.success(`Room ${newStatus === 'under-maintenance' ? 'set to' : 'removed from'} maintenance`);
+  };
+
+  // Handle card click to show detailed view
+  const handleCardClick = (room) => {
+    setDetailedView(room);
+  };
+
+  // Handle back from detailed view
+  const handleBackToList = () => {
+    setDetailedView(null);
+  };
+
+  // Filter rooms
+  const filteredRooms = rooms.filter(room => {
+    const matchesSearch = 
+      room.roomNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      room.department.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    const matchesType = filterType === 'all' || room.type === filterType;
+    const matchesStatus = filterStatus === 'all' || room.status === filterStatus;
+
+    return matchesSearch && matchesType && matchesStatus;
+  });
+
+  // Helper functions
+  const getStatusBadge = (status) => {
+    const styles = {
+      available: 'bg-green-100 text-green-800',
+      occupied: 'bg-red-100 text-red-800',
+      maintenance: 'bg-yellow-100 text-yellow-800'
+    };
+    const icons = {
+      available: <CheckCircle className="w-3 h-3" />,
+      occupied: <XCircle className="w-3 h-3" />,
+      maintenance: <Wrench className="w-3 h-3" />
+    };
+    return (
+      <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ${styles[status]}`}>
+        {icons[status]}
+        {status}
+      </span>
+    );
+  };
+
+  const getBedStatusColor = (status) => {
+    const colors = {
+      available: 'bg-green-500',
+      occupied: 'bg-red-500',
+      maintenance: 'bg-yellow-500'
+    };
+    return colors[status] || 'bg-gray-500';
   };
 
   return (
@@ -317,595 +545,674 @@ const RoomManagement = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Room Management</h1>
-          <p className="text-gray-600 mt-1">Manage hospital rooms, beds, and staff assignments</p>
+          <h1 className="text-3xl font-bold text-gray-900">Room & Bed Management</h1>
+          <p className="text-gray-600 mt-1">Manage rooms, beds, and patient assignments</p>
         </div>
         <button
           onClick={handleAddRoom}
-          className="flex items-center gap-2 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
-          <Plus size={20} />
+          <Plus className="w-5 h-5" />
           Add Room
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Total Rooms</p>
-              <p className="text-2xl font-bold text-gray-900 mt-1">{stats.total}</p>
+              <p className="text-blue-100 text-sm font-medium">Total Rooms</p>
+              <p className="text-3xl font-bold mt-2">{stats.totalRooms}</p>
+              <p className="text-blue-100 text-xs mt-2">Total Beds: {stats.totalBeds}</p>
             </div>
-            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <Bed className="text-blue-600" size={24} />
+            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <Bed className="w-6 h-6" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Available Rooms</p>
-              <p className="text-2xl font-bold text-green-600 mt-1">{stats.available}</p>
+              <p className="text-green-100 text-sm font-medium">Available</p>
+              <p className="text-3xl font-bold mt-2">{stats.available}</p>
+              <p className="text-green-100 text-xs mt-2">Beds: {stats.availableBeds}</p>
             </div>
-            <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <CheckCircle className="text-green-600" size={24} />
+            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <CheckCircle className="w-6 h-6" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Occupied Rooms</p>
-              <p className="text-2xl font-bold text-orange-600 mt-1">{stats.occupied}</p>
+              <p className="text-red-100 text-sm font-medium">Occupied</p>
+              <p className="text-3xl font-bold mt-2">{stats.occupied}</p>
+              <p className="text-red-100 text-xs mt-2">Beds: {stats.occupiedBeds}</p>
             </div>
-            <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-              <AlertCircle className="text-orange-600" size={24} />
+            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <XCircle className="w-6 h-6" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl shadow-lg p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600">Occupancy Rate</p>
-              <p className="text-2xl font-bold text-purple-600 mt-1">{stats.occupancyRate}%</p>
+              <p className="text-orange-100 text-sm font-medium">Occupancy Rate</p>
+              <p className="text-3xl font-bold mt-2">{stats.occupancyRate}%</p>
+              <p className="text-orange-100 text-xs mt-2">Maintenance: {stats.maintenance}</p>
             </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <Users className="text-purple-600" size={24} />
+            <div className="w-12 h-12 bg-white bg-opacity-20 rounded-lg flex items-center justify-center">
+              <AlertCircle className="w-6 h-6" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters */}
-      <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
-              <input
-                type="text"
-                placeholder="Search by room number or department..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              />
-            </div>
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search rooms..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
           </div>
+
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Types</option>
             <option value="ICU">ICU</option>
             <option value="Private">Private</option>
+            <option value="Semi-Private">Semi-Private</option>
             <option value="General Ward">General Ward</option>
-            <option value="OT">OT</option>
+            <option value="Operation Theatre">Operation Theatre</option>
           </select>
+
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="all">All Status</option>
             <option value="available">Available</option>
             <option value="occupied">Occupied</option>
+            <option value="maintenance">Maintenance</option>
           </select>
         </div>
       </div>
 
-      {/* Rooms Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {filteredRooms.map(room => (
-          <div key={room.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            {/* Room Header */}
-            <div className="flex justify-between items-start mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
-                  <Bed className="text-primary-600" size={24} />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Room {room.roomNumber}</h3>
-                  <p className="text-sm text-gray-600">Floor {room.floor}</p>
-                </div>
+      {/* Detailed Room View */}
+      {detailedView && (
+        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+          {/* Back Button */}
+          <button 
+            onClick={handleBackToList}
+            className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 mb-6 transition-colors"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Rooms</span>
+          </button>
+
+          {/* Room Header */}
+          <div className="flex items-start justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              <div className="p-3 bg-blue-100 rounded-lg">
+                <Bed className="h-8 w-8 text-blue-600" />
               </div>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleEditRoom(room)}
-                  className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <Edit2 size={18} />
-                </button>
-                <button
-                  onClick={() => handleDeleteRoom(room.id)}
-                  className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                >
-                  <Trash2 size={18} />
-                </button>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">{detailedView.roomNumber}</h2>
+                <p className="text-gray-500">{detailedView.floor} • {detailedView.type}</p>
               </div>
             </div>
-
-            {/* Room Details */}
-            <div className="space-y-3 mb-4">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Type</span>
-                <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
-                  {room.type}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Status</span>
-                <span className={`px-3 py-1 text-sm font-medium rounded-full flex items-center gap-1 ${
-                  room.status === 'available' 
-                    ? 'bg-green-100 text-green-700' 
-                    : 'bg-orange-100 text-orange-700'
-                }`}>
-                  {room.status === 'available' ? <CheckCircle size={14} /> : <AlertCircle size={14} />}
-                  {room.status}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Department</span>
-                <span className="text-sm font-medium text-gray-900">{room.department}</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-gray-600">Charge/Day</span>
-                <span className="text-sm font-medium text-gray-900">₹{room.chargePerDay}</span>
-              </div>
-            </div>
-
-            {/* Bed Occupancy */}
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium text-gray-700">Bed Occupancy</span>
-                <span className="text-sm text-gray-600">{room.occupied}/{room.capacity}</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div 
-                  className={`h-2 rounded-full transition-all ${
-                    (room.occupied / room.capacity) >= 0.9 ? 'bg-red-600' :
-                    (room.occupied / room.capacity) >= 0.7 ? 'bg-orange-600' :
-                    'bg-green-600'
-                  }`}
-                  style={{ width: `${(room.occupied / room.capacity) * 100}%` }}
-                />
-              </div>
-            </div>
-
-            {/* Beds Section */}
-            <div className="mb-4 p-4 bg-gray-50 rounded-lg">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="text-sm font-semibold text-gray-900">Beds ({room.beds.length})</h4>
-              </div>
-              <div className="space-y-2">
-                {room.beds.map(bed => (
-                  <div key={bed.id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-center gap-2">
-                      <Bed size={16} className={bed.status === 'occupied' ? 'text-orange-600' : 'text-green-600'} />
-                      <span className="text-sm font-medium text-gray-900">{bed.bedNumber}</span>
-                      {bed.patient && (
-                        <span className="text-xs text-gray-600">- {bed.patient.name}</span>
-                      )}
-                    </div>
-                    {bed.status === 'available' ? (
-                      <button
-                        onClick={() => handleAllocateBed(room, bed)}
-                        className="px-3 py-1 bg-green-600 text-white text-xs rounded-lg hover:bg-green-700 transition-colors"
-                      >
-                        Allocate
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() => handleDischargeBed(room.id, bed.id)}
-                        className="px-3 py-1 bg-orange-600 text-white text-xs rounded-lg hover:bg-orange-700 transition-colors"
-                      >
-                        Discharge
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Assigned Staff Section */}
-            <div className="p-4 bg-blue-50 rounded-lg">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="text-sm font-semibold text-gray-900">
-                  Assigned Staff ({room.assignedStaff.length})
-                </h4>
-                <button
-                  onClick={() => handleAssignStaff(room)}
-                  className="flex items-center gap-1 px-3 py-1 bg-primary-600 text-white text-sm rounded-lg hover:bg-primary-700 transition-colors"
-                >
-                  <UserPlus size={16} />
-                  Assign
-                </button>
-              </div>
-              <div className="space-y-2">
-                {room.assignedStaff.length === 0 ? (
-                  <p className="text-sm text-gray-500 text-center py-2">No staff assigned</p>
-                ) : (
-                  room.assignedStaff.map(staff => (
-                    <div key={staff.id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-gray-200">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-medium text-primary-600">
-                            {staff.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-gray-900">{staff.name}</p>
-                          <p className="text-xs text-gray-600">
-                            {staff.role === 'nurse' ? 'Nurse' : 'Ward Boy'} • {staff.shift}
-                          </p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleRemoveStaff(room.id, staff.id)}
-                        className="p-1 text-red-600 hover:bg-red-50 rounded transition-colors"
-                      >
-                        <X size={16} />
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => handleEditRoom(detailedView)}
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Edit2 className="h-4 w-4" />
+                <span>Edit Room</span>
+              </button>
+              <button
+                onClick={() => handleToggleMaintenance(detailedView.id)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  detailedView.maintenanceStatus === 'operational' 
+                    ? 'bg-yellow-600 text-white hover:bg-yellow-700' 
+                    : 'bg-green-600 text-white hover:bg-green-700'
+                }`}
+              >
+                <Wrench className="h-4 w-4" />
+                <span>{detailedView.maintenanceStatus === 'operational' ? 'Set Maintenance' : 'Remove Maintenance'}</span>
+              </button>
             </div>
           </div>
-        ))}
-      </div>
 
-      {/* Add/Edit Room Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">
-              {modalMode === 'add' ? 'Add New Room' : 'Edit Room'}
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Room Information Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            {/* Basic Information */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Room Information</h3>
+              <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <Bed className="h-4 w-4 text-blue-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Department</p>
+                  <p className="font-medium text-gray-900">{detailedView.department}</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
+                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="h-4 w-4 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Charge Per Day</p>
+                  <p className="font-medium text-gray-900">₹{detailedView.chargePerDay}</p>
+                </div>
+              </div>
+              <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Wrench className="h-4 w-4 text-purple-600" />
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Maintenance Status</p>
+                  <p className="font-medium text-gray-900 capitalize">{detailedView.maintenanceStatus}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Bed Statistics */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Bed Statistics</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Room Number</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.roomNumber}
-                    onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
+                <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 rounded-lg shadow-md">
+                  <p className="text-sm opacity-90">Total Beds</p>
+                  <p className="text-2xl font-bold">{detailedView.totalBeds}</p>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Floor</label>
-                  <input
-                    type="number"
-                    required
-                    value={formData.floor}
-                    onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
+                <div className="bg-gradient-to-br from-red-500 to-red-600 text-white p-4 rounded-lg shadow-md">
+                  <p className="text-sm opacity-90">Occupied</p>
+                  <p className="text-2xl font-bold">{detailedView.occupiedBeds}</p>
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Room Type</label>
-                <select
-                  value={formData.type}
-                  onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                >
-                  <option value="ICU">ICU</option>
-                  <option value="Private">Private</option>
-                  <option value="General Ward">General Ward</option>
-                  <option value="OT">OT</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Capacity (Number of Beds)</label>
-                <input
-                  type="number"
-                  required
-                  min="1"
-                  max="10"
-                  value={formData.capacity}
-                  onChange={(e) => setFormData({ ...formData, capacity: parseInt(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Department</label>
-                <select
-                  value={formData.department}
-                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                >
-                  <option value="">Select Department</option>
-                  <option value="Cardiology">Cardiology</option>
-                  <option value="Neurology">Neurology</option>
-                  <option value="Orthopedics">Orthopedics</option>
-                  <option value="Pediatrics">Pediatrics</option>
-                  <option value="General Medicine">General Medicine</option>
-                  <option value="Critical Care">Critical Care</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Charge per Day (₹)</label>
-                <input
-                  type="number"
-                  required
-                  value={formData.chargePerDay}
-                  onChange={(e) => setFormData({ ...formData, chargePerDay: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
-                >
-                  {modalMode === 'add' ? 'Add Room' : 'Update Room'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Assign Staff Modal */}
-      {showStaffModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Assign Staff to Room {selectedRoom?.roomNumber}
-                </h2>
-                <button
-                  onClick={() => setShowStaffModal(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              <p className="text-sm text-gray-600 mt-1">Select nurses and ward boys to assign to this room</p>
-            </div>
-
-            <div className="p-6 border-b border-gray-200">
-              <label className="block text-sm font-medium text-gray-700 mb-2">Select Shift</label>
-              <div className="flex gap-2">
-                {['Morning', 'Evening', 'Night'].map(shift => (
-                  <button
-                    key={shift}
-                    type="button"
-                    onClick={() => setSelectedShift(shift)}
-                    className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
-                      selectedShift === shift
-                        ? 'bg-primary-600 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {shift}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-6">
-              <div className="space-y-2">
-                {availableStaff.map(staff => {
-                  const isAssigned = selectedRoom?.assignedStaff.some(s => s.id === staff.id);
-                  const isSelected = selectedStaff.some(s => s.id === staff.id);
-                  
-                  return (
-                    <div
-                      key={staff.id}
-                      onClick={() => !isAssigned && handleStaffSelect(staff)}
-                      className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all cursor-pointer ${
-                        isAssigned
-                          ? 'bg-gray-50 border-gray-200 opacity-50 cursor-not-allowed'
-                          : isSelected
-                          ? 'bg-primary-50 border-primary-500'
-                          : 'bg-white border-gray-200 hover:border-primary-300'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                          staff.role === 'nurse' ? 'bg-blue-100' : 'bg-green-100'
-                        }`}>
-                          <User size={20} className={staff.role === 'nurse' ? 'text-blue-600' : 'text-green-600'} />
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{staff.name}</p>
-                          <p className="text-sm text-gray-600">
-                            {staff.role === 'nurse' ? '👩‍⚕️ Nurse' : '👨‍💼 Ward Boy'} 
-                            {staff.specialization && ` • ${staff.specialization}`}
-                            {staff.department && ` • ${staff.department}`}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {isAssigned && (
-                          <span className="px-3 py-1 bg-gray-200 text-gray-600 text-xs font-medium rounded-full">
-                            Already Assigned
-                          </span>
-                        )}
-                        {!isAssigned && (
-                          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center ${
-                            isSelected
-                              ? 'bg-primary-600 border-primary-600'
-                              : 'border-gray-300'
-                          }`}>
-                            {isSelected && <CheckCircle size={14} className="text-white" />}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="p-6 border-t border-gray-200 bg-gray-50">
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-sm text-gray-600">
-                  {selectedStaff.length} staff member(s) selected
-                </span>
-                <span className="text-sm font-medium text-primary-600">
-                  Shift: {selectedShift}
-                </span>
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowStaffModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleConfirmStaffAssignment}
-                  disabled={selectedStaff.length === 0}
-                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Assign ({selectedStaff.length})
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Allocate Bed Modal */}
-      {showBedModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="p-6 border-b border-gray-200">
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Allocate Bed {selectedBed?.bedNumber}
-                </h2>
-                <button
-                  onClick={() => setShowBedModal(false)}
-                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-              <p className="text-sm text-gray-600 mt-1">
-                Room {selectedRoom?.roomNumber} • {selectedRoom?.type} • {selectedRoom?.department}
-              </p>
-            </div>
-
-            <div className="flex-1 overflow-y-auto p-6">
-              <h3 className="text-sm font-semibold text-gray-900 mb-4">Select Patient to Admit</h3>
-              <div className="space-y-2">
-                {availablePatients.map(patient => {
-                  const isSelected = selectedPatient?.id === patient.id;
-                  
-                  return (
-                    <div
-                      key={patient.id}
-                      onClick={() => handlePatientSelect(patient)}
-                      className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-primary-50 border-primary-500'
-                          : 'bg-white border-gray-200 hover:border-primary-300'
-                      }`}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                          <span className="text-white font-semibold">
-                            {patient.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{patient.name}</p>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="text-sm text-gray-600">{patient.age} yrs • {patient.gender}</span>
-                            <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${
-                              patient.priority === 'high'
-                                ? 'bg-red-100 text-red-700'
-                                : patient.priority === 'medium'
-                                ? 'bg-orange-100 text-orange-700'
-                                : 'bg-green-100 text-green-700'
-                            }`}>
-                              {patient.priority.toUpperCase()} Priority
-                            </span>
-                          </div>
-                          <p className="text-sm text-gray-600 mt-1">Condition: {patient.condition}</p>
-                        </div>
-                      </div>
-                      <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                        isSelected
-                          ? 'bg-primary-600 border-primary-600'
-                          : 'border-gray-300'
-                      }`}>
-                        {isSelected && <CheckCircle size={14} className="text-white" />}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="p-6 border-t border-gray-200 bg-gray-50">
-              {selectedPatient && (
-                <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <p className="text-sm font-medium text-blue-900 mb-1">Selected Patient:</p>
-                  <p className="text-sm text-blue-700">
-                    {selectedPatient.name} • {selectedPatient.age} yrs • {selectedPatient.condition}
+                <div className="bg-gradient-to-br from-green-500 to-green-600 text-white p-4 rounded-lg shadow-md">
+                  <p className="text-sm opacity-90">Available</p>
+                  <p className="text-2xl font-bold">{detailedView.availableBeds}</p>
+                </div>
+                <div className="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-4 rounded-lg shadow-md">
+                  <p className="text-sm opacity-90">Occupancy Rate</p>
+                  <p className="text-2xl font-bold">
+                    {Math.round((detailedView.occupiedBeds / detailedView.totalBeds) * 100)}%
                   </p>
                 </div>
-              )}
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowBedModal(false)}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleConfirmBedAllocation}
-                  disabled={!selectedPatient}
-                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Allocate Bed
-                </button>
               </div>
             </div>
+          </div>
+
+          {/* Amenities */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-gray-900 border-b pb-2 mb-4">Amenities</h3>
+            <div className="flex flex-wrap gap-2">
+              {detailedView.amenities.map((amenity, idx) => (
+                <span key={idx} className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                  {amenity}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Bed Management */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold text-gray-900">Bed Management</h3>
+              <button
+                onClick={() => handleViewBeds(detailedView)}
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Eye className="h-4 w-4" />
+                <span>Manage Beds</span>
+              </button>
+            </div>
+            
+            {/* Bed Visual Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {detailedView.beds.map((bed) => (
+                <div
+                  key={bed.bedNumber}
+                  className={`p-4 rounded-lg text-center cursor-pointer transition-all ${
+                    bed.status === 'available' ? 'bg-green-100 hover:bg-green-200' :
+                    bed.status === 'occupied' ? 'bg-red-100 hover:bg-red-200' :
+                    'bg-yellow-100 hover:bg-yellow-200'
+                  }`}
+                  onClick={() => bed.status === 'available' && handleAssignPatient(detailedView, bed)}
+                >
+                  <div className={`w-12 h-12 mx-auto rounded-full flex items-center justify-center text-white font-bold mb-2 ${
+                    bed.status === 'available' ? 'bg-green-500' :
+                    bed.status === 'occupied' ? 'bg-red-500' :
+                    'bg-yellow-500'
+                  }`}>
+                    {bed.bedNumber.replace('B', '')}
+                  </div>
+                  <p className="text-sm font-medium text-gray-900">Bed {bed.bedNumber}</p>
+                  <p className={`text-xs ${
+                    bed.status === 'available' ? 'text-green-700' :
+                    bed.status === 'occupied' ? 'text-red-700' :
+                    'text-yellow-700'
+                  }`}>
+                    {bed.status}
+                  </p>
+                  {bed.patient && (
+                    <p className="text-xs text-gray-600 truncate" title={bed.patient.name}>
+                      {bed.patient.name}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Room Cards Grid (only show when not in detailed view) */}
+      {!detailedView && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {filteredRooms.map((room) => (
+            <div
+              key={room.id}
+              onClick={() => handleCardClick(room)}
+              className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-lg transition-shadow cursor-pointer group"
+            >
+              {/* Room Header */}
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <h3 className="font-semibold text-gray-900 text-lg">{room.roomNumber}</h3>
+                  <p className="text-sm text-gray-500">{room.floor}</p>
+                </div>
+                <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleEditRoom(room); }}
+                    className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                    title="Edit Room"
+                  >
+                    <Edit2 className="w-3 h-3" />
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleDeleteRoom(room.id); }}
+                    className="p-1 text-red-600 hover:bg-red-50 rounded transition-colors"
+                    title="Delete Room"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Type & Status */}
+              <div className="flex items-center gap-2 mb-3">
+                <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                  {room.type}
+                </span>
+                {getStatusBadge(room.status)}
+              </div>
+
+              {/* Department */}
+              <div className="mb-3">
+                <p className="text-xs text-gray-600">Department</p>
+                <p className="text-sm font-semibold text-gray-900">{room.department}</p>
+              </div>
+
+              {/* Bed Status */}
+              <div className="mb-3">
+                <div className="flex items-center justify-between text-sm mb-1">
+                  <span className="text-gray-600">Beds</span>
+                  <span className="font-semibold text-gray-900">
+                    {room.occupiedBeds}/{room.totalBeds}
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div
+                    className={`h-2 rounded-full ${
+                      room.occupiedBeds === room.totalBeds ? 'bg-red-500' : 
+                      room.occupiedBeds > 0 ? 'bg-yellow-500' : 'bg-green-500'
+                    }`}
+                    style={{ width: `${(room.occupiedBeds / room.totalBeds) * 100}%` }}
+                  />
+                </div>
+              </div>
+
+              {/* Charge */}
+              <div className="mb-3">
+                <p className="text-xs text-gray-600">Charge/Day</p>
+                <p className="text-sm font-bold text-green-600">₹{room.chargePerDay}</p>
+              </div>
+
+              {/* Quick Bed Visual */}
+              <div className="flex justify-between items-center">
+                <div className="flex space-x-1">
+                  {room.beds.slice(0, 4).map((bed, index) => (
+                    <div
+                      key={bed.bedNumber}
+                      className={`w-4 h-4 rounded ${getBedStatusColor(bed.status)}`}
+                      title={`Bed ${bed.bedNumber}: ${bed.status}`}
+                    />
+                  ))}
+                  {room.beds.length > 4 && (
+                    <div className="w-4 h-4 rounded bg-gray-300 flex items-center justify-center text-xs">
+                      +{room.beds.length - 4}
+                    </div>
+                  )}
+                </div>
+                <div className="text-center text-xs text-blue-600 font-medium">
+                  Click to view details
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Modals (same as before) */}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            {/* Add/Edit Room Modal */}
+            {(modalType === 'add' || modalType === 'edit') && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900">
+                    {modalType === 'add' ? 'Add New Room' : 'Edit Room'}
+                  </h2>
+                </div>
+                <form onSubmit={handleSubmitRoom} className="p-6 space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Room Number *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.roomNumber}
+                        onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="e.g., ICU-101"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Room Type *</label>
+                      <select
+                        required
+                        value={formData.type}
+                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Select Type</option>
+                        <option value="ICU">ICU</option>
+                        <option value="Private">Private</option>
+                        <option value="Semi-Private">Semi-Private</option>
+                        <option value="General Ward">General Ward</option>
+                        <option value="Operation Theatre">Operation Theatre</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Floor *</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.floor}
+                        onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="e.g., 3rd Floor"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+                      <select
+                        required
+                        value={formData.department}
+                        onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      >
+                        <option value="">Select Department</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Neurology">Neurology</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Surgery">Surgery</option>
+                        <option value="Emergency">Emergency</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Total Beds *</label>
+                      <input
+                        type="number"
+                        required
+                        min="1"
+                        value={formData.totalBeds}
+                        onChange={(e) => setFormData({ ...formData, totalBeds: parseInt(e.target.value) })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Charge Per Day (₹) *</label>
+                      <input
+                        type="number"
+                        required
+                        value={formData.chargePerDay}
+                        onChange={(e) => setFormData({ ...formData, chargePerDay: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Amenities (comma-separated)</label>
+                    <input
+                      type="text"
+                      value={formData.amenities}
+                      onChange={(e) => setFormData({ ...formData, amenities: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="e.g., AC, TV, WiFi, Oxygen"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Maintenance Status *</label>
+                    <select
+                      required
+                      value={formData.maintenanceStatus}
+                      onChange={(e) => setFormData({ ...formData, maintenanceStatus: e.target.value })}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="operational">Operational</option>
+                      <option value="under-maintenance">Under Maintenance</option>
+                    </select>
+                  </div>
+
+                  <div className="flex gap-3 pt-4">
+                    <button
+                      type="submit"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      {modalType === 'add' ? 'Add Room' : 'Update Room'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setShowModal(false)}
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+
+            {/* View Beds Modal */}
+            {modalType === 'viewBeds' && selectedRoom && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold text-gray-900">
+                      {selectedRoom.roomNumber} - Bed Details
+                    </h2>
+                    <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+                      <X className="w-6 h-6" />
+                    </button>
+                  </div>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {selectedRoom.type} | {selectedRoom.department}
+                  </p>
+                </div>
+                <div className="p-6">
+                  {/* Room Info */}
+                  <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-blue-50 rounded-lg">
+                    <div className="text-center">
+                      <p className="text-xs text-gray-600">Total Beds</p>
+                      <p className="text-2xl font-bold text-blue-600">{selectedRoom.totalBeds}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs text-gray-600">Occupied</p>
+                      <p className="text-2xl font-bold text-red-600">{selectedRoom.occupiedBeds}</p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-xs text-gray-600">Available</p>
+                      <p className="text-2xl font-bold text-green-600">{selectedRoom.availableBeds}</p>
+                    </div>
+                  </div>
+
+                  {/* Bed List */}
+                  <div className="space-y-3">
+                    {selectedRoom.beds.map((bed) => (
+                      <div key={bed.bedNumber} className="border border-gray-200 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold ${getBedStatusColor(bed.status)}`}>
+                              {bed.bedNumber.replace('B', '')}
+                            </div>
+                            <div>
+                              <p className="text-sm font-semibold text-gray-900">Bed {bed.bedNumber}</p>
+                              {bed.patient ? (
+                                <div>
+                                  <p className="text-sm text-gray-900">{bed.patient.name}</p>
+                                  <p className="text-xs text-gray-500">
+                                    Patient ID: {bed.patient.id} | Admitted: {bed.patient.admissionDate}
+                                  </p>
+                                </div>
+                              ) : (
+                                <p className="text-sm text-gray-500 capitalize">{bed.status}</p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            {bed.status === 'available' && (
+                              <button
+                                onClick={() => handleAssignPatient(selectedRoom, bed)}
+                                className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                              >
+                                Assign Patient
+                              </button>
+                            )}
+                            {bed.status === 'occupied' && (
+                              <button
+                                onClick={() => handleDischargeBed(selectedRoom.id, bed.bedNumber)}
+                                className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+                              >
+                                Discharge
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-6">
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* Assign Patient Modal */}
+            {modalType === 'assignPatient' && selectedRoom && selectedBed && (
+              <>
+                <div className="p-6 border-b border-gray-200">
+                  <h2 className="text-xl font-semibold text-gray-900">Assign Patient to Bed</h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    {selectedRoom.roomNumber} - Bed {selectedBed.bedNumber}
+                  </p>
+                </div>
+                <div className="p-6">
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Select Patient *</label>
+                    <select
+                      value={selectedPatient}
+                      onChange={(e) => setSelectedPatient(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="">Choose a patient</option>
+                      {availablePatients.map((patient) => (
+                        <option key={patient.id} value={patient.id}>
+                          {patient.name} - {patient.age}y, {patient.gender} - {patient.condition}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {selectedPatient && (
+                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-4">
+                      <p className="text-sm font-semibold text-gray-900">Patient Details:</p>
+                      {(() => {
+                        const patient = availablePatients.find(p => p.id === selectedPatient);
+                        return (
+                          <div className="mt-2 space-y-1">
+                            <p className="text-sm text-gray-700">Name: {patient.name}</p>
+                            <p className="text-sm text-gray-700">Age: {patient.age} years</p>
+                            <p className="text-sm text-gray-700">Gender: {patient.gender}</p>
+                            <p className="text-sm text-gray-700">
+                              Condition: <span className={`font-semibold ${patient.condition === 'Critical' ? 'text-red-600' : 'text-green-600'}`}>{patient.condition}</span>
+                            </p>
+                          </div>
+                        );
+                      })()}
+                    </div>
+                  )}
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleSubmitAssignment}
+                      disabled={!selectedPatient}
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                    >
+                      Assign Patient
+                    </button>
+                    <button
+                      onClick={() => setShowModal(false)}
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

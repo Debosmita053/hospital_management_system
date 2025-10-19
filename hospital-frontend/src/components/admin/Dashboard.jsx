@@ -10,21 +10,21 @@ const formatRupees = (amountString) => {
     return `₹${number.toLocaleString('en-IN')}`;
 };
 
-const StatCard = ({ title, value, change, icon: Icon, color }) => (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+const StatCard = ({ title, value, change, icon: Icon, gradient }) => (
+    <div className={`rounded-xl shadow-lg p-6 text-white ${gradient} hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1`}>
         <div className="flex items-center justify-between">
             <div>
-                <p className="text-sm text-gray-600 mb-1">{title}</p>
-                <h3 className="text-2xl font-bold text-gray-900">{value}</h3>
+                <p className="text-white/80 text-sm mb-1">{title}</p>
+                <h3 className="text-2xl font-bold text-white">{value}</h3>
                 {change && (
                     <p className="text-sm mt-2 flex items-center">
-                        <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
-                        <span className="text-green-600 font-medium">{change}</span>
-                        <span className="text-gray-500 ml-1">vs last month</span>
+                        <TrendingUp className="h-4 w-4 text-white/90 mr-1" />
+                        <span className="text-white/90 font-medium">{change}</span>
+                        <span className="text-white/70 ml-1">vs last month</span>
                     </p>
                 )}
             </div>
-            <div className={`p-3 rounded-lg ${color}`}>
+            <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
                 <Icon className="h-6 w-6 text-white" />
             </div>
         </div>
@@ -32,20 +32,41 @@ const StatCard = ({ title, value, change, icon: Icon, color }) => (
 );
 
 const AdminDashboard = () => {
-    // UPDATING THE CURRENCY STAT HERE
+    // Colorful gradient stats with Indian Rupee formatting
     const stats = [
-        { title: 'Total Patients', value: '2,543', change: '+12.5%', icon: Users, color: 'bg-blue-500' },
-        { title: 'Total Doctors', value: '42', change: '+2', icon: UserPlus, color: 'bg-green-500' },
-        { title: 'Appointments Today', value: '156', change: '+8.2%', icon: Calendar, color: 'bg-purple-500' },
-        // Use the formatRupees helper for the Revenue stat
-        { title: 'Revenue (Month)', value: formatRupees('45231'), change: '+15.3%', icon: DollarSign, color: 'bg-yellow-500' },
+        { 
+            title: 'Total Patients', 
+            value: '2,543', 
+            change: '+12.5%', 
+            icon: Users, 
+            gradient: 'bg-gradient-to-br from-blue-500 to-blue-600' 
+        },
+        { 
+            title: 'Total Doctors', 
+            value: '42', 
+            change: '+2', 
+            icon: UserPlus, 
+            gradient: 'bg-gradient-to-br from-green-500 to-green-600' 
+        },
+        { 
+            title: 'Appointments Today', 
+            value: '156', 
+            change: '+8.2%', 
+            icon: Calendar, 
+            gradient: 'bg-gradient-to-br from-purple-500 to-purple-600' 
+        },
+        { 
+            title: 'Revenue (Month)', 
+            value: formatRupees('45231'), 
+            change: '+15.3%', 
+            icon: DollarSign, 
+            gradient: 'bg-gradient-to-br from-amber-500 to-amber-600' 
+        },
     ];
 
     const recentActivities = [
         { id: 1, action: 'New patient registered', user: 'John Doe', time: '2 mins ago', type: 'patient' },
         { id: 2, action: 'Appointment completed', user: 'Dr. Smith', time: '15 mins ago', type: 'appointment' },
-        // Assuming 'Payment received' is the only place the currency might show up outside of stats
-        // In a real app, the "Bill #1234" would likely link to a bill showing the amount.
         { id: 3, action: 'Payment received', user: 'Bill #1234', time: '1 hour ago', type: 'payment' },
         { id: 4, action: 'New doctor added', user: 'Dr. Sarah Lee', time: '2 hours ago', type: 'doctor' },
         { id: 5, action: 'Patient discharged', user: 'Jane Wilson', time: '3 hours ago', type: 'patient' },
@@ -65,7 +86,7 @@ const AdminDashboard = () => {
                 <p className="text-gray-600 mt-1">Welcome back! Here's what's happening today.</p>
             </div>
 
-            {/* Stats Grid */}
+            {/* Colorful Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {stats.map((stat, index) => (
                     <StatCard key={index} {...stat} />
@@ -92,7 +113,7 @@ const AdminDashboard = () => {
                                     activity.type === 'patient' ? 'bg-blue-500' :
                                     activity.type === 'doctor' ? 'bg-green-500' :
                                     activity.type === 'appointment' ? 'bg-purple-500' :
-                                    'bg-yellow-500'
+                                    'bg-amber-500'
                                 }`}></div>
                                 <div className="flex-1">
                                     <p className="text-sm text-gray-900">{activity.action}</p>
