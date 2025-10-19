@@ -42,36 +42,36 @@ const Navbar = ({ user, onLogout, onToggleSidebar, sidebarOpen }) => {
               <input
                 type="text"
                 placeholder="Search patients, doctors, appointments..."
-                className="w-full pl-9 pr-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm"
+                className="w-full pl-9 pr-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
             </div>
           </div>
         </div>
 
-        {/* Right Section - Adjusted for h-16 height */}
+        {/* Right Section - Increased icon sizes */}
         <div className="flex items-center space-x-2">
-          {/* Notifications - Smaller padding */}
-          <button className="relative p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-            <Bell className="h-4 w-4" />
-            <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+          {/* Notifications - Larger size */}
+          <button className="relative p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
+            <Bell className="h-5 w-5" />
+            <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
           </button>
 
-          {/* Profile Dropdown - Adjusted spacing */}
+          {/* Profile Dropdown - Larger size */}
           <div className="relative" ref={menuRef}>
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center space-x-2 p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+              className="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
-                <User className="h-3.5 w-3.5 text-primary-600" />
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <User className="h-5 w-5 text-blue-600" />
               </div>
               <div className="text-left">
-                <p className="text-xs font-medium text-gray-900 leading-tight">
+                <p className="text-sm font-medium text-gray-900">
                   {user?.firstName} {user?.lastName}
                 </p>
-                <p className="text-xs text-gray-500 capitalize leading-tight">{user?.role}</p>
+                <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
               </div>
-              <ChevronDown className="h-3 w-3 text-gray-400" />
+              <ChevronDown className="h-4 w-4 text-gray-400" />
             </button>
 
             {/* Dropdown Menu */}
