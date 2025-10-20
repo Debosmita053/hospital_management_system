@@ -6,19 +6,13 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
+import DoctorLayout from './components/doctor/DoctorLayout';
 
 // Temporary dashboard placeholders
 const AdminDashboard = () => (
   <div className="p-8">
     <h1 className="text-3xl font-bold">Admin Dashboard</h1>
     <p className="mt-4">Welcome to the Admin Panel!</p>
-  </div>
-);
-
-const DoctorDashboard = () => (
-  <div className="p-8">
-    <h1 className="text-3xl font-bold">Doctor Dashboard</h1>
-    <p className="mt-4">Welcome, Doctor!</p>
   </div>
 );
 
@@ -46,26 +40,29 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           
-          {/* Protected Routes */}
+          {/* Admin Routes */}
           <Route
             path="/admin/*"
             element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <AdminLayout>
-              <AdminDashboard />
-              </AdminLayout>
-            </ProtectedRoute>
-    }
-/>
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminLayout>
+                  <AdminDashboard />
+                </AdminLayout>
+              </ProtectedRoute>
+            }
+          />
 
+          {/* Doctor Routes */}
           <Route
             path="/doctor/*"
             element={
               <ProtectedRoute allowedRoles={['doctor']}>
-                <DoctorDashboard />
+                <DoctorLayout />
               </ProtectedRoute>
             }
           />
+
+          {/* Patient Routes */}
           <Route
             path="/patient/*"
             element={
@@ -74,6 +71,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          {/* Nurse Routes */}
           <Route
             path="/nurse/*"
             element={
