@@ -17,11 +17,11 @@ const Sidebar = ({ role, onLogout, isOpen }) => {
     { icon: UserCog, label: 'Staff Management', path: '/admin/staff' },
     { icon: Building2, label: 'Departments', path: '/admin/departments' },
     { icon: Bed, label: 'Rooms', path: '/admin/rooms' },
-    // { icon: Activity, label: 'OT Management', path: '/admin/ot' },
     { icon: Calendar, label: 'Appointments', path: '/admin/appointments' },
     { icon: Pill, label: 'Pharmacy', path: '/admin/pharmacy' },
     { icon: DollarSign, label: 'Billing', path: '/admin/billing' },
     { icon: FileText, label: 'Reports', path: '/admin/reports' },
+    { icon: User, label: 'Profile', path: '/admin/profile' },
     { icon: Settings, label: 'Settings', path: '/admin/settings' },
   ];
 
@@ -69,16 +69,16 @@ const Sidebar = ({ role, onLogout, isOpen }) => {
   };
 
   return (
-    <div className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 transition-all duration-300 z-30 ${
+    <div className={`fixed left-0 top-0 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-30 ${
       isOpen ? 'w-64' : 'w-0'
     } overflow-hidden`}>
       <div className="h-full flex flex-col">
         {/* Sidebar Header */}
-        <div className="h-16 flex items-center px-6 border-b border-gray-200 flex-shrink-0">
-          <div className="bg-primary-600 p-2 rounded-xl">
+        <div className="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
+          <div className="bg-primary-600 dark:bg-primary-500 p-2 rounded-xl">
             <Heart className="w-6 h-6 text-white" />
           </div>
-          <span className="ml-3 text-xl font-bold text-gray-900">HealthCare</span>
+          <span className="ml-3 text-xl font-bold text-gray-900 dark:text-white">HealthCare</span>
         </div>
 
         {/* Navigation Menu */}
@@ -94,8 +94,8 @@ const Sidebar = ({ role, onLogout, isOpen }) => {
                   to={item.path}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
                     active
-                      ? 'bg-primary-50 text-primary-600'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-300'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
                 >
                   <Icon className="w-5 h-5 flex-shrink-0" />
@@ -107,10 +107,10 @@ const Sidebar = ({ role, onLogout, isOpen }) => {
         </nav>
 
         {/* Logout Button */}
-        <div className="p-1 border-t border-gray-200 flex-shrink-0">
+        <div className="p-1 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <button
             onClick={onLogout}
-            className="w-full flex items-center gap-3 px-3 py-2.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+            className="w-full flex items-center gap-3 px-3 py-2.5 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
           >
             <LogOut className="w-5 h-5 flex-shrink-0" />
             <span className="font-medium">Logout</span>

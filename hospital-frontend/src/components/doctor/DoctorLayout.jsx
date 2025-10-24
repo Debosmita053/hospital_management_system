@@ -9,6 +9,7 @@ import MyPatients from './MyPatients';
 import MedicalRecords from './MedicalRecords';
 import Prescriptions from './Prescriptions';
 import MySchedule from './MySchedule';
+import Profile from './Profile'; // ← ADD THIS IMPORT
 
 const DoctorLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const DoctorLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <Sidebar role="doctor" onLogout={logout} isOpen={sidebarOpen} />
       <Navbar 
         user={user} 
@@ -38,6 +39,7 @@ const DoctorLayout = () => {
           <Route path="/records" element={<MedicalRecords />} />
           <Route path="/prescriptions" element={<Prescriptions />} />
           <Route path="/schedule" element={<MySchedule />} />
+          <Route path="/profile" element={<Profile />} /> {/* ← ADD THIS ROUTE */}
         </Routes>
       </main>
     </div>

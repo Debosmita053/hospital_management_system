@@ -197,10 +197,30 @@ const MyAppointments = () => {
 
   const getStatusBadge = (status) => {
     const badges = {
-      scheduled: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Scheduled', icon: Clock },
-      confirmed: { bg: 'bg-green-100', text: 'text-green-800', label: 'Confirmed', icon: CheckCircle },
-      completed: { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Completed', icon: CheckCircle },
-      cancelled: { bg: 'bg-red-100', text: 'text-red-800', label: 'Cancelled', icon: XCircle }
+      scheduled: { 
+        bg: 'bg-blue-100 dark:bg-blue-900/30', 
+        text: 'text-blue-800 dark:text-blue-300', 
+        label: 'Scheduled', 
+        icon: Clock 
+      },
+      confirmed: { 
+        bg: 'bg-green-100 dark:bg-green-900/30', 
+        text: 'text-green-800 dark:text-green-300', 
+        label: 'Confirmed', 
+        icon: CheckCircle 
+      },
+      completed: { 
+        bg: 'bg-gray-100 dark:bg-gray-800', 
+        text: 'text-gray-800 dark:text-gray-300', 
+        label: 'Completed', 
+        icon: CheckCircle 
+      },
+      cancelled: { 
+        bg: 'bg-red-100 dark:bg-red-900/30', 
+        text: 'text-red-800 dark:text-red-300', 
+        label: 'Cancelled', 
+        icon: XCircle 
+      }
     };
     const badge = badges[status] || badges.scheduled;
     const Icon = badge.icon;
@@ -328,7 +348,7 @@ const MyAppointments = () => {
     
     // Add empty cells for days before the first day of the month
     for (let i = 0; i < firstDayOfMonth; i++) {
-      calendarDays.push(<div key={`empty-${i}`} className="h-24 p-1 border border-gray-200 bg-gray-50"></div>);
+      calendarDays.push(<div key={`empty-${i}`} className="h-24 p-1 border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"></div>);
     }
 
     // Add cells for each day of the month
@@ -337,16 +357,16 @@ const MyAppointments = () => {
       const dayAppointments = getAppointmentsForDate(date);
       
       calendarDays.push(
-        <div key={day} className="h-24 p-1 border border-gray-200 hover:bg-gray-50 cursor-pointer">
-          <div className="text-sm font-medium text-gray-900 mb-1">{day}</div>
+        <div key={day} className="h-24 p-1 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 cursor-pointer">
+          <div className="text-sm font-medium text-gray-900 dark:text-white mb-1">{day}</div>
           <div className="space-y-1 max-h-16 overflow-y-auto">
             {dayAppointments.map(apt => (
               <div 
                 key={apt.id}
                 className={`text-xs p-1 rounded truncate ${
-                  apt.status === 'completed' ? 'bg-gray-200 text-gray-700' :
-                  apt.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                  'bg-blue-100 text-blue-700'
+                  apt.status === 'completed' ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300' :
+                  apt.status === 'cancelled' ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' :
+                  'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
                 }`}
                 title={`${apt.time} - ${apt.patient}`}
               >
@@ -359,21 +379,21 @@ const MyAppointments = () => {
     }
 
     return (
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => navigateMonth(-1)}
-              className="p-2 hover:bg-gray-100 rounded-lg"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-            <h3 className="text-xl font-semibold">
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
               {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
             </h3>
             <button 
               onClick={() => navigateMonth(1)}
-              className="p-2 hover:bg-gray-100 rounded-lg"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-gray-600 dark:text-gray-400"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -382,7 +402,9 @@ const MyAppointments = () => {
             <button 
               onClick={() => setCalendarView('month')}
               className={`px-3 py-1 rounded-lg text-sm ${
-                calendarView === 'month' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
+                calendarView === 'month' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
               }`}
             >
               Month
@@ -390,7 +412,9 @@ const MyAppointments = () => {
             <button 
               onClick={() => setCalendarView('week')}
               className={`px-3 py-1 rounded-lg text-sm ${
-                calendarView === 'week' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'
+                calendarView === 'week' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
               }`}
             >
               Week
@@ -401,7 +425,7 @@ const MyAppointments = () => {
         {/* Calendar Grid */}
         <div className="grid grid-cols-7 gap-1 mb-2">
           {dayNames.map(day => (
-            <div key={day} className="text-center text-sm font-semibold text-gray-600 py-2">
+            <div key={day} className="text-center text-sm font-semibold text-gray-600 dark:text-gray-400 py-2">
               {day}
             </div>
           ))}
@@ -412,17 +436,17 @@ const MyAppointments = () => {
         </div>
 
         {/* Calendar Legend */}
-        <div className="mt-4 flex items-center justify-center space-x-4 text-xs">
+        <div className="mt-4 flex items-center justify-center space-x-4 text-xs text-gray-600 dark:text-gray-400">
           <div className="flex items-center space-x-1">
-            <div className="w-3 h-3 bg-blue-100 rounded"></div>
+            <div className="w-3 h-3 bg-blue-100 dark:bg-blue-900/30 rounded"></div>
             <span>Scheduled</span>
           </div>
           <div className="flex items-center space-x-1">
-            <div className="w-3 h-3 bg-gray-200 rounded"></div>
+            <div className="w-3 h-3 bg-gray-200 dark:bg-gray-700 rounded"></div>
             <span>Completed</span>
           </div>
           <div className="flex items-center space-x-1">
-            <div className="w-3 h-3 bg-red-100 rounded"></div>
+            <div className="w-3 h-3 bg-red-100 dark:bg-red-900/30 rounded"></div>
             <span>Cancelled</span>
           </div>
         </div>
@@ -431,20 +455,20 @@ const MyAppointments = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       {/* Header with View Toggle */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">My Appointments</h1>
-          <p className="text-gray-600 mt-1">Manage your patient appointments</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Appointments</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage your patient appointments</p>
         </div>
         <div className="flex space-x-3">
           <button 
             onClick={() => setShowRequests(!showRequests)}
             className={`px-4 py-2 rounded-lg border transition-colors ${
               showRequests 
-                ? 'bg-orange-100 border-orange-300 text-orange-700' 
-                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                ? 'bg-orange-100 dark:bg-orange-900/30 border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300' 
+                : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
             }`}
           >
             View Requests ({appointmentRequests.length})
@@ -485,26 +509,26 @@ const MyAppointments = () => {
 
       {/* Appointment Requests Section */}
       {showRequests && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-900">Appointment Requests</h2>
-            <span className="text-sm text-gray-600">{appointmentRequests.length} pending requests</span>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Appointment Requests</h2>
+            <span className="text-sm text-gray-600 dark:text-gray-400">{appointmentRequests.length} pending requests</span>
           </div>
           <div className="space-y-4">
             {appointmentRequests.map(request => (
-              <div key={request.id} className="flex items-center justify-between p-4 border border-orange-200 rounded-lg bg-orange-50">
+              <div key={request.id} className="flex items-center justify-between p-4 border border-orange-200 dark:border-orange-800 rounded-lg bg-orange-50 dark:bg-orange-900/20">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 font-semibold">
+                  <div className="w-12 h-12 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center text-orange-600 dark:text-orange-400 font-semibold">
                     {request.patient.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">{request.patient}</h3>
-                    <p className="text-sm text-gray-600">{request.reason}</p>
-                    <p className="text-xs text-gray-500">
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{request.patient}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{request.reason}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-500">
                       Preferred dates: {request.preferredDates.join(', ')} • {request.requestedBy}
                     </p>
                     {request.notes && (
-                      <p className="text-xs text-blue-600 mt-1">{request.notes}</p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">{request.notes}</p>
                     )}
                   </div>
                 </div>
@@ -533,7 +557,7 @@ const MyAppointments = () => {
 
       {/* Filters - Only show in list view */}
       {viewMode === 'list' && (
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -542,7 +566,7 @@ const MyAppointments = () => {
                 placeholder="Search patients..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
 
@@ -552,7 +576,7 @@ const MyAppointments = () => {
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               />
             </div>
 
@@ -561,7 +585,7 @@ const MyAppointments = () => {
               <select
                 value={filterStatus}
                 onChange={(e) => setFilterStatus(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
                 <option value="all">All Status</option>
                 <option value="scheduled">Scheduled</option>
@@ -573,7 +597,7 @@ const MyAppointments = () => {
 
             <button 
               onClick={() => toast.success('Export functionality - will implement with backend')}
-              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center"
+              className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center justify-center"
             >
               <Download className="w-4 h-4 mr-2" />
               Export
@@ -586,25 +610,25 @@ const MyAppointments = () => {
       {viewMode === 'list' && (
         <div className="space-y-4">
           {filteredAppointments.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-12 text-center">
               <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-              <p className="text-gray-600">No appointments found</p>
-              <p className="text-sm text-gray-500 mt-2">Try changing your filters or check the calendar view</p>
+              <p className="text-gray-600 dark:text-gray-400">No appointments found</p>
+              <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">Try changing your filters or check the calendar view</p>
             </div>
           ) : (
             filteredAppointments.map((appointment) => (
-              <div key={appointment.id} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100">
+              <div key={appointment.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-4 flex-1">
-                    <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold flex-shrink-0">
+                    <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-semibold flex-shrink-0">
                       {appointment.avatar}
                     </div>
                     
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900">{appointment.patient}</h3>
-                          <p className="text-sm text-gray-600">
+                          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{appointment.patient}</h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">
                             ID: {appointment.patientId} • {appointment.age}y • {appointment.gender}
                           </p>
                         </div>
@@ -612,11 +636,11 @@ const MyAppointments = () => {
                           {getStatusBadge(appointment.status)}
                           <button 
                             onClick={() => toggleAppointmentExpand(appointment.id)}
-                            className="p-1 hover:bg-gray-100 rounded transition-colors"
+                            className="p-1 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
                           >
                             {expandedAppointment === appointment.id ? 
-                              <ChevronUp className="w-4 h-4 text-gray-500" /> : 
-                              <ChevronDown className="w-4 h-4 text-gray-500" />
+                              <ChevronUp className="w-4 h-4 text-gray-500 dark:text-gray-400" /> : 
+                              <ChevronDown className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                             }
                           </button>
                         </div>
@@ -626,52 +650,52 @@ const MyAppointments = () => {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                         <div className="flex items-center space-x-2">
                           <Calendar className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-700">{appointment.date}</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{appointment.date}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Clock className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-700">{appointment.time}</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{appointment.time}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Phone className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-700">{appointment.phone}</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{appointment.phone}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <MapPin className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-700">{appointment.location}</span>
+                          <span className="text-sm text-gray-700 dark:text-gray-300">{appointment.location}</span>
                         </div>
                       </div>
 
                       {/* Expanded Details */}
                       {expandedAppointment === appointment.id && (
-                        <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
+                        <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg space-y-3">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <p className="text-sm font-medium text-gray-700">Email</p>
-                              <p className="text-sm text-gray-900">{appointment.email}</p>
+                              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</p>
+                              <p className="text-sm text-gray-900 dark:text-white">{appointment.email}</p>
                             </div>
                             <div>
-                              <p className="text-sm font-medium text-gray-700">Duration</p>
-                              <p className="text-sm text-gray-900">{appointment.duration} mins</p>
+                              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Duration</p>
+                              <p className="text-sm text-gray-900 dark:text-white">{appointment.duration} mins</p>
                             </div>
                             <div>
-                              <p className="text-sm font-medium text-gray-700">Blood Group</p>
-                              <p className="text-sm text-gray-900">{appointment.bloodGroup}</p>
+                              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Blood Group</p>
+                              <p className="text-sm text-gray-900 dark:text-white">{appointment.bloodGroup}</p>
                             </div>
                             <div>
-                              <p className="text-sm font-medium text-gray-700">Allergies</p>
-                              <p className="text-sm text-gray-900">{appointment.allergies}</p>
+                              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Allergies</p>
+                              <p className="text-sm text-gray-900 dark:text-white">{appointment.allergies}</p>
                             </div>
                           </div>
                         </div>
                       )}
 
                       {/* Reason & Notes */}
-                      <div className="mt-3 p-3 bg-blue-50 rounded-lg">
-                        <p className="text-sm font-medium text-gray-700 mb-1">Reason for Visit</p>
-                        <p className="text-sm text-gray-900">{appointment.reason}</p>
+                      <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Reason for Visit</p>
+                        <p className="text-sm text-gray-900 dark:text-white">{appointment.reason}</p>
                         {appointment.notes && (
-                          <p className="text-sm text-yellow-700 mt-2 bg-yellow-100 p-2 rounded">
+                          <p className="text-sm text-yellow-700 dark:text-yellow-300 mt-2 bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded">
                             <strong>Note:</strong> {appointment.notes}
                           </p>
                         )}
@@ -750,13 +774,13 @@ const MyAppointments = () => {
       {/* Patient Details Modal */}
       {selectedAppointment && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
-                <h3 className="text-xl font-bold text-gray-900">Patient Details</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white">Patient Details</h3>
                 <button
                   onClick={() => setSelectedAppointment(null)}
-                  className="text-gray-400 hover:text-gray-600 text-2xl"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-2xl"
                 >
                   ×
                 </button>
@@ -765,51 +789,51 @@ const MyAppointments = () => {
             
             <div className="p-6 space-y-6">
               <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-xl">
+                <div className="w-16 h-16 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-semibold text-xl">
                   {selectedAppointment.avatar}
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold">{selectedAppointment.patient}</h4>
-                  <p className="text-gray-600">ID: {selectedAppointment.patientId}</p>
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{selectedAppointment.patient}</h4>
+                  <p className="text-gray-600 dark:text-gray-400">ID: {selectedAppointment.patientId}</p>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-medium text-gray-700">Age & Gender</p>
-                  <p className="text-gray-900">{selectedAppointment.age} years, {selectedAppointment.gender}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Age & Gender</p>
+                  <p className="text-gray-900 dark:text-white">{selectedAppointment.age} years, {selectedAppointment.gender}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700">Blood Group</p>
-                  <p className="text-gray-900">{selectedAppointment.bloodGroup}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Blood Group</p>
+                  <p className="text-gray-900 dark:text-white">{selectedAppointment.bloodGroup}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700">Phone</p>
-                  <p className="text-gray-900">{selectedAppointment.phone}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Phone</p>
+                  <p className="text-gray-900 dark:text-white">{selectedAppointment.phone}</p>
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-gray-700">Email</p>
-                  <p className="text-gray-900">{selectedAppointment.email}</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</p>
+                  <p className="text-gray-900 dark:text-white">{selectedAppointment.email}</p>
                 </div>
               </div>
 
               <div>
-                <p className="text-sm font-medium text-gray-700 mb-2">Appointment Details</p>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p><strong>Date & Time:</strong> {selectedAppointment.date} at {selectedAppointment.time}</p>
-                  <p className="mt-2"><strong>Reason:</strong> {selectedAppointment.reason}</p>
-                  <p className="mt-2"><strong>Location:</strong> {selectedAppointment.location}</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Appointment Details</p>
+                <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+                  <p className="text-gray-900 dark:text-white"><strong>Date & Time:</strong> {selectedAppointment.date} at {selectedAppointment.time}</p>
+                  <p className="mt-2 text-gray-900 dark:text-white"><strong>Reason:</strong> {selectedAppointment.reason}</p>
+                  <p className="mt-2 text-gray-900 dark:text-white"><strong>Location:</strong> {selectedAppointment.location}</p>
                   {selectedAppointment.notes && (
-                    <p className="mt-2"><strong>Notes:</strong> {selectedAppointment.notes}</p>
+                    <p className="mt-2 text-gray-900 dark:text-white"><strong>Notes:</strong> {selectedAppointment.notes}</p>
                   )}
                 </div>
               </div>
             </div>
 
-            <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+            <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex justify-end space-x-3">
               <button
                 onClick={() => setSelectedAppointment(null)}
-                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 Close
               </button>

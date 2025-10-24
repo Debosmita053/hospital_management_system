@@ -79,11 +79,11 @@ const AdminDashboard = () => {
     ];
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-bold text-gray-900">Dashboard Overview</h1>
-                <p className="text-gray-600 mt-1">Welcome back! Here's what's happening today.</p>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h1>
+                <p className="text-gray-600 dark:text-gray-400 mt-1">Welcome back! Here's what's happening today.</p>
             </div>
 
             {/* Colorful Stats Grid */}
@@ -96,19 +96,19 @@ const AdminDashboard = () => {
             {/* Two Column Layout */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Recent Activity */}
-                <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
                     <div className="flex items-center justify-between mb-6">
-                        <h2 className="text-lg font-bold text-gray-900 flex items-center">
-                            <Activity className="h-5 w-5 mr-2 text-primary-600" />
+                        <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center">
+                            <Activity className="h-5 w-5 mr-2 text-blue-600 dark:text-blue-400" />
                             Recent Activity
                         </h2>
-                        <button className="text-sm text-primary-600 hover:text-primary-700 font-medium">
+                        <button className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium">
                             View All
                         </button>
                     </div>
                     <div className="space-y-4">
                         {recentActivities.map((activity) => (
-                            <div key={activity.id} className="flex items-start space-x-3 pb-4 border-b border-gray-100 last:border-0">
+                            <div key={activity.id} className="flex items-start space-x-3 pb-4 border-b border-gray-100 dark:border-gray-700 last:border-0">
                                 <div className={`w-2 h-2 rounded-full mt-2 ${
                                     activity.type === 'patient' ? 'bg-blue-500' :
                                     activity.type === 'doctor' ? 'bg-green-500' :
@@ -116,31 +116,31 @@ const AdminDashboard = () => {
                                     'bg-amber-500'
                                 }`}></div>
                                 <div className="flex-1">
-                                    <p className="text-sm text-gray-900">{activity.action}</p>
-                                    <p className="text-sm text-gray-500">{activity.user}</p>
+                                    <p className="text-sm text-gray-900 dark:text-white">{activity.action}</p>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">{activity.user}</p>
                                 </div>
-                                <span className="text-xs text-gray-400">{activity.time}</span>
+                                <span className="text-xs text-gray-400 dark:text-gray-500">{activity.time}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Upcoming Appointments */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-lg font-bold text-gray-900 mb-6">Today's Appointments</h2>
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Today's Appointments</h2>
                     <div className="space-y-4">
                         {upcomingAppointments.map((appointment) => (
-                            <div key={appointment.id} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                                <p className="text-sm font-medium text-gray-900">{appointment.patient}</p>
-                                <p className="text-xs text-gray-600 mt-1">{appointment.doctor}</p>
+                            <div key={appointment.id} className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                                <p className="text-sm font-medium text-gray-900 dark:text-white">{appointment.patient}</p>
+                                <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{appointment.doctor}</p>
                                 <div className="flex items-center justify-between mt-2">
-                                    <span className="text-xs text-primary-600 font-medium">{appointment.department}</span>
-                                    <span className="text-xs text-gray-500">{appointment.time}</span>
+                                    <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">{appointment.department}</span>
+                                    <span className="text-xs text-gray-500 dark:text-gray-400">{appointment.time}</span>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <button className="w-full mt-4 py-2 text-sm text-primary-600 hover:text-primary-700 font-medium border border-primary-200 rounded-lg hover:bg-primary-50 transition-colors">
+                    <button className="w-full mt-4 py-2 text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium border border-blue-200 dark:border-blue-800 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors">
                         View All Appointments
                     </button>
                 </div>

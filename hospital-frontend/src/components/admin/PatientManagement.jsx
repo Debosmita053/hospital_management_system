@@ -262,9 +262,9 @@ const PatientManagement = () => {
 
   const getStatusBadge = (status) => {
     const styles = {
-      admitted: 'bg-blue-100 text-blue-800',
-      outpatient: 'bg-green-100 text-green-800',
-      discharged: 'bg-gray-100 text-gray-800'
+      admitted: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      outpatient: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      discharged: 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300'
     };
     const icons = {
       admitted: <Bed className="w-3 h-3" />,
@@ -281,12 +281,12 @@ const PatientManagement = () => {
 
   const getConditionBadge = (condition) => {
     const styles = {
-      Critical: 'bg-red-100 text-red-800',
-      Stable: 'bg-green-100 text-green-800',
-      Recovered: 'bg-blue-100 text-blue-800'
+      Critical: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300',
+      Stable: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      Recovered: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300'
     };
     return (
-      <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${styles[condition] || 'bg-gray-100 text-gray-800'}`}>
+      <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${styles[condition] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300'}`}>
         {condition}
       </span>
     );
@@ -304,12 +304,12 @@ const PatientManagement = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Patient Management</h1>
-            <p className="text-gray-600 mt-1">View, manage, and track patient records</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Patient Management</h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">View, manage, and track patient records</p>
           </div>
           <button
             onClick={handleAddPatient}
@@ -382,16 +382,16 @@ const PatientManagement = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-          <div className="border-b border-gray-200">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between px-6">
               <nav className="flex space-x-8" aria-label="Tabs">
                 <button
                   onClick={() => setActiveTab('all')}
                   className={`py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === 'all'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
                   All Patients ({patients.length})
@@ -400,8 +400,8 @@ const PatientManagement = () => {
                   onClick={() => setActiveTab('admitted')}
                   className={`py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === 'admitted'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
                   Admitted ({stats.admitted})
@@ -410,8 +410,8 @@ const PatientManagement = () => {
                   onClick={() => setActiveTab('discharged')}
                   className={`py-4 px-1 border-b-2 font-medium text-sm ${
                     activeTab === 'discharged'
-                      ? 'border-blue-500 text-blue-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                      ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
                   Discharged ({stats.discharged})
@@ -420,7 +420,7 @@ const PatientManagement = () => {
             </div>
           </div>
 
-          <div className="p-6 border-b border-gray-200">
+          <div className="p-6 border-b border-gray-200 dark:border-gray-700">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -428,57 +428,57 @@ const PatientManagement = () => {
                 placeholder="Search by name, ID, email, or phone..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
               />
             </div>
           </div>
 
           <div className="p-6">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Age / Gender</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Blood Group</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Assigned Doctor</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Patient ID</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Contact</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Age / Gender</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Blood Group</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Assigned Doctor</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredPatients.map((patient) => (
-                    <tr key={patient.id} className="hover:bg-gray-50">
+                    <tr key={patient.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="text-sm font-medium text-gray-900">{patient.id}</span>
+                        <span className="text-sm font-medium text-gray-900 dark:text-white">{patient.id}</span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                            <span className="text-sm font-semibold text-blue-600">
+                          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
                               {patient.firstName[0]}{patient.lastName[0]}
                             </span>
                           </div>
                           <div className="ml-3">
-                            <div className="text-sm font-medium text-gray-900">
+                            <div className="text-sm font-medium text-gray-900 dark:text-white">
                               {patient.firstName} {patient.lastName}
                             </div>
-                            <div className="text-sm text-gray-500">{patient.email}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">{patient.email}</div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{patient.phone}</div>
+                        <div className="text-sm text-gray-900 dark:text-white">{patient.phone}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                        <div className="text-sm text-gray-900 dark:text-white">
                           {calculateAge(patient.dateOfBirth)} years / {patient.gender}
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2.5 py-1 bg-red-100 text-red-800 rounded-full text-xs font-medium">
+                        <span className="px-2.5 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-full text-xs font-medium">
                           {patient.bloodGroup}
                         </span>
                       </td>
@@ -489,32 +489,32 @@ const PatientManagement = () => {
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">
+                        <div className="text-sm text-gray-900 dark:text-white">
                           {patient.assignedDoctor || '-'}
                         </div>
                         {patient.status === 'admitted' && patient.roomNumber && (
-                          <div className="text-xs text-gray-500">{patient.roomNumber}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{patient.roomNumber}</div>
                         )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => handleViewPatient(patient)}
-                            className="text-blue-600 hover:text-blue-900"
+                            className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                             title="View Details"
                           >
                             <Eye className="w-5 h-5" />
                           </button>
                           <button
                             onClick={() => handleEditPatient(patient)}
-                            className="text-green-600 hover:text-green-900"
+                            className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                             title="Edit"
                           >
                             <Edit2 className="w-5 h-5" />
                           </button>
                           <button
                             onClick={() => handleDocuments(patient)}
-                            className="text-purple-600 hover:text-purple-900"
+                            className="text-purple-600 dark:text-purple-400 hover:text-purple-900 dark:hover:text-purple-300"
                             title="Documents"
                           >
                             <FileText className="w-5 h-5" />
@@ -522,7 +522,7 @@ const PatientManagement = () => {
                           {patient.status === 'outpatient' && (
                             <button
                               onClick={() => handleAdmitPatient(patient)}
-                              className="text-indigo-600 hover:text-indigo-900"
+                              className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300"
                               title="Admit Patient"
                             >
                               <Bed className="w-5 h-5" />
@@ -531,7 +531,7 @@ const PatientManagement = () => {
                           {patient.status === 'admitted' && (
                             <button
                               onClick={() => handleDischargePatient(patient.id)}
-                              className="text-orange-600 hover:text-orange-900"
+                              className="text-orange-600 dark:text-orange-400 hover:text-orange-900 dark:hover:text-orange-300"
                               title="Discharge"
                             >
                               <CheckCircle className="w-5 h-5" />
@@ -539,7 +539,7 @@ const PatientManagement = () => {
                           )}
                           <button
                             onClick={() => handleDeletePatient(patient.id)}
-                            className="text-red-600 hover:text-red-900"
+                            className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                             title="Delete"
                           >
                             <Trash2 className="w-5 h-5" />
@@ -556,79 +556,79 @@ const PatientManagement = () => {
 
         {showModal && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
               {(modalType === 'add' || modalType === 'edit') && (
                 <>
-                  <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-900">
+                  <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                       {modalType === 'add' ? 'Add New Patient' : 'Edit Patient'}
                     </h2>
                   </div>
                   <form onSubmit={handleSubmitPatient} className="p-6 space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name *</label>
                         <input
                           type="text"
                           required
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name *</label>
                         <input
                           type="text"
                           required
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
                         <input
                           type="email"
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone *</label>
                         <input
                           type="tel"
                           required
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Birth *</label>
                         <input
                           type="date"
                           required
                           value={formData.dateOfBirth}
                           onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Gender *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gender *</label>
                         <select
                           required
                           value={formData.gender}
                           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select</option>
                           <option value="male">Male</option>
@@ -637,12 +637,12 @@ const PatientManagement = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Blood Group *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Blood Group *</label>
                         <select
                           required
                           value={formData.bloodGroup}
                           onChange={(e) => setFormData({ ...formData, bloodGroup: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select</option>
                           <option value="A+">A+</option>
@@ -658,35 +658,35 @@ const PatientManagement = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Address *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Address *</label>
                       <textarea
                         required
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                         rows="2"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Emergency Contact Name *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Emergency Contact Name *</label>
                         <input
                           type="text"
                           required
                           value={formData.emergencyContactName}
                           onChange={(e) => setFormData({ ...formData, emergencyContactName: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Emergency Contact Phone *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Emergency Contact Phone *</label>
                         <input
                           type="tel"
                           required
                           value={formData.emergencyContact}
                           onChange={(e) => setFormData({ ...formData, emergencyContact: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
@@ -701,7 +701,7 @@ const PatientManagement = () => {
                       <button
                         type="button"
                         onClick={() => setShowModal(false)}
-                        className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                        className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                       >
                         Cancel
                       </button>
@@ -712,28 +712,28 @@ const PatientManagement = () => {
 
               {modalType === 'view' && selectedPatient && (
                 <>
-                  <div className="p-6 border-b border-gray-200">
+                  <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center justify-between">
-                      <h2 className="text-xl font-semibold text-gray-900">Patient Details</h2>
-                      <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+                      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Patient Details</h2>
+                      <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                         <X className="w-6 h-6" />
                       </button>
                     </div>
                   </div>
                   <div className="p-6 space-y-6">
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-4">
-                          <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
-                            <span className="text-2xl font-bold text-blue-600">
+                          <div className="w-16 h-16 bg-blue-200 dark:bg-blue-900/30 rounded-full flex items-center justify-center">
+                            <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                               {selectedPatient.firstName[0]}{selectedPatient.lastName[0]}
                             </span>
                           </div>
                           <div>
-                            <h3 className="text-xl font-bold text-gray-900">
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                               {selectedPatient.firstName} {selectedPatient.lastName}
                             </h3>
-                            <p className="text-sm text-gray-600">{selectedPatient.id}</p>
+                            <p className="text-sm text-gray-600 dark:text-gray-400">{selectedPatient.id}</p>
                           </div>
                         </div>
                         <div className="flex flex-col gap-2">
@@ -744,90 +744,90 @@ const PatientManagement = () => {
                       
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                         <div>
-                          <p className="text-xs text-gray-600">Age</p>
-                          <p className="text-sm font-semibold text-gray-900">{calculateAge(selectedPatient.dateOfBirth)} years</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Age</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{calculateAge(selectedPatient.dateOfBirth)} years</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Gender</p>
-                          <p className="text-sm font-semibold text-gray-900 capitalize">{selectedPatient.gender}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Gender</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">{selectedPatient.gender}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Blood Group</p>
-                          <span className="inline-block px-2 py-1 bg-red-100 text-red-800 rounded text-xs font-semibold">
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Blood Group</p>
+                          <span className="inline-block px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded text-xs font-semibold">
                             {selectedPatient.bloodGroup}
                           </span>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Date of Birth</p>
-                          <p className="text-sm font-semibold text-gray-900">{selectedPatient.dateOfBirth}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Date of Birth</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedPatient.dateOfBirth}</p>
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <Phone className="w-5 h-5 text-blue-600" />
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         Contact Information
                       </h4>
-                      <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                      <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-3">
                         <div className="flex items-center gap-3">
                           <Mail className="w-4 h-4 text-gray-400" />
                           <div>
-                            <p className="text-xs text-gray-600">Email</p>
-                            <p className="text-sm font-medium text-gray-900">{selectedPatient.email}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">Email</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">{selectedPatient.email}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
                           <Phone className="w-4 h-4 text-gray-400" />
                           <div>
-                            <p className="text-xs text-gray-600">Phone</p>
-                            <p className="text-sm font-medium text-gray-900">{selectedPatient.phone}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">Phone</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">{selectedPatient.phone}</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-3">
                           <MapPin className="w-4 h-4 text-gray-400" />
                           <div>
-                            <p className="text-xs text-gray-600">Address</p>
-                            <p className="text-sm font-medium text-gray-900">{selectedPatient.address}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">Address</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">{selectedPatient.address}</p>
                           </div>
                         </div>
                       </div>
                     </div>
 
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                        <AlertCircle className="w-5 h-5 text-red-600" />
+                      <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400" />
                         Emergency Contact
                       </h4>
-                      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                        <p className="text-sm font-semibold text-gray-900">{selectedPatient.emergencyContactName}</p>
-                        <p className="text-sm text-gray-600">{selectedPatient.emergencyContact}</p>
+                      <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedPatient.emergencyContactName}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{selectedPatient.emergencyContact}</p>
                       </div>
                     </div>
 
                     {selectedPatient.status === 'admitted' && (
                       <div>
-                        <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                          <Stethoscope className="w-5 h-5 text-green-600" />
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                          <Stethoscope className="w-5 h-5 text-green-600 dark:text-green-400" />
                           Medical Information
                         </h4>
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-2">
+                        <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 space-y-2">
                           <div className="grid grid-cols-2 gap-4">
                             <div>
-                              <p className="text-xs text-gray-600">Assigned Doctor</p>
-                              <p className="text-sm font-semibold text-gray-900">{selectedPatient.assignedDoctor}</p>
+                              <p className="text-xs text-gray-600 dark:text-gray-400">Assigned Doctor</p>
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedPatient.assignedDoctor}</p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-600">Room Number</p>
-                              <p className="text-sm font-semibold text-gray-900">{selectedPatient.roomNumber}</p>
+                              <p className="text-xs text-gray-600 dark:text-gray-400">Room Number</p>
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedPatient.roomNumber}</p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-600">Admission Date</p>
-                              <p className="text-sm font-semibold text-gray-900">{selectedPatient.admissionDate}</p>
+                              <p className="text-xs text-gray-600 dark:text-gray-400">Admission Date</p>
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedPatient.admissionDate}</p>
                             </div>
                             <div>
-                              <p className="text-xs text-gray-600">Diagnosis</p>
-                              <p className="text-sm font-semibold text-gray-900">{selectedPatient.diagnosis}</p>
+                              <p className="text-xs text-gray-600 dark:text-gray-400">Diagnosis</p>
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedPatient.diagnosis}</p>
                             </div>
                           </div>
                         </div>
@@ -836,20 +836,20 @@ const PatientManagement = () => {
 
                     {selectedPatient.documents && selectedPatient.documents.length > 0 && (
                       <div>
-                        <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                          <FileText className="w-5 h-5 text-purple-600" />
+                        <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                          <FileText className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                           Documents ({selectedPatient.documents.length})
                         </h4>
                         <div className="space-y-2">
                           {selectedPatient.documents.map((doc, idx) => (
-                            <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                            <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                               <div className="flex items-center gap-3">
-                                <FileText className="w-5 h-5 text-red-600" />
-                                <span className="text-sm font-medium text-gray-900">{doc}</span>
+                                <FileText className="w-5 h-5 text-red-600 dark:text-red-400" />
+                                <span className="text-sm font-medium text-gray-900 dark:text-white">{doc}</span>
                               </div>
                               <button
                                 onClick={() => handleDownloadDocument(doc)}
-                                className="text-blue-600 hover:text-blue-900 text-sm font-medium flex items-center gap-1"
+                                className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 text-sm font-medium flex items-center gap-1"
                               >
                                 <Download className="w-4 h-4" />
                                 Download
@@ -872,7 +872,7 @@ const PatientManagement = () => {
                       </button>
                       <button
                         onClick={() => setShowModal(false)}
-                        className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                        className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                       >
                         Close
                       </button>
@@ -883,21 +883,21 @@ const PatientManagement = () => {
 
               {modalType === 'admit' && selectedPatient && (
                 <>
-                  <div className="p-6 border-b border-gray-200">
-                    <h2 className="text-xl font-semibold text-gray-900">Admit Patient</h2>
-                    <p className="text-sm text-gray-600 mt-1">
+                  <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Admit Patient</h2>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                       {selectedPatient.firstName} {selectedPatient.lastName} ({selectedPatient.id})
                     </p>
                   </div>
                   <form onSubmit={handleSubmitAdmission} className="p-6 space-y-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Room Number *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Room Number *</label>
                         <select
                           required
                           value={formData.roomNumber}
                           onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select Room</option>
                           <option value="ICU-101">ICU-101</option>
@@ -910,12 +910,12 @@ const PatientManagement = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Assign Doctor *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assign Doctor *</label>
                         <select
                           required
                           value={formData.assignedDoctor}
                           onChange={(e) => setFormData({ ...formData, assignedDoctor: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select Doctor</option>
                           <option value="Dr. Sarah Smith">Dr. Sarah Smith - Cardiology</option>
@@ -927,24 +927,24 @@ const PatientManagement = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Admission Date *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Admission Date *</label>
                       <input
                         type="date"
                         required
                         value={formData.admissionDate}
                         onChange={(e) => setFormData({ ...formData, admissionDate: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Diagnosis / Reason for Admission *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Diagnosis / Reason for Admission *</label>
                       <textarea
                         required
                         value={formData.diagnosis}
                         onChange={(e) => setFormData({ ...formData, diagnosis: e.target.value })}
                         rows="3"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         placeholder="Enter diagnosis or reason for admission..."
                       />
                     </div>
@@ -959,7 +959,7 @@ const PatientManagement = () => {
                       <button
                         type="button"
                         onClick={() => setShowModal(false)}
-                        className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                        className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                       >
                         Cancel
                       </button>
@@ -970,15 +970,15 @@ const PatientManagement = () => {
 
               {modalType === 'documents' && selectedPatient && (
                 <>
-                  <div className="p-6 border-b border-gray-200">
+                  <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h2 className="text-xl font-semibold text-gray-900">Patient Documents</h2>
-                        <p className="text-sm text-gray-600 mt-1">
+                        <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Patient Documents</h2>
+                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                           {selectedPatient.firstName} {selectedPatient.lastName} ({selectedPatient.id})
                         </p>
                       </div>
-                      <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+                      <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                         <X className="w-6 h-6" />
                       </button>
                     </div>
@@ -987,14 +987,14 @@ const PatientManagement = () => {
                     {selectedPatient.documents && selectedPatient.documents.length > 0 ? (
                       <div className="space-y-3">
                         {selectedPatient.documents.map((doc, idx) => (
-                          <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition-colors">
+                          <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
-                                <FileText className="w-5 h-5 text-red-600" />
+                              <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                                <FileText className="w-5 h-5 text-red-600 dark:text-red-400" />
                               </div>
                               <div>
-                                <p className="text-sm font-semibold text-gray-900">{doc}</p>
-                                <p className="text-xs text-gray-500">PDF Document</p>
+                                <p className="text-sm font-semibold text-gray-900 dark:text-white">{doc}</p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">PDF Document</p>
                               </div>
                             </div>
                             <button
@@ -1010,15 +1010,15 @@ const PatientManagement = () => {
                     ) : (
                       <div className="text-center py-12">
                         <FileText className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                        <p className="text-gray-500 text-lg font-medium">No documents available</p>
-                        <p className="text-gray-400 text-sm mt-1">Upload patient documents to view them here</p>
+                        <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">No documents available</p>
+                        <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">Upload patient documents to view them here</p>
                       </div>
                     )}
                     
-                    <div className="pt-4 border-t border-gray-200">
+                    <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                       <button
                         onClick={() => setShowModal(false)}
-                        className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                        className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                       >
                         Close
                       </button>

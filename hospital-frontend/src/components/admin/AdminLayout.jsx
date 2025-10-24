@@ -17,6 +17,7 @@ import RoomManagement from './RoomManagement';
 import BillingManagement from './BillingManagement';
 import Reports from './Reports';
 import Settings from './Settings';
+import Profile from './Profile';
 
 const AdminLayout = () => {
   const { user, logout } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <Sidebar role="admin" onLogout={logout} isOpen={sidebarOpen} />
       <Navbar 
         user={user} 
@@ -51,6 +52,7 @@ const AdminLayout = () => {
           <Route path="/billing" element={<BillingManagement />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </main>
     </div>

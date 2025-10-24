@@ -233,22 +233,22 @@ const RoomManagement = () => {
       ]
     },
     {
-  id: 6,
-  roomNumber: 'OT-1',
-  type: 'Operation Theatre',
-  floor: '4th Floor',
-  department: 'Surgery',
-  totalBeds: 1,
-  occupiedBeds: 0,
-  availableBeds: 1,
-  status: 'available',
-  maintenanceStatus: 'operational',
-  chargePerDay: 10000,
-  amenities: ['Surgical Equipment', 'Anesthesia', 'Monitoring'],
-  beds: [
-    { bedNumber: 'OT-1', status: 'available', patient: null } // Changed from 'OT' to 'OT-1'
-  ]
-},
+      id: 6,
+      roomNumber: 'OT-1',
+      type: 'Operation Theatre',
+      floor: '4th Floor',
+      department: 'Surgery',
+      totalBeds: 1,
+      occupiedBeds: 0,
+      availableBeds: 1,
+      status: 'available',
+      maintenanceStatus: 'operational',
+      chargePerDay: 10000,
+      amenities: ['Surgical Equipment', 'Anesthesia', 'Monitoring'],
+      beds: [
+        { bedNumber: 'OT-1', status: 'available', patient: null }
+      ]
+    },
     {
       id: 7,
       roomNumber: 'Ward-202',
@@ -390,122 +390,122 @@ const RoomManagement = () => {
   };
 
   const handleSubmitRoom = (e) => {
-  e.preventDefault();
-  const amenitiesArray = formData.amenities.split(',').map(a => a.trim()).filter(a => a);
-  
-  if (selectedRoom) {
-    // Update existing room
-    const updatedRooms = rooms.map(r => {
-      if (r.id === selectedRoom.id) {
-        const newTotalBeds = parseInt(formData.totalBeds);
-        const currentTotalBeds = r.totalBeds;
-        
-        let updatedBeds = [...r.beds];
-        
-        // Adjust bed count if total beds changed
-        if (newTotalBeds > currentTotalBeds) {
-          // Add new beds
-          for (let i = currentTotalBeds + 1; i <= newTotalBeds; i++) {
-            updatedBeds.push({
-              bedNumber: formData.type === 'Operation Theatre' ? `OT-${i}` : `B${i}`,
-              status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
-              patient: null
-            });
-          }
-        } else if (newTotalBeds < currentTotalBeds) {
-          // Remove beds (only if they're not occupied)
-          const occupiedBeds = updatedBeds.filter(bed => bed.status === 'occupied').length;
-          if (occupiedBeds > newTotalBeds) {
-            toast.error(`Cannot reduce beds below ${occupiedBeds} as there are occupied beds`);
-            return r;
-          }
-          updatedBeds = updatedBeds.slice(0, newTotalBeds);
-        }
-        
-        // Update bed statuses based on maintenance status (preserve existing patient assignments)
-        updatedBeds = updatedBeds.map(bed => {
-          if (formData.maintenanceStatus === 'under-maintenance') {
-            return { ...bed, status: 'maintenance' };
-          } else {
-            // If operational, keep occupied beds as occupied, others as available
-            return {
-              ...bed,
-              status: bed.patient ? 'occupied' : 'available'
-            };
-          }
-        });
-        
-        const occupiedBedsCount = updatedBeds.filter(bed => bed.status === 'occupied').length;
-        const availableBedsCount = formData.maintenanceStatus === 'under-maintenance' ? 0 : (newTotalBeds - occupiedBedsCount);
-        
-        // Determine room status
-        let newStatus;
-        if (formData.maintenanceStatus === 'under-maintenance') {
-          newStatus = 'maintenance';
-        } else {
-          newStatus = occupiedBedsCount === 0 ? 'available' : 
-                     occupiedBedsCount === newTotalBeds ? 'occupied' : 'available';
-        }
-        
-        const updatedRoom = {
-          ...r,
-          roomNumber: formData.roomNumber,
-          type: formData.type,
-          floor: formData.floor,
-          department: formData.department,
-          chargePerDay: parseInt(formData.chargePerDay),
-          totalBeds: newTotalBeds,
-          amenities: amenitiesArray,
-          occupiedBeds: occupiedBedsCount,
-          availableBeds: availableBedsCount,
-          status: newStatus,
-          maintenanceStatus: formData.maintenanceStatus,
-          beds: updatedBeds
-        };
-
-        // Update detailed view if it's currently viewing this room
-        if (detailedView && detailedView.id === selectedRoom.id) {
-          setDetailedView(updatedRoom);
-        }
-
-        return updatedRoom;
-      }
-      return r;
-    });
+    e.preventDefault();
+    const amenitiesArray = formData.amenities.split(',').map(a => a.trim()).filter(a => a);
     
-    setRooms(updatedRooms);
-    toast.success('Room updated successfully');
-  } else {
-    // Add new room - FIXED: Create unique bed numbers for OT
-    const beds = [];
-    for (let i = 1; i <= formData.totalBeds; i++) {
-      beds.push({
-        bedNumber: formData.type === 'Operation Theatre' ? `OT-${i}` : `B${i}`,
-        status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
-        patient: null
-      });
-    }
+    if (selectedRoom) {
+      // Update existing room
+      const updatedRooms = rooms.map(r => {
+        if (r.id === selectedRoom.id) {
+          const newTotalBeds = parseInt(formData.totalBeds);
+          const currentTotalBeds = r.totalBeds;
+          
+          let updatedBeds = [...r.beds];
+          
+          // Adjust bed count if total beds changed
+          if (newTotalBeds > currentTotalBeds) {
+            // Add new beds
+            for (let i = currentTotalBeds + 1; i <= newTotalBeds; i++) {
+              updatedBeds.push({
+                bedNumber: formData.type === 'Operation Theatre' ? `OT-${i}` : `B${i}`,
+                status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
+                patient: null
+              });
+            }
+          } else if (newTotalBeds < currentTotalBeds) {
+            // Remove beds (only if they're not occupied)
+            const occupiedBeds = updatedBeds.filter(bed => bed.status === 'occupied').length;
+            if (occupiedBeds > newTotalBeds) {
+              toast.error(`Cannot reduce beds below ${occupiedBeds} as there are occupied beds`);
+              return r;
+            }
+            updatedBeds = updatedBeds.slice(0, newTotalBeds);
+          }
+          
+          // Update bed statuses based on maintenance status (preserve existing patient assignments)
+          updatedBeds = updatedBeds.map(bed => {
+            if (formData.maintenanceStatus === 'under-maintenance') {
+              return { ...bed, status: 'maintenance' };
+            } else {
+              // If operational, keep occupied beds as occupied, others as available
+              return {
+                ...bed,
+                status: bed.patient ? 'occupied' : 'available'
+              };
+            }
+          });
+          
+          const occupiedBedsCount = updatedBeds.filter(bed => bed.status === 'occupied').length;
+          const availableBedsCount = formData.maintenanceStatus === 'under-maintenance' ? 0 : (newTotalBeds - occupiedBedsCount);
+          
+          // Determine room status
+          let newStatus;
+          if (formData.maintenanceStatus === 'under-maintenance') {
+            newStatus = 'maintenance';
+          } else {
+            newStatus = occupiedBedsCount === 0 ? 'available' : 
+                       occupiedBedsCount === newTotalBeds ? 'occupied' : 'available';
+          }
+          
+          const updatedRoom = {
+            ...r,
+            roomNumber: formData.roomNumber,
+            type: formData.type,
+            floor: formData.floor,
+            department: formData.department,
+            chargePerDay: parseInt(formData.chargePerDay),
+            totalBeds: newTotalBeds,
+            amenities: amenitiesArray,
+            occupiedBeds: occupiedBedsCount,
+            availableBeds: availableBedsCount,
+            status: newStatus,
+            maintenanceStatus: formData.maintenanceStatus,
+            beds: updatedBeds
+          };
 
-    const newRoom = {
-      id: Math.max(...rooms.map(r => r.id)) + 1,
-      roomNumber: formData.roomNumber,
-      type: formData.type,
-      floor: formData.floor,
-      department: formData.department,
-      totalBeds: parseInt(formData.totalBeds),
-      chargePerDay: parseInt(formData.chargePerDay),
-      amenities: amenitiesArray,
-      maintenanceStatus: formData.maintenanceStatus,
-      occupiedBeds: 0,
-      availableBeds: formData.maintenanceStatus === 'under-maintenance' ? 0 : parseInt(formData.totalBeds),
-      status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
-      beds: beds
-    };
-    setRooms([...rooms, newRoom]);
-    toast.success('Room added successfully');
-  }
-  setShowModal(false);
-};
+          // Update detailed view if it's currently viewing this room
+          if (detailedView && detailedView.id === selectedRoom.id) {
+            setDetailedView(updatedRoom);
+          }
+
+          return updatedRoom;
+        }
+        return r;
+      });
+      
+      setRooms(updatedRooms);
+      toast.success('Room updated successfully');
+    } else {
+      // Add new room - FIXED: Create unique bed numbers for OT
+      const beds = [];
+      for (let i = 1; i <= formData.totalBeds; i++) {
+        beds.push({
+          bedNumber: formData.type === 'Operation Theatre' ? `OT-${i}` : `B${i}`,
+          status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
+          patient: null
+        });
+      }
+
+      const newRoom = {
+        id: Math.max(...rooms.map(r => r.id)) + 1,
+        roomNumber: formData.roomNumber,
+        type: formData.type,
+        floor: formData.floor,
+        department: formData.department,
+        totalBeds: parseInt(formData.totalBeds),
+        chargePerDay: parseInt(formData.chargePerDay),
+        amenities: amenitiesArray,
+        maintenanceStatus: formData.maintenanceStatus,
+        occupiedBeds: 0,
+        availableBeds: formData.maintenanceStatus === 'under-maintenance' ? 0 : parseInt(formData.totalBeds),
+        status: formData.maintenanceStatus === 'under-maintenance' ? 'maintenance' : 'available',
+        beds: beds
+      };
+      setRooms([...rooms, newRoom]);
+      toast.success('Room added successfully');
+    }
+    setShowModal(false);
+  };
 
   const handleViewBeds = (room) => {
     setModalType('viewBeds');
@@ -523,75 +523,76 @@ const RoomManagement = () => {
   };
 
   const handleSubmitAssignment = () => {
-  if (!selectedPatient || !selectedDoctor) {
-    toast.error('Please select both patient and doctor');
-    return;
-  }
-
-  const patient = availablePatients.find(p => p.id === selectedPatient);
-  const doctor = availableDoctors.find(d => d.id === selectedDoctor);
-  
-  if (!patient || !doctor) {
-    toast.error('Invalid patient or doctor selection');
-    return;
-  }
-
-  setRooms(rooms.map(room => {
-    if (room.id === selectedRoom.id) {
-      // Create updated beds array - FIXED: Only update the specific bed
-      const updatedBeds = room.beds.map(bed => {
-        // Check if this is the exact bed we want to update
-        if (bed.bedNumber === selectedBed.bedNumber && bed.status === 'available') {
-          return {
-            ...bed,
-            status: 'occupied',
-            patient: {
-              id: patient.id,
-              name: patient.name,
-              admissionDate: new Date().toISOString().split('T')[0],
-              assignedDoctor: doctor.id,
-              doctorName: doctor.name
-            }
-          };
-        }
-        return bed; // Return unchanged bed
-      });
-
-      // Recalculate room statistics
-      const occupiedBedsCount = updatedBeds.filter(bed => bed.status === 'occupied').length;
-      const availableBedsCount = updatedBeds.filter(bed => bed.status === 'available').length;
-      
-      // Determine room status
-      let newRoomStatus;
-      if (room.maintenanceStatus === 'under-maintenance') {
-        newRoomStatus = 'maintenance';
-      } else {
-        newRoomStatus = occupiedBedsCount === 0 ? 'available' : 
-                       occupiedBedsCount === room.totalBeds ? 'occupied' : 'available';
-      }
-
-      const updatedRoom = {
-        ...room,
-        beds: updatedBeds,
-        occupiedBeds: occupiedBedsCount,
-        availableBeds: availableBedsCount,
-        status: newRoomStatus
-      };
-
-      // Update detailed view if currently viewing this room
-      if (detailedView && detailedView.id === selectedRoom.id) {
-        setDetailedView(updatedRoom);
-      }
-
-      return updatedRoom;
+    if (!selectedPatient || !selectedDoctor) {
+      toast.error('Please select both patient and doctor');
+      return;
     }
-    return room;
-  }));
 
-  toast.success(`Patient ${patient.name} assigned to ${selectedRoom.roomNumber} - ${selectedBed.bedNumber} with Dr. ${doctor.name}`);
-  setShowModal(false);
-  setSelectedBed(null);
-};
+    const patient = availablePatients.find(p => p.id === selectedPatient);
+    const doctor = availableDoctors.find(d => d.id === selectedDoctor);
+    
+    if (!patient || !doctor) {
+      toast.error('Invalid patient or doctor selection');
+      return;
+    }
+
+    setRooms(rooms.map(room => {
+      if (room.id === selectedRoom.id) {
+        // Create updated beds array - FIXED: Only update the specific bed
+        const updatedBeds = room.beds.map(bed => {
+          // Check if this is the exact bed we want to update
+          if (bed.bedNumber === selectedBed.bedNumber && bed.status === 'available') {
+            return {
+              ...bed,
+              status: 'occupied',
+              patient: {
+                id: patient.id,
+                name: patient.name,
+                admissionDate: new Date().toISOString().split('T')[0],
+                assignedDoctor: doctor.id,
+                doctorName: doctor.name
+              }
+            };
+          }
+          return bed; // Return unchanged bed
+        });
+
+        // Recalculate room statistics
+        const occupiedBedsCount = updatedBeds.filter(bed => bed.status === 'occupied').length;
+        const availableBedsCount = updatedBeds.filter(bed => bed.status === 'available').length;
+        
+        // Determine room status
+        let newRoomStatus;
+        if (room.maintenanceStatus === 'under-maintenance') {
+          newRoomStatus = 'maintenance';
+        } else {
+          newRoomStatus = occupiedBedsCount === 0 ? 'available' : 
+                         occupiedBedsCount === room.totalBeds ? 'occupied' : 'available';
+        }
+
+        const updatedRoom = {
+          ...room,
+          beds: updatedBeds,
+          occupiedBeds: occupiedBedsCount,
+          availableBeds: availableBedsCount,
+          status: newRoomStatus
+        };
+
+        // Update detailed view if currently viewing this room
+        if (detailedView && detailedView.id === selectedRoom.id) {
+          setDetailedView(updatedRoom);
+        }
+
+        return updatedRoom;
+      }
+      return room;
+    }));
+
+    toast.success(`Patient ${patient.name} assigned to ${selectedRoom.roomNumber} - ${selectedBed.bedNumber} with Dr. ${doctor.name}`);
+    setShowModal(false);
+    setSelectedBed(null);
+  };
+
   const handleDischargeBed = (roomId, bedNumber) => {
     if (window.confirm('Discharge patient from this bed?')) {
       const updatedRooms = rooms.map(r => {
@@ -684,9 +685,9 @@ const RoomManagement = () => {
   // Helper functions
   const getStatusBadge = (status) => {
     const styles = {
-      available: 'bg-green-100 text-green-800',
-      occupied: 'bg-red-100 text-red-800',
-      maintenance: 'bg-yellow-100 text-yellow-800'
+      available: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      occupied: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      maintenance: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
     };
     const icons = {
       available: <CheckCircle className="w-3 h-3" />,
@@ -704,26 +705,26 @@ const RoomManagement = () => {
   // Helper to get room type badge color
   const getRoomTypeBadge = (type) => {
     const styles = {
-      'Operation Theatre': 'bg-purple-100 text-purple-800 border border-purple-200',
-      'ICU': 'bg-red-100 text-red-800',
-      'Private': 'bg-blue-100 text-blue-800',
-      'Semi-Private': 'bg-indigo-100 text-indigo-800',
-      'General Ward': 'bg-green-100 text-green-800'
+      'Operation Theatre': 'bg-purple-100 text-purple-800 border border-purple-200 dark:bg-purple-900 dark:text-purple-200 dark:border-purple-700',
+      'ICU': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      'Private': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      'Semi-Private': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200',
+      'General Ward': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
     };
-    return styles[type] || 'bg-gray-100 text-gray-800';
+    return styles[type] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 dark:bg-gray-900 dark:text-gray-100 min-h-screen p-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Room & Bed Management</h1>
-          <p className="text-gray-600 mt-1">Manage rooms, beds, patient assignments and doctor allocation</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Room & Bed Management</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage rooms, beds, patient assignments and doctor allocation</p>
         </div>
         <button
           onClick={handleAddRoom}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
         >
           <Plus className="w-5 h-5" />
           Add Room
@@ -786,7 +787,7 @@ const RoomManagement = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -795,14 +796,14 @@ const RoomManagement = () => {
               placeholder="Search rooms..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
 
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
             <option value="all">All Types</option>
             <option value="ICU">ICU</option>
@@ -815,7 +816,7 @@ const RoomManagement = () => {
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
             <option value="all">All Status</option>
             <option value="available">Available</option>
@@ -827,11 +828,11 @@ const RoomManagement = () => {
 
       {/* Detailed Room View */}
       {detailedView && (
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
           {/* Back Button */}
           <button 
             onClick={handleBackToList}
-            className="flex items-center space-x-2 text-blue-600 hover:text-blue-800 mb-6 transition-colors"
+            className="flex items-center space-x-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>Back to Rooms</span>
@@ -841,21 +842,21 @@ const RoomManagement = () => {
           <div className="flex items-start justify-between mb-6">
             <div className="flex items-center space-x-4">
               <div className={`p-3 rounded-lg ${
-                detailedView.type === 'Operation Theatre' ? 'bg-purple-100' : 'bg-blue-100'
+                detailedView.type === 'Operation Theatre' ? 'bg-purple-100 dark:bg-purple-900' : 'bg-blue-100 dark:bg-blue-900'
               }`}>
                 <Bed className={`h-8 w-8 ${
-                  detailedView.type === 'Operation Theatre' ? 'text-purple-600' : 'text-blue-600'
+                  detailedView.type === 'Operation Theatre' ? 'text-purple-600 dark:text-purple-400' : 'text-blue-600 dark:text-blue-400'
                 }`} />
               </div>
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">{detailedView.roomNumber}</h2>
-                <p className="text-gray-500">{detailedView.floor} • {detailedView.type}</p>
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{detailedView.roomNumber}</h2>
+                <p className="text-gray-500 dark:text-gray-400">{detailedView.floor} • {detailedView.type}</p>
               </div>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => handleEditRoom(detailedView)}
-                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
               >
                 <Edit2 className="h-4 w-4" />
                 <span>Edit Room</span>
@@ -864,8 +865,8 @@ const RoomManagement = () => {
                 onClick={() => handleToggleMaintenance(detailedView.id)}
                 className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
                   detailedView.maintenanceStatus === 'operational' 
-                    ? 'bg-yellow-600 text-white hover:bg-yellow-700' 
-                    : 'bg-green-600 text-white hover:bg-green-700'
+                    ? 'bg-yellow-600 text-white hover:bg-yellow-700 dark:bg-yellow-700 dark:hover:bg-yellow-600' 
+                    : 'bg-green-600 text-white hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600'
                 }`}
               >
                 <Wrench className="h-4 w-4" />
@@ -876,27 +877,27 @@ const RoomManagement = () => {
 
           {/* OT-specific info */}
           {detailedView.type === 'Operation Theatre' && (
-            <div className="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-lg">
-              <h3 className="text-lg font-semibold text-purple-900 border-b border-purple-300 pb-2 mb-3">
+            <div className="mb-6 p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg">
+              <h3 className="text-lg font-semibold text-purple-900 dark:text-purple-200 border-b border-purple-300 dark:border-purple-700 pb-2 mb-3">
                 🏥 Operation Theatre Details
               </h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center space-x-3 p-3 bg-white rounded-lg">
-                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <span className="text-purple-600 text-sm">⚕️</span>
+                <div className="flex items-center space-x-3 p-3 bg-white dark:bg-gray-700 rounded-lg">
+                  <div className="w-8 h-8 bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center">
+                    <span className="text-purple-600 dark:text-purple-400 text-sm">⚕️</span>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Surgical Use</p>
-                    <p className="font-medium text-gray-900">Procedure Room</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Surgical Use</p>
+                    <p className="font-medium text-gray-900 dark:text-white">Procedure Room</p>
                   </div>
                 </div>
-                <div className="flex items-center space-x-3 p-3 bg-white rounded-lg">
-                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                    <span className="text-purple-600 text-sm">⏱️</span>
+                <div className="flex items-center space-x-3 p-3 bg-white dark:bg-gray-700 rounded-lg">
+                  <div className="w-8 h-8 bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center">
+                    <span className="text-purple-600 dark:text-purple-400 text-sm">⏱️</span>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Priority</p>
-                    <p className="font-medium text-gray-900">High</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Priority</p>
+                    <p className="font-medium text-gray-900 dark:text-white">High</p>
                   </div>
                 </div>
               </div>
@@ -907,39 +908,39 @@ const RoomManagement = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             {/* Basic Information */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Room Information</h3>
-              <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Bed className="h-4 w-4 text-blue-600" />
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white border-b pb-2">Room Information</h3>
+              <div className="flex items-center space-x-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                <div className="w-8 h-8 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center">
+                  <Bed className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Department</p>
-                  <p className="font-medium text-gray-900">{detailedView.department}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Department</p>
+                  <p className="font-medium text-gray-900 dark:text-white">{detailedView.department}</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
-                  <CheckCircle className="h-4 w-4 text-green-600" />
+              <div className="flex items-center space-x-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                <div className="w-8 h-8 bg-green-100 dark:bg-green-800 rounded-lg flex items-center justify-center">
+                  <CheckCircle className="h-4 w-4 text-green-600 dark:text-green-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Charge Per Day</p>
-                  <p className="font-medium text-gray-900">₹{detailedView.chargePerDay}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Charge Per Day</p>
+                  <p className="font-medium text-gray-900 dark:text-white">₹{detailedView.chargePerDay}</p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
-                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Wrench className="h-4 w-4 text-purple-600" />
+              <div className="flex items-center space-x-3 p-3 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+                <div className="w-8 h-8 bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center">
+                  <Wrench className="h-4 w-4 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Maintenance Status</p>
-                  <p className="font-medium text-gray-900 capitalize">{detailedView.maintenanceStatus}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">Maintenance Status</p>
+                  <p className="font-medium text-gray-900 dark:text-white capitalize">{detailedView.maintenanceStatus}</p>
                 </div>
               </div>
             </div>
 
             {/* Bed Statistics */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-gray-900 border-b pb-2">Bed Statistics</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white border-b pb-2">Bed Statistics</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 rounded-lg shadow-md">
                   <p className="text-sm opacity-90">Total Beds</p>
@@ -965,10 +966,10 @@ const RoomManagement = () => {
 
           {/* Amenities */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-900 border-b pb-2 mb-4">Amenities</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white border-b pb-2 mb-4">Amenities</h3>
             <div className="flex flex-wrap gap-2">
               {detailedView.amenities.map((amenity, idx) => (
-                <span key={idx} className="px-3 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                <span key={idx} className="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium">
                   {amenity}
                 </span>
               ))}
@@ -978,10 +979,10 @@ const RoomManagement = () => {
           {/* Bed Management */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Bed Management</h3>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Bed Management</h3>
               <button
                 onClick={() => handleViewBeds(detailedView)}
-                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
               >
                 <Eye className="h-4 w-4" />
                 <span>Manage Beds</span>
@@ -995,9 +996,9 @@ const RoomManagement = () => {
                   key={bed.bedNumber}
                   className={`p-4 rounded-lg text-center cursor-pointer transition-all ${
                     bed.status === 'available' ? (
-                      detailedView.type === 'Operation Theatre' ? 'bg-purple-100 hover:bg-purple-200' : 'bg-green-100 hover:bg-green-200'
-                    ) : bed.status === 'occupied' ? 'bg-red-100 hover:bg-red-200' :
-                    'bg-yellow-100 hover:bg-yellow-200'
+                      detailedView.type === 'Operation Theatre' ? 'bg-purple-100 dark:bg-purple-900/30 hover:bg-purple-200 dark:hover:bg-purple-800' : 'bg-green-100 dark:bg-green-900/30 hover:bg-green-200 dark:hover:bg-green-800'
+                    ) : bed.status === 'occupied' ? 'bg-red-100 dark:bg-red-900/30 hover:bg-red-200 dark:hover:bg-red-800' :
+                    'bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-800'
                   }`}
                   onClick={() => bed.status === 'available' && handleAssignPatient(detailedView, bed)}
                 >
@@ -1009,23 +1010,23 @@ const RoomManagement = () => {
                   }`}>
                     {detailedView.type === 'Operation Theatre' ? 'OT' : bed.bedNumber.replace('B', '')}
                   </div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
                     {detailedView.type === 'Operation Theatre' ? 'Operation Theatre' : `Bed ${bed.bedNumber}`}
                   </p>
                   <p className={`text-xs ${
                     bed.status === 'available' ? (
-                      detailedView.type === 'Operation Theatre' ? 'text-purple-700' : 'text-green-700'
-                    ) : bed.status === 'occupied' ? 'text-red-700' :
-                    'text-yellow-700'
+                      detailedView.type === 'Operation Theatre' ? 'text-purple-700 dark:text-purple-300' : 'text-green-700 dark:text-green-300'
+                    ) : bed.status === 'occupied' ? 'text-red-700 dark:text-red-300' :
+                    'text-yellow-700 dark:text-yellow-300'
                   }`}>
                     {bed.status}
                   </p>
                   {bed.patient && (
                     <div className="mt-1">
-                      <p className="text-xs text-gray-600 truncate" title={bed.patient.name}>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 truncate" title={bed.patient.name}>
                         {bed.patient.name}
                       </p>
-                      <p className="text-xs text-blue-600 truncate" title={bed.patient.doctorName}>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 truncate" title={bed.patient.doctorName}>
                         {bed.patient.doctorName}
                       </p>
                     </div>
@@ -1044,29 +1045,29 @@ const RoomManagement = () => {
             <div
               key={room.id}
               onClick={() => handleCardClick(room)}
-              className={`bg-white rounded-xl shadow-sm border p-4 hover:shadow-lg transition-shadow cursor-pointer group ${
+              className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm border p-4 hover:shadow-lg transition-shadow cursor-pointer group ${
                 room.type === 'Operation Theatre' 
-                  ? 'border-purple-300 bg-purple-50' 
-                  : 'border-gray-200'
+                  ? 'border-purple-300 dark:border-purple-700 bg-purple-50 dark:bg-purple-900/20' 
+                  : 'border-gray-200 dark:border-gray-700'
               }`}
             >
               {/* Room Header */}
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-lg">{room.roomNumber}</h3>
-                  <p className="text-sm text-gray-500">{room.floor}</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white text-lg">{room.roomNumber}</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{room.floor}</p>
                 </div>
                 <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={(e) => { e.stopPropagation(); handleEditRoom(room); }}
-                    className="p-1 text-blue-600 hover:bg-blue-50 rounded transition-colors"
+                    className="p-1 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/50 rounded transition-colors"
                     title="Edit Room"
                   >
                     <Edit2 className="w-3 h-3" />
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleDeleteRoom(room.id); }}
-                    className="p-1 text-red-600 hover:bg-red-50 rounded transition-colors"
+                    className="p-1 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/50 rounded transition-colors"
                     title="Delete Room"
                   >
                     <Trash2 className="w-3 h-3" />
@@ -1084,27 +1085,27 @@ const RoomManagement = () => {
 
               {/* OT-specific info */}
               {room.type === 'Operation Theatre' && (
-                <div className="mb-2 p-2 bg-purple-100 border border-purple-200 rounded-lg">
-                  <p className="text-xs text-purple-700 font-medium">🔄 Surgical Procedure Room</p>
-                  <p className="text-xs text-purple-600">High Priority Use</p>
+                <div className="mb-2 p-2 bg-purple-100 dark:bg-purple-900/30 border border-purple-200 dark:border-purple-700 rounded-lg">
+                  <p className="text-xs text-purple-700 dark:text-purple-300 font-medium">🔄 Surgical Procedure Room</p>
+                  <p className="text-xs text-purple-600 dark:text-purple-400">High Priority Use</p>
                 </div>
               )}
 
               {/* Department */}
               <div className="mb-3">
-                <p className="text-xs text-gray-600">Department</p>
-                <p className="text-sm font-semibold text-gray-900">{room.department}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Department</p>
+                <p className="text-sm font-semibold text-gray-900 dark:text-white">{room.department}</p>
               </div>
 
               {/* Bed Status */}
               <div className="mb-3">
                 <div className="flex items-center justify-between text-sm mb-1">
-                  <span className="text-gray-600">Beds</span>
-                  <span className="font-semibold text-gray-900">
+                  <span className="text-gray-600 dark:text-gray-400">Beds</span>
+                  <span className="font-semibold text-gray-900 dark:text-white">
                     {room.occupiedBeds}/{room.totalBeds}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full ${
                       room.occupiedBeds === room.totalBeds ? 'bg-red-500' : 
@@ -1117,8 +1118,8 @@ const RoomManagement = () => {
 
               {/* Charge */}
               <div className="mb-3">
-                <p className="text-xs text-gray-600">Charge/Day</p>
-                <p className="text-sm font-bold text-green-600">₹{room.chargePerDay}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">Charge/Day</p>
+                <p className="text-sm font-bold text-green-600 dark:text-green-400">₹{room.chargePerDay}</p>
               </div>
 
               {/* Quick Bed Visual */}
@@ -1136,12 +1137,12 @@ const RoomManagement = () => {
                     />
                   ))}
                   {room.beds.length > 4 && (
-                    <div className="w-4 h-4 rounded bg-gray-300 flex items-center justify-center text-xs">
+                    <div className="w-4 h-4 rounded bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-xs text-gray-700 dark:text-gray-300">
                       +{room.beds.length - 4}
                     </div>
                   )}
                 </div>
-                <div className="text-center text-xs text-blue-600 font-medium">
+                <div className="text-center text-xs text-blue-600 dark:text-blue-400 font-medium">
                   Click to view details
                 </div>
               </div>
@@ -1153,35 +1154,35 @@ const RoomManagement = () => {
       {/* Modals */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             {/* Add/Edit Room Modal */}
             {(modalType === 'add' || modalType === 'edit') && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                     {modalType === 'add' ? 'Add New Room' : 'Edit Room'}
                   </h2>
                 </div>
                 <form onSubmit={handleSubmitRoom} className="p-6 space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Room Number *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Room Number *</label>
                       <input
                         type="text"
                         required
                         value={formData.roomNumber}
                         onChange={(e) => setFormData({ ...formData, roomNumber: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         placeholder="e.g., ICU-101"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Room Type *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Room Type *</label>
                       <select
                         required
                         value={formData.type}
                         onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       >
                         <option value="">Select Type</option>
                         <option value="ICU">ICU</option>
@@ -1195,23 +1196,23 @@ const RoomManagement = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Floor *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Floor *</label>
                       <input
                         type="text"
                         required
                         value={formData.floor}
                         onChange={(e) => setFormData({ ...formData, floor: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         placeholder="e.g., 3rd Floor"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Department *</label>
                       <select
                         required
                         value={formData.department}
                         onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       >
                         <option value="">Select Department</option>
                         <option value="Cardiology">Cardiology</option>
@@ -1226,46 +1227,46 @@ const RoomManagement = () => {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Total Beds *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Total Beds *</label>
                       <input
                         type="number"
                         required
                         min="1"
                         value={formData.totalBeds}
                         onChange={(e) => setFormData({ ...formData, totalBeds: parseInt(e.target.value) })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Charge Per Day (₹) *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Charge Per Day (₹) *</label>
                       <input
                         type="number"
                         required
                         value={formData.chargePerDay}
                         onChange={(e) => setFormData({ ...formData, chargePerDay: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Amenities (comma-separated)</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Amenities (comma-separated)</label>
                     <input
                       type="text"
                       value={formData.amenities}
                       onChange={(e) => setFormData({ ...formData, amenities: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       placeholder="e.g., AC, TV, WiFi, Oxygen"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Maintenance Status *</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Maintenance Status *</label>
                     <select
                       required
                       value={formData.maintenanceStatus}
                       onChange={(e) => setFormData({ ...formData, maintenanceStatus: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       <option value="operational">Operational</option>
                       <option value="under-maintenance">Under Maintenance</option>
@@ -1275,14 +1276,14 @@ const RoomManagement = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       {modalType === 'add' ? 'Add Room' : 'Update Room'}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                     >
                       Cancel
                     </button>
@@ -1294,40 +1295,40 @@ const RoomManagement = () => {
             {/* View Beds Modal */}
             {modalType === 'viewBeds' && selectedRoom && (
               <>
-                <div className="p-6 border-b border-gray-200">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                       {selectedRoom.roomNumber} - Bed Details
                     </h2>
-                    <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+                    <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                       <X className="w-6 h-6" />
                     </button>
                   </div>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {selectedRoom.type} | {selectedRoom.department}
                   </p>
                 </div>
                 <div className="p-6">
                   {/* Room Info */}
-                  <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-blue-50 rounded-lg">
+                  <div className="grid grid-cols-3 gap-4 mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
                     <div className="text-center">
-                      <p className="text-xs text-gray-600">Total Beds</p>
-                      <p className="text-2xl font-bold text-blue-600">{selectedRoom.totalBeds}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Total Beds</p>
+                      <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">{selectedRoom.totalBeds}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-xs text-gray-600">Occupied</p>
-                      <p className="text-2xl font-bold text-red-600">{selectedRoom.occupiedBeds}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Occupied</p>
+                      <p className="text-2xl font-bold text-red-600 dark:text-red-400">{selectedRoom.occupiedBeds}</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-xs text-gray-600">Available</p>
-                      <p className="text-2xl font-bold text-green-600">{selectedRoom.availableBeds}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">Available</p>
+                      <p className="text-2xl font-bold text-green-600 dark:text-green-400">{selectedRoom.availableBeds}</p>
                     </div>
                   </div>
 
                   {/* Bed List */}
                   <div className="space-y-3">
                     {selectedRoom.beds.map((bed) => (
-                      <div key={bed.bedNumber} className="border border-gray-200 rounded-lg p-4">
+                      <div key={bed.bedNumber} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-3">
                             <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-white font-bold ${
@@ -1338,24 +1339,24 @@ const RoomManagement = () => {
                               {selectedRoom.type === 'Operation Theatre' ? 'OT' : bed.bedNumber.replace('B', '')}
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-gray-900">
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">
                                 {selectedRoom.type === 'Operation Theatre' ? 'Operation Theatre' : `Bed ${bed.bedNumber}`}
                               </p>
                               {bed.patient ? (
                                 <div>
-                                  <p className="text-sm text-gray-900">{bed.patient.name}</p>
+                                  <p className="text-sm text-gray-900 dark:text-white">{bed.patient.name}</p>
                                   <div className="flex items-center gap-2 mt-1">
-                                    <User className="w-3 h-3 text-blue-500" />
-                                    <p className="text-xs text-blue-600">
+                                    <User className="w-3 h-3 text-blue-500 dark:text-blue-400" />
+                                    <p className="text-xs text-blue-600 dark:text-blue-400">
                                       {bed.patient.doctorName}
                                     </p>
                                   </div>
-                                  <p className="text-xs text-gray-500">
+                                  <p className="text-xs text-gray-500 dark:text-gray-400">
                                     Patient ID: {bed.patient.id} | Admitted: {bed.patient.admissionDate}
                                   </p>
                                 </div>
                               ) : (
-                                <p className="text-sm text-gray-500 capitalize">{bed.status}</p>
+                                <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">{bed.status}</p>
                               )}
                             </div>
                           </div>
@@ -1363,7 +1364,7 @@ const RoomManagement = () => {
                             {bed.status === 'available' && (
                               <button
                                 onClick={() => handleAssignPatient(selectedRoom, bed)}
-                                className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                                className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                               >
                                 Assign Patient
                               </button>
@@ -1371,7 +1372,7 @@ const RoomManagement = () => {
                             {bed.status === 'occupied' && (
                               <button
                                 onClick={() => handleDischargeBed(selectedRoom.id, bed.bedNumber)}
-                                className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700"
+                                className="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600"
                               >
                                 Discharge
                               </button>
@@ -1385,7 +1386,7 @@ const RoomManagement = () => {
                   <div className="pt-6">
                     <button
                       onClick={() => setShowModal(false)}
-                      className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                     >
                       Close
                     </button>
@@ -1397,38 +1398,38 @@ const RoomManagement = () => {
             {/* Assign Patient Modal */}
             {modalType === 'assignPatient' && selectedRoom && selectedBed && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                     {selectedRoom.type === 'Operation Theatre' ? 'Schedule Procedure' : 'Assign Patient to Bed'}
                   </h2>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     {selectedRoom.roomNumber} - {selectedRoom.type === 'Operation Theatre' ? 'Operation Theatre' : `Bed ${selectedBed.bedNumber}`}
                   </p>
                 </div>
                 <div className="p-6">
                   {/* OT-specific info in assignment modal */}
                   {selectedRoom.type === 'Operation Theatre' && (
-                    <div className="p-4 bg-purple-50 border border-purple-200 rounded-lg mb-4">
-                      <p className="text-sm font-semibold text-purple-900 mb-2">
+                    <div className="p-4 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg mb-4">
+                      <p className="text-sm font-semibold text-purple-900 dark:text-purple-200 mb-2">
                         🏥 Operation Theatre Assignment
                       </p>
-                      <p className="text-sm text-purple-700">
+                      <p className="text-sm text-purple-700 dark:text-purple-300">
                         This is a surgical procedure room. Please ensure proper scheduling for surgical procedures.
                       </p>
                       <div className="mt-2 grid grid-cols-2 gap-2">
                         <div>
-                          <label className="block text-xs text-purple-700 mb-1">Procedure Type</label>
-                          <select className="w-full px-3 py-1 border border-purple-300 rounded text-sm">
+                          <label className="block text-xs text-purple-700 dark:text-purple-300 mb-1">Procedure Type</label>
+                          <select className="w-full px-3 py-1 border border-purple-300 dark:border-purple-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                             <option>Emergency Surgery</option>
                             <option>Scheduled Surgery</option>
                             <option>Minor Procedure</option>
                           </select>
                         </div>
                         <div>
-                          <label className="block text-xs text-purple-700 mb-1">Duration (hrs)</label>
+                          <label className="block text-xs text-purple-700 dark:text-purple-300 mb-1">Duration (hrs)</label>
                           <input 
                             type="number" 
-                            className="w-full px-3 py-1 border border-purple-300 rounded text-sm" 
+                            className="w-full px-3 py-1 border border-purple-300 dark:border-purple-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white" 
                             placeholder="2" 
                             min="1"
                             max="8"
@@ -1440,11 +1441,11 @@ const RoomManagement = () => {
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Select Patient *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Select Patient *</label>
                       <select
                         value={selectedPatient}
                         onChange={(e) => setSelectedPatient(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       >
                         <option value="">Choose a patient</option>
                         {availablePatients.map((patient) => (
@@ -1456,11 +1457,11 @@ const RoomManagement = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Assigning Doctor *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Assigning Doctor *</label>
                       <select
                         value={selectedDoctor}
                         onChange={(e) => setSelectedDoctor(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                       >
                         <option value="">Select Doctor</option>
                         {availableDoctors.map((doctor) => (
@@ -1473,21 +1474,21 @@ const RoomManagement = () => {
                   </div>
 
                   {(selectedPatient || selectedDoctor) && (
-                    <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-4">
-                      <p className="text-sm font-semibold text-gray-900 mb-3">Assignment Details:</p>
+                    <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg mb-4">
+                      <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Assignment Details:</p>
                       <div className="grid grid-cols-2 gap-4">
                         {selectedPatient && (
                           <div>
-                            <p className="text-sm font-medium text-gray-700 mb-2">Patient Information:</p>
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Patient Information:</p>
                             {(() => {
                               const patient = availablePatients.find(p => p.id === selectedPatient);
                               return (
                                 <div className="space-y-1">
-                                  <p className="text-sm text-gray-700">Name: {patient.name}</p>
-                                  <p className="text-sm text-gray-700">Age: {patient.age} years</p>
-                                  <p className="text-sm text-gray-700">Gender: {patient.gender}</p>
-                                  <p className="text-sm text-gray-700">
-                                    Condition: <span className={`font-semibold ${patient.condition === 'Critical' ? 'text-red-600' : 'text-green-600'}`}>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">Name: {patient.name}</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">Age: {patient.age} years</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">Gender: {patient.gender}</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">
+                                    Condition: <span className={`font-semibold ${patient.condition === 'Critical' ? 'text-red-600 dark:text-red-400' : 'text-green-600 dark:text-green-400'}`}>
                                       {patient.condition}
                                     </span>
                                   </p>
@@ -1498,15 +1499,15 @@ const RoomManagement = () => {
                         )}
                         {selectedDoctor && (
                           <div>
-                            <p className="text-sm font-medium text-gray-700 mb-2">Doctor Information:</p>
+                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Doctor Information:</p>
                             {(() => {
                               const doctor = availableDoctors.find(d => d.id === selectedDoctor);
                               return (
                                 <div className="space-y-1">
-                                  <p className="text-sm text-gray-700">Name: {doctor.name}</p>
-                                  <p className="text-sm text-gray-700">Specialization: {doctor.specialization}</p>
-                                  <p className="text-sm text-gray-700">Department: {doctor.department}</p>
-                                  <p className="text-sm text-blue-600 font-medium">
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">Name: {doctor.name}</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">Specialization: {doctor.specialization}</p>
+                                  <p className="text-sm text-gray-700 dark:text-gray-300">Department: {doctor.department}</p>
+                                  <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">
                                     Room Department: {selectedRoom.department}
                                   </p>
                                 </div>
@@ -1522,13 +1523,13 @@ const RoomManagement = () => {
                     <button
                       onClick={handleSubmitAssignment}
                       disabled={!selectedPatient || !selectedDoctor}
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed dark:bg-blue-700 dark:hover:bg-blue-600 dark:disabled:bg-gray-600"
                     >
                       {selectedRoom.type === 'Operation Theatre' ? 'Schedule Procedure' : 'Assign Patient & Doctor'}
                     </button>
                     <button
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors"
                     >
                       Cancel
                     </button>

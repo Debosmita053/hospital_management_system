@@ -1,89 +1,93 @@
+// ============================================
+// FILE: src/App.js (Updated with Landing Page)
+// ============================================
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext';
+import LandingPage from './components/LandingPage';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
 import DoctorLayout from './components/doctor/DoctorLayout';
-
-// Temporary dashboard placeholders
-const AdminDashboard = () => (
-  <div className="p-8">
-    <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-    <p className="mt-4">Welcome to the Admin Panel!</p>
-  </div>
-);
-
-const PatientDashboard = () => (
-  <div className="p-8">
-    <h1 className="text-3xl font-bold">Patient Dashboard</h1>
-    <p className="mt-4">Welcome, Patient!</p>
-  </div>
-);
-
-const NurseDashboard = () => (
-  <div className="p-8">
-    <h1 className="text-3xl font-bold">Nurse Dashboard</h1>
-    <p className="mt-4">Welcome, Nurse!</p>
-  </div>
-);
+import StaffLayout from './components/staff/StaffLayout';
 
 function App() {
   return (
-    <AuthProvider>
+    <ThemeProvider>
       <Router>
-        <Toaster position="top-right" />
-        <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+        <AuthProvider>
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              duration: 3000,
+              style: {
+                background: '#363636',
+                color: '#fff',
+              },
+              success: {
+                duration: 3000,
+                iconTheme: {
+                  primary: '#10b981',
+                  secondary: '#fff',
+                },
+              },
+              error: {
+                duration: 4000,
+                iconTheme: {
+                  primary: '#ef4444',
+                  secondary: '#fff',
+                },
+              },
+            }}
+          />
           
-          {/* Admin Routes */}
-          <Route
-            path="/admin/*"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminLayout>
-                  <AdminDashboard />
-                </AdminLayout>
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Doctor Routes */}
-          <Route
-            path="/doctor/*"
-            element={
-              <ProtectedRoute allowedRoles={['doctor']}>
-                <DoctorLayout />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Patient Routes */}
-          <Route
-            path="/patient/*"
-            element={
-              <ProtectedRoute allowedRoles={['patient']}>
-                <PatientDashboard />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Nurse Routes */}
-          <Route
-            path="/nurse/*"
-            element={
-              <ProtectedRoute allowedRoles={['nurse']}>
-                <NurseDashboard />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+          <Routes>
+            {/* Landing Page */}
+            <Route path="/" element={<LandingPage />} />
+            
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Admin Routes */}
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Doctor Routes */}
+            <Route
+              path="/doctor/*"
+              element={
+                <ProtectedRoute allowedRoles={['doctor']}>
+                  <DoctorLayout />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Staff Portal Routes - Unified for all support staff */}
+            <Route
+              path="/staff/*"
+              element={
+                <ProtectedRoute allowedRoles={['nurse', 'lab_technician', 'pharmacist', 'ward_boy']}>
+                  <StaffLayout />
+                </ProtectedRoute>
+              }
+            />
+            
+            {/* Catch all - redirect to landing */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </AuthProvider>
       </Router>
-    </AuthProvider>
+    </ThemeProvider>
   );
 }
 

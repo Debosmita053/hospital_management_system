@@ -1,124 +1,158 @@
 import React, { createContext, useState, useEffect } from 'react';
-// import api from '../services/api'; // Commented out for mock auth
+import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const AuthContext = createContext();
-
-// Mock users database
-const MOCK_USERS = [
-  {
-    id: '1',
-    email: 'admin@hospital.com',
-    password: 'admin123',
-    role: 'admin',
-    firstName: 'Admin',
-    lastName: 'User',
-  },
-  {
-    id: '2',
-    email: 'doctor@hospital.com',
-    password: 'doctor123',
-    role: 'doctor',
-    firstName: 'Dr. Sarah',
-    lastName: 'Smith',
-  },
-  {
-    id: '3',
-    email: 'patient@hospital.com',
-    password: 'patient123',
-    role: 'patient',
-    firstName: 'John',
-    lastName: 'Doe',
-  },
-  {
-    id: '4',
-    email: 'nurse@hospital.com',
-    password: 'nurse123',
-    role: 'nurse',
-    firstName: 'Jane',
-    lastName: 'Wilson',
-  },
-];
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
+  // Load user from localStorage on mount
   useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
-
-    if (token && savedUser) {
+    if (savedUser) {
       setUser(JSON.parse(savedUser));
     }
     setLoading(false);
   }, []);
 
-  const login = async (email, password) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    // Find user in mock database
-    const foundUser = MOCK_USERS.find(
-      u => u.email === email && u.password === password
-    );
-
-    if (foundUser) {
-      const userData = {
-        id: foundUser.id,
-        email: foundUser.email,
-        role: foundUser.role,
-        firstName: foundUser.firstName,
-        lastName: foundUser.lastName,
-      };
-
-      const mockToken = 'mock-jwt-token-' + foundUser.id;
-
-      localStorage.setItem('token', mockToken);
-      localStorage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
-
-      return { success: true, user: userData };
-    } else {
-      return {
-        success: false,
-        error: 'Invalid email or password',
-      };
+  // Mock user database - Replace with your API calls
+  const mockUsers = {
+    // Admin
+    'admin@hospital.com': {
+      id: 1,
+      email: 'admin@hospital.com',
+      name: 'John Doe',
+      role: 'admin',
+      password: 'admin123'
+    },
+    
+    // Doctor
+    'doctor@hospital.com': {
+      id: 2,
+      email: 'doctor@hospital.com',
+      name: 'Dr. John Smith',
+      role: 'doctor',
+      specialization: 'Cardiologist',
+      password: 'doctor123'
+    },
+    
+    // Nurse
+    'nurse@hospital.com': {
+      id: 3,
+      email: 'nurse@hospital.com',
+      name: 'Sarah Johnson',
+      role: 'nurse',
+      department: 'General Ward',
+      password: 'nurse123'
+    },
+    
+    // Lab Technician
+    'lab@hospital.com': {
+      id: 4,
+      email: 'lab@hospital.com',
+      name: 'Mike Chen',
+      role: 'lab_technician',
+      department: 'Laboratory',
+      password: 'lab123'
+    },
+    
+    // Pharmacist
+    'pharmacist@hospital.com': {
+      id: 5,
+      email: 'pharmacist@hospital.com',
+      name: 'Emily Davis',
+      role: 'pharmacist',
+      department: 'Pharmacy',
+      password: 'pharmacist123'
+    },
+    
+    // Ward Boy
+    'wardboy@hospital.com': {
+      id: 6,
+      email: 'wardboy@hospital.com',
+      name: 'Raj Kumar',
+      role: 'ward_boy',
+      department: 'General Ward',
+      password: 'wardboy123'
     }
   };
 
-  const register = async (userData) => {
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+  // Login function - SIMPLIFIED (no navigation)
+  const login = async (email, password) => {
+    try {
+      // Check if user exists in mock database
+      const userData = mockUsers[email];
+      
+      if (!userData) {
+        return { success: false, error: 'User not found' };
+      }
 
-    // Create new mock user
-    const newUser = {
-      id: String(MOCK_USERS.length + 1),
-      email: userData.email,
-      role: userData.role,
-      firstName: userData.profileData.firstName,
-      lastName: userData.profileData.lastName,
-    };
+      if (userData.password !== password) {
+        return { success: false, error: 'Invalid password' };
+      }
 
-    const mockToken = 'mock-jwt-token-' + newUser.id;
-
-    localStorage.setItem('token', mockToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
-    setUser(newUser);
-
-    return { success: true, user: newUser };
+      // Remove password from user object
+      const { password: _, ...userWithoutPassword } = userData;
+      
+      // Save user to state and localStorage
+      setUser(userWithoutPassword);
+      localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+      
+      toast.success(`Welcome ${userWithoutPassword.name}!`);
+      
+      return { success: true, user: userWithoutPassword };
+    } catch (error) {
+      console.error('Login error:', error);
+      return { success: false, error: 'Login failed. Please try again.' };
+    }
   };
 
+  // Register function (optional - for adding new staff)
+  const register = async (userData) => {
+    try {
+      // In real app, make API call here
+      console.log('Registering user:', userData);
+      toast.success('Registration successful! Please login.');
+      navigate('/login');
+      return { success: true };
+    } catch (error) {
+      console.error('Registration error:', error);
+      return { success: false, error: 'Registration failed. Please try again.' };
+    }
+  };
+
+  // Logout function
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
     setUser(null);
-    window.location.href = '/login';
+    localStorage.removeItem('user');
+    toast.success('Logged out successfully');
+    navigate('/login');
+  };
+
+  // Check if user has specific role
+  const hasRole = (roles) => {
+    if (!user) return false;
+    if (Array.isArray(roles)) {
+      return roles.includes(user.role);
+    }
+    return user.role === roles;
+  };
+
+  const value = {
+    user,
+    loading,
+    login,
+    logout,
+    register,
+    hasRole
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
-      {children}
+    <AuthContext.Provider value={value}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };

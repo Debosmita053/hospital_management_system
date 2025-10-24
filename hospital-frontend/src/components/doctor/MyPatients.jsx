@@ -194,12 +194,12 @@ const MyPatients = () => {
 
   const getConditionColor = (condition) => {
     const colors = {
-      'Stable': 'bg-green-100 text-green-800',
-      'Improving': 'bg-blue-100 text-blue-800',
-      'Under Observation': 'bg-yellow-100 text-yellow-800',
-      'Managed': 'bg-purple-100 text-purple-800'
+      'Stable': 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300',
+      'Improving': 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
+      'Under Observation': 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
+      'Managed': 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300'
     };
-    return colors[condition] || 'bg-gray-100 text-gray-800';
+    return colors[condition] || 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300';
   };
 
   const handleViewPatient = (patient) => {
@@ -346,8 +346,8 @@ const MyPatients = () => {
 
   // Quick Actions Component
   const QuickActions = ({ patient }) => (
-    <div className="bg-white border border-gray-200 rounded-lg p-6">
-      <h4 className="font-semibold text-gray-900 mb-4">Quick Actions</h4>
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+      <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h4>
       <div className="space-y-3">
         <button
           onClick={() => handleRequestLabTest(patient)}
@@ -385,7 +385,7 @@ const MyPatients = () => {
   const PrescriptionsTab = ({ patient }) => (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h4 className="font-semibold text-gray-900">Prescriptions</h4>
+        <h4 className="font-semibold text-gray-900 dark:text-white">Prescriptions</h4>
         <button
           onClick={() => handleAddPrescription(patient)}
           className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center space-x-2"
@@ -397,16 +397,16 @@ const MyPatients = () => {
       
       <div className="grid gap-4">
         {patient.prescriptions.map((prescription) => (
-          <div key={prescription.id} className="bg-white border border-gray-200 rounded-lg p-6">
+          <div key={prescription.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h5 className="font-semibold text-lg text-gray-900">{prescription.medication}</h5>
-                <p className="text-sm text-gray-600">{prescription.date}</p>
+                <h5 className="font-semibold text-lg text-gray-900 dark:text-white">{prescription.medication}</h5>
+                <p className="text-sm text-gray-600 dark:text-gray-400">{prescription.date}</p>
               </div>
               <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                 prescription.status === 'active' 
-                  ? 'bg-green-100 text-green-800' 
-                  : 'bg-gray-100 text-gray-800'
+                  ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' 
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300'
               }`}>
                 {prescription.status}
               </span>
@@ -414,27 +414,27 @@ const MyPatients = () => {
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
               <div>
-                <p className="text-gray-600">Dosage</p>
-                <p className="font-medium">{prescription.dosage}</p>
+                <p className="text-gray-600 dark:text-gray-400">Dosage</p>
+                <p className="font-medium text-gray-900 dark:text-white">{prescription.dosage}</p>
               </div>
               <div>
-                <p className="text-gray-600">Frequency</p>
-                <p className="font-medium">{prescription.frequency}</p>
+                <p className="text-gray-600 dark:text-gray-400">Frequency</p>
+                <p className="font-medium text-gray-900 dark:text-white">{prescription.frequency}</p>
               </div>
               <div>
-                <p className="text-gray-600">Duration</p>
-                <p className="font-medium">{prescription.duration}</p>
+                <p className="text-gray-600 dark:text-gray-400">Duration</p>
+                <p className="font-medium text-gray-900 dark:text-white">{prescription.duration}</p>
               </div>
               <div>
-                <p className="text-gray-600">Status</p>
-                <p className="font-medium capitalize">{prescription.status}</p>
+                <p className="text-gray-600 dark:text-gray-400">Status</p>
+                <p className="font-medium text-gray-900 dark:text-white capitalize">{prescription.status}</p>
               </div>
             </div>
             
             {prescription.instructions && (
               <div className="mt-4">
-                <p className="text-gray-600 text-sm mb-1">Instructions</p>
-                <p className="text-sm">{prescription.instructions}</p>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-1">Instructions</p>
+                <p className="text-sm text-gray-900 dark:text-white">{prescription.instructions}</p>
               </div>
             )}
           </div>
@@ -450,43 +450,43 @@ const MyPatients = () => {
         return (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Patient Information</h4>
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Patient Information</h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-600">Patient ID</p>
-                    <p className="font-medium">{selectedPatient.id}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Patient ID</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.id}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Room</p>
-                    <p className="font-medium">{selectedPatient.room}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Room</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.room}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Age & Gender</p>
-                    <p className="font-medium">{selectedPatient.age}y / {selectedPatient.gender}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Age & Gender</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.age}y / {selectedPatient.gender}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Blood Group</p>
-                    <p className="font-medium">{selectedPatient.bloodGroup}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Blood Group</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.bloodGroup}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Admission Date</p>
-                    <p className="font-medium">{selectedPatient.admissionDate}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Admission Date</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.admissionDate}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Insurance</p>
-                    <p className="font-medium">{selectedPatient.insurance}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Insurance</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.insurance}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Current Status</h4>
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Current Status</h4>
                 <div className="space-y-3">
                   <div>
-                    <p className="text-sm text-gray-600">Diagnosis</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Diagnosis</p>
                     <div className="flex items-center space-x-2 mt-1">
-                      <p className="font-medium">{selectedPatient.diagnosis}</p>
+                      <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.diagnosis}</p>
                       <button 
                         onClick={() => {
                           const newDiagnosis = prompt('Enter new diagnosis:', selectedPatient.diagnosis);
@@ -495,19 +495,19 @@ const MyPatients = () => {
                             setSelectedPatient({...selectedPatient, diagnosis: newDiagnosis});
                           }
                         }}
-                        className="text-blue-600 hover:text-blue-800"
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
                       >
                         <Edit3 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Current Medication</p>
-                    <p className="font-medium">{selectedPatient.currentMedication}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Current Medication</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.currentMedication}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Allergies</p>
-                    <p className="font-medium">{selectedPatient.allergies}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Allergies</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{selectedPatient.allergies}</p>
                   </div>
                 </div>
               </div>
@@ -516,13 +516,13 @@ const MyPatients = () => {
             <div className="space-y-6">
               <QuickActions patient={selectedPatient} />
               
-              <div className="bg-white border border-gray-200 rounded-lg p-6">
-                <h4 className="font-semibold text-gray-900 mb-4">Contact Information</h4>
-                <div className="space-y-2">
-                  <p className="text-sm"><strong>Phone:</strong> {selectedPatient.phone}</p>
-                  <p className="text-sm"><strong>Email:</strong> {selectedPatient.email}</p>
-                  <p className="text-sm"><strong>Emergency:</strong> {selectedPatient.emergencyContact}</p>
-                  <p className="text-sm"><strong>Address:</strong> {selectedPatient.address}</p>
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Contact Information</h4>
+                <div className="space-y-2 text-sm">
+                  <p className="text-gray-900 dark:text-white"><strong>Phone:</strong> {selectedPatient.phone}</p>
+                  <p className="text-gray-900 dark:text-white"><strong>Email:</strong> {selectedPatient.email}</p>
+                  <p className="text-gray-900 dark:text-white"><strong>Emergency:</strong> {selectedPatient.emergencyContact}</p>
+                  <p className="text-gray-900 dark:text-white"><strong>Address:</strong> {selectedPatient.address}</p>
                 </div>
               </div>
             </div>
@@ -531,13 +531,13 @@ const MyPatients = () => {
 
       case 'medical':
         return (
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h4 className="font-semibold text-gray-900 mb-4">Medical History</h4>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Medical History</h4>
             <div className="space-y-3">
               {selectedPatient.medicalHistory.map((history, index) => (
-                <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <Stethoscope className="w-4 h-4 text-gray-400" />
-                  <span>{history}</span>
+                  <span className="text-gray-900 dark:text-white">{history}</span>
                 </div>
               ))}
             </div>
@@ -546,17 +546,19 @@ const MyPatients = () => {
 
       case 'lab':
         return (
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h4 className="font-semibold text-gray-900 mb-4">Lab Reports</h4>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Lab Reports</h4>
             <div className="space-y-3">
               {selectedPatient.labReports.map((report) => (
-                <div key={report.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={report.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <div>
-                    <p className="font-medium">{report.name}</p>
-                    <p className="text-sm text-gray-600">{report.date} • {report.result}</p>
+                    <p className="font-medium text-gray-900 dark:text-white">{report.name}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{report.date} • {report.result}</p>
                   </div>
                   <span className={`px-2 py-1 rounded-full text-xs ${
-                    report.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                    report.status === 'completed' 
+                      ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' 
+                      : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300'
                   }`}>
                     {report.status}
                   </span>
@@ -571,13 +573,13 @@ const MyPatients = () => {
 
       case 'progress':
         return (
-          <div className="bg-white border border-gray-200 rounded-lg p-6">
-            <h4 className="font-semibold text-gray-900 mb-4">Progress Notes</h4>
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6">
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Progress Notes</h4>
             <div className="space-y-4">
               {selectedPatient.progressNotes.map((note, index) => (
-                <div key={index} className="border-l-4 border-blue-500 pl-4 py-2">
-                  <p className="text-sm text-gray-600">{note.date} • {note.doctor}</p>
-                  <p className="mt-1">{note.note}</p>
+                <div key={index} className="border-l-4 border-blue-500 dark:border-blue-400 pl-4 py-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{note.date} • {note.doctor}</p>
+                  <p className="mt-1 text-gray-900 dark:text-white">{note.note}</p>
                 </div>
               ))}
             </div>
@@ -590,11 +592,11 @@ const MyPatients = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">My Patients</h1>
-        <p className="text-gray-600 mt-1">View and manage your patient records</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Patients</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">View and manage your patient records</p>
       </div>
 
       {/* Colorful Stats Cards */}
@@ -621,7 +623,7 @@ const MyPatients = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -630,7 +632,7 @@ const MyPatients = () => {
               placeholder="Search by patient name or ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
 
@@ -639,7 +641,7 @@ const MyPatients = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="all">All Patients</option>
               <option value="active">Active</option>
@@ -652,15 +654,15 @@ const MyPatients = () => {
       {/* Patients Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPatients.map((patient) => (
-          <div key={patient.id} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100">
+          <div key={patient.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-3">
-                <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold text-lg">
+                <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-semibold text-lg">
                   {patient.avatar}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">{patient.name}</h3>
-                  <p className="text-sm text-gray-600">{patient.id} • {patient.room}</p>
+                  <h3 className="font-semibold text-gray-900 dark:text-white">{patient.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">{patient.id} • {patient.room}</p>
                 </div>
               </div>
               {patient.status === 'active' && (
@@ -670,27 +672,27 @@ const MyPatients = () => {
 
             <div className="space-y-3 mb-4">
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Age / Gender</span>
-                <span className="font-medium text-gray-900">{patient.age}y / {patient.gender}</span>
+                <span className="text-gray-600 dark:text-gray-400">Age / Gender</span>
+                <span className="font-medium text-gray-900 dark:text-white">{patient.age}y / {patient.gender}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Blood Group</span>
-                <span className="font-medium text-gray-900">{patient.bloodGroup}</span>
+                <span className="text-gray-600 dark:text-gray-400">Blood Group</span>
+                <span className="font-medium text-gray-900 dark:text-white">{patient.bloodGroup}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Room</span>
-                <span className="font-medium text-gray-900">{patient.room}</span>
+                <span className="text-gray-600 dark:text-gray-400">Room</span>
+                <span className="font-medium text-gray-900 dark:text-white">{patient.room}</span>
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-gray-600">Total Visits</span>
-                <span className="font-medium text-gray-900">{patient.totalVisits}</span>
+                <span className="text-gray-600 dark:text-gray-400">Total Visits</span>
+                <span className="font-medium text-gray-900 dark:text-white">{patient.totalVisits}</span>
               </div>
             </div>
 
             <div className="mb-4">
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <p className="text-xs text-gray-600 mb-1">Current Diagnosis</p>
-                <p className="text-sm font-medium text-gray-900">{patient.diagnosis}</p>
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                <p className="text-xs text-gray-600 dark:text-gray-400 mb-1">Current Diagnosis</p>
+                <p className="text-sm font-medium text-gray-900 dark:text-white">{patient.diagnosis}</p>
               </div>
             </div>
 
@@ -698,7 +700,7 @@ const MyPatients = () => {
               <span className={`px-3 py-1 rounded-full text-xs font-medium ${getConditionColor(patient.condition)}`}>
                 {patient.condition}
               </span>
-              <span className="text-xs text-gray-500">Last: {patient.lastVisit}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">Last: {patient.lastVisit}</span>
             </div>
 
             <div className="flex space-x-2">
@@ -729,19 +731,19 @@ const MyPatients = () => {
       {/* Patient Profile Modal */}
       {selectedPatient && showPatientModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-900">Patient Profile - {selectedPatient.name}</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Patient Profile - {selectedPatient.name}</h3>
               <button
                 onClick={() => setShowPatientModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-gray-200">
+            <div className="border-b border-gray-200 dark:border-gray-700">
               <div className="px-6 flex space-x-8">
                 {['overview', 'medical', 'lab', 'prescriptions', 'progress'].map((tab) => (
                   <button
@@ -749,8 +751,8 @@ const MyPatients = () => {
                     onClick={() => setActiveTab(tab)}
                     className={`py-4 px-1 border-b-2 font-medium text-sm capitalize ${
                       activeTab === tab
-                        ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                        ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                        : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                     }`}
                   >
                     {tab === 'medical' ? 'Medical History' : 
@@ -770,12 +772,12 @@ const MyPatients = () => {
       {/* Lab Test Modal */}
       {showLabTestModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-md w-full">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-900">Request Lab Test</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Request Lab Test</h3>
               <button
                 onClick={() => setShowLabTestModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -783,21 +785,21 @@ const MyPatients = () => {
             
             <form onSubmit={handleSubmitLabTest} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Patient
                 </label>
-                <p className="font-medium">{selectedPatient?.name}</p>
+                <p className="font-medium text-gray-900 dark:text-white">{selectedPatient?.name}</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Test Type
                 </label>
                 <select 
                   name="testType"
                   value={labTestForm.testType}
                   onChange={(e) => setLabTestForm(prev => ({...prev, testType: e.target.value}))}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="">Select Test Type</option>
                   <option value="blood">Blood Test</option>
@@ -808,7 +810,7 @@ const MyPatients = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Specific Test
                 </label>
                 <input 
@@ -817,19 +819,19 @@ const MyPatients = () => {
                   value={labTestForm.specificTest}
                   onChange={(e) => setLabTestForm(prev => ({...prev, specificTest: e.target.value}))}
                   placeholder="e.g., Complete Blood Count, Lipid Profile..."
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Priority
                 </label>
                 <select 
                   name="priority"
                   value={labTestForm.priority}
                   onChange={(e) => setLabTestForm(prev => ({...prev, priority: e.target.value}))}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="normal">Normal</option>
                   <option value="urgent">Urgent</option>
@@ -838,7 +840,7 @@ const MyPatients = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Notes
                 </label>
                 <textarea 
@@ -846,7 +848,7 @@ const MyPatients = () => {
                   value={labTestForm.notes}
                   onChange={(e) => setLabTestForm(prev => ({...prev, notes: e.target.value}))}
                   placeholder="Additional instructions for the lab..."
-                  className="w-full h-20 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full h-20 p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
               </div>
 
@@ -860,7 +862,7 @@ const MyPatients = () => {
                 <button
                   type="button"
                   onClick={() => setShowLabTestModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -873,12 +875,12 @@ const MyPatients = () => {
       {/* Progress Notes Modal */}
       {showProgressNotesModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-md w-full">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-900">Add Progress Note</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Add Progress Note</h3>
               <button
                 onClick={() => setShowProgressNotesModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -886,21 +888,21 @@ const MyPatients = () => {
             
             <form onSubmit={handleSubmitProgressNote} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Patient
                 </label>
-                <p className="font-medium">{selectedPatient?.name}</p>
+                <p className="font-medium text-gray-900 dark:text-white">{selectedPatient?.name}</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Progress Note
                 </label>
                 <textarea 
                   value={progressNote}
                   onChange={(e) => setProgressNote(e.target.value)}
                   placeholder="Enter your observations and progress notes..."
-                  className="w-full h-32 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full h-32 p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   required
                 />
               </div>
@@ -915,7 +917,7 @@ const MyPatients = () => {
                 <button
                   type="button"
                   onClick={() => setShowProgressNotesModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -928,12 +930,12 @@ const MyPatients = () => {
       {/* Discharge Recommendation Modal */}
       {showDischargeModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-md w-full">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-900">Recommend Discharge</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Recommend Discharge</h3>
               <button
                 onClick={() => setShowDischargeModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -941,27 +943,27 @@ const MyPatients = () => {
             
             <form onSubmit={handleSubmitDischarge} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Patient
                 </label>
-                <p className="font-medium">{selectedPatient?.name}</p>
+                <p className="font-medium text-gray-900 dark:text-white">{selectedPatient?.name}</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Discharge Reason
                 </label>
                 <textarea 
                   value={dischargeReason}
                   onChange={(e) => setDischargeReason(e.target.value)}
                   placeholder="Provide detailed reason for discharge recommendation..."
-                  className="w-full h-32 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full h-32 p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   required
                 />
               </div>
 
-              <div className="bg-yellow-50 p-4 rounded-lg">
-                <p className="text-sm text-yellow-700">
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                <p className="text-sm text-yellow-700 dark:text-yellow-300">
                   <strong>Note:</strong> This discharge recommendation will be sent to administration for approval.
                   Patient cannot be discharged until approved.
                 </p>
@@ -977,7 +979,7 @@ const MyPatients = () => {
                 <button
                   type="button"
                   onClick={() => setShowDischargeModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -990,12 +992,12 @@ const MyPatients = () => {
       {/* Prescription Modal */}
       {showPrescriptionModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-md w-full">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold text-gray-900">Add Prescription</h3>
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">Add Prescription</h3>
               <button
                 onClick={() => setShowPrescriptionModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -1003,14 +1005,14 @@ const MyPatients = () => {
             
             <form onSubmit={handleSubmitPrescription} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Patient
                 </label>
-                <p className="font-medium">{selectedPatient?.name}</p>
+                <p className="font-medium text-gray-900 dark:text-white">{selectedPatient?.name}</p>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Medication *
                 </label>
                 <input 
@@ -1018,13 +1020,13 @@ const MyPatients = () => {
                   value={prescriptionForm.medication}
                   onChange={(e) => setPrescriptionForm(prev => ({...prev, medication: e.target.value}))}
                   placeholder="e.g., Amlodipine 5mg"
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Dosage *
                 </label>
                 <input 
@@ -1032,19 +1034,19 @@ const MyPatients = () => {
                   value={prescriptionForm.dosage}
                   onChange={(e) => setPrescriptionForm(prev => ({...prev, dosage: e.target.value}))}
                   placeholder="e.g., 5mg"
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Frequency
                 </label>
                 <select 
                   value={prescriptionForm.frequency}
                   onChange={(e) => setPrescriptionForm(prev => ({...prev, frequency: e.target.value}))}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="">Select Frequency</option>
                   <option value="Once daily">Once daily</option>
@@ -1056,7 +1058,7 @@ const MyPatients = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Duration
                 </label>
                 <input 
@@ -1064,19 +1066,19 @@ const MyPatients = () => {
                   value={prescriptionForm.duration}
                   onChange={(e) => setPrescriptionForm(prev => ({...prev, duration: e.target.value}))}
                   placeholder="e.g., 30 days"
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Instructions
                 </label>
                 <textarea 
                   value={prescriptionForm.instructions}
                   onChange={(e) => setPrescriptionForm(prev => ({...prev, instructions: e.target.value}))}
                   placeholder="Additional instructions for the patient..."
-                  className="w-full h-20 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full h-20 p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
                 />
               </div>
 
@@ -1090,7 +1092,7 @@ const MyPatients = () => {
                 <button
                   type="button"
                   onClick={() => setShowPrescriptionModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>

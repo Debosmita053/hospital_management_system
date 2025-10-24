@@ -285,11 +285,11 @@ const NurseStaffManagement = () => {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto dark:bg-gray-900 dark:text-gray-100 min-h-screen">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Nurse & Staff Management</h1>
-        <p className="text-gray-600">Manage hospital staff members, shifts, and duty rosters</p>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Nurse & Staff Management</h1>
+        <p className="text-gray-600 dark:text-gray-400">Manage hospital staff members, shifts, and duty rosters</p>
       </div>
 
       {/* Stats Cards */}
@@ -346,15 +346,15 @@ const NurseStaffManagement = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-md mb-6">
-        <div className="border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <div className="flex">
             <button
               onClick={() => setActiveTab('all')}
               className={`px-6 py-3 text-sm font-medium ${
                 activeTab === 'all'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
               All Staff ({totalStaff})
@@ -363,8 +363,8 @@ const NurseStaffManagement = () => {
               onClick={() => setActiveTab('active')}
               className={`px-6 py-3 text-sm font-medium ${
                 activeTab === 'active'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
               Active ({activeStaff})
@@ -373,8 +373,8 @@ const NurseStaffManagement = () => {
               onClick={() => setActiveTab('inactive')}
               className={`px-6 py-3 text-sm font-medium ${
                 activeTab === 'inactive'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
               Inactive ({inactiveStaff})
@@ -384,7 +384,7 @@ const NurseStaffManagement = () => {
       </div>
 
       {/* Filters & Search */}
-      <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -393,14 +393,14 @@ const NurseStaffManagement = () => {
               placeholder="Search by name, ID, or role..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
           
           <select
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
           >
             <option value="all">All Roles</option>
             {roles.map(role => (
@@ -410,7 +410,7 @@ const NurseStaffManagement = () => {
 
           <button
             onClick={handleAddStaff}
-            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
           >
             <Plus className="w-5 h-5" />
             Add Staff
@@ -419,41 +419,41 @@ const NurseStaffManagement = () => {
       </div>
 
       {/* Staff Table */}
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Staff ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Role
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Department
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Shift
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Attendance
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {filteredStaff.map((staff) => (
-                <tr key={staff.id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                <tr key={staff.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                     {staff.id}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -462,34 +462,34 @@ const NurseStaffManagement = () => {
                         {staff.name.split(' ').map(n => n[0]).join('')}
                       </div>
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{staff.name}</div>
-                        <div className="text-sm text-gray-500">{staff.email}</div>
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">{staff.name}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{staff.email}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                    <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
                       {staff.role}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {staff.department}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                     {staff.shift}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      parseFloat(staff.attendance) >= 95 ? 'bg-green-100 text-green-800' :
-                      parseFloat(staff.attendance) >= 85 ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-red-100 text-red-800'
+                      parseFloat(staff.attendance) >= 95 ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' :
+                      parseFloat(staff.attendance) >= 85 ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' :
+                      'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                     }`}>
                       {staff.attendance}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      staff.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      staff.status === 'Active' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                     }`}>
                       {staff.status}
                     </span>
@@ -498,35 +498,35 @@ const NurseStaffManagement = () => {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => handleViewStaff(staff)}
-                        className="text-blue-600 hover:text-blue-900"
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                         title="View Details"
                       >
                         <Eye className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => handleEditStaff(staff)}
-                        className="text-yellow-600 hover:text-yellow-900"
+                        className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300"
                         title="Edit"
                       >
                         <Edit2 className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => handleSetSchedule(staff)}
-                        className="text-purple-600 hover:text-purple-900"
+                        className="text-purple-600 dark:text-purple-400 hover:text-purple-900 dark:hover:text-purple-300"
                         title="Set Schedule"
                       >
                         <Calendar className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => handleToggleStatus(staff)}
-                        className={staff.status === 'Active' ? 'text-orange-600 hover:text-orange-900' : 'text-green-600 hover:text-green-900'}
+                        className={staff.status === 'Active' ? 'text-orange-600 dark:text-orange-400 hover:text-orange-900 dark:hover:text-orange-300' : 'text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300'}
                         title={staff.status === 'Active' ? 'Deactivate' : 'Activate'}
                       >
                         {staff.status === 'Active' ? <UserX className="w-5 h-5" /> : <UserCheck className="w-5 h-5" />}
                       </button>
                       <button
                         onClick={() => handleDeleteStaff(staff)}
-                        className="text-red-600 hover:text-red-900"
+                        className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                         title="Delete"
                       >
                         <Trash2 className="w-5 h-5" />
@@ -539,7 +539,7 @@ const NurseStaffManagement = () => {
           </table>
 
           {filteredStaff.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               No staff members found
             </div>
           )}
@@ -549,9 +549,9 @@ const NurseStaffManagement = () => {
       {/* Add/Edit Staff Modal */}
       {(modalType === 'add' || modalType === 'edit') && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
                 {modalType === 'add' ? 'Add New Staff Member' : 'Edit Staff Member'}
               </h2>
             </div>
@@ -559,26 +559,26 @@ const NurseStaffManagement = () => {
             <form onSubmit={handleSubmitStaff} className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Full Name *
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Role *
                   </label>
                   <select
                     value={formData.role}
                     onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     <option value="">Select Role</option>
@@ -589,52 +589,52 @@ const NurseStaffManagement = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Email *
                   </label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Phone *
                   </label>
                   <input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Date of Birth *
                   </label>
                   <input
                     type="date"
                     value={formData.dateOfBirth}
                     onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Gender *
                   </label>
                   <select
                     value={formData.gender}
                     onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     <option value="">Select Gender</option>
@@ -645,13 +645,13 @@ const NurseStaffManagement = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Department *
                   </label>
                   <select
                     value={formData.department}
                     onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     <option value="">Select Department</option>
@@ -662,7 +662,7 @@ const NurseStaffManagement = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Assigned Rooms (comma-separated)
                   </label>
                   <input
@@ -670,18 +670,18 @@ const NurseStaffManagement = () => {
                     value={formData.assignedRooms}
                     onChange={(e) => setFormData({ ...formData, assignedRooms: e.target.value })}
                     placeholder="e.g., ICU-101, ICU-102"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Shift *
                   </label>
                   <select
                     value={formData.shift}
                     onChange={(e) => setFormData({ ...formData, shift: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     <option value="">Select Shift</option>
@@ -692,20 +692,20 @@ const NurseStaffManagement = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Joining Date *
                   </label>
                   <input
                     type="date"
                     value={formData.joiningDate}
                     onChange={(e) => setFormData({ ...formData, joiningDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Qualification *
                   </label>
                   <input
@@ -713,13 +713,13 @@ const NurseStaffManagement = () => {
                     value={formData.qualification}
                     onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
                     placeholder="e.g., BSc Nursing"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Experience *
                   </label>
                   <input
@@ -727,19 +727,19 @@ const NurseStaffManagement = () => {
                     value={formData.experience}
                     onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
                     placeholder="e.g., 5 years"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Status *
                   </label>
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   >
                     <option value="Active">Active</option>
@@ -749,7 +749,7 @@ const NurseStaffManagement = () => {
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Performance Notes
                 </label>
                 <textarea
@@ -757,7 +757,7 @@ const NurseStaffManagement = () => {
                   onChange={(e) => setFormData({ ...formData, performanceNotes: e.target.value })}
                   rows="3"
                   placeholder="Add any performance feedback or notes..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 />
               </div>
 
@@ -765,13 +765,13 @@ const NurseStaffManagement = () => {
                 <button
                   type="button"
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                  className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                 >
                   {modalType === 'add' ? 'Add Staff' : 'Update Staff'}
                 </button>
@@ -784,13 +784,13 @@ const NurseStaffManagement = () => {
       {/* View Staff Modal */}
       {modalType === 'view' && selectedStaff && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-800">Staff Details</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Staff Details</h2>
                 <button
                   onClick={() => setModalType(null)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -799,16 +799,16 @@ const NurseStaffManagement = () => {
 
             <div className="p-6">
               {/* Profile Section */}
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200">
+              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-200 dark:border-gray-700">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-2xl">
                   {selectedStaff.name.split(' ').map(n => n[0]).join('')}
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-gray-800">{selectedStaff.name}</h3>
-                  <p className="text-gray-600">{selectedStaff.role}</p>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white">{selectedStaff.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-400">{selectedStaff.role}</p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      selectedStaff.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      selectedStaff.status === 'Active' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                     }`}>
                       {selectedStaff.status}
                     </span>
@@ -818,75 +818,75 @@ const NurseStaffManagement = () => {
 
               {/* Personal Information */}
               <div className="mb-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Personal Information</h4>
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Personal Information</h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Staff ID</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.id}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Staff ID</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.id}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.email}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.email}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Phone</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.phone}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Phone</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.phone}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Date of Birth</p>
-                    <p className="text-gray-900 font-medium">{new Date(selectedStaff.dateOfBirth).toLocaleDateString()}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Date of Birth</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{new Date(selectedStaff.dateOfBirth).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Gender</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.gender}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Gender</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.gender}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Joining Date</p>
-                    <p className="text-gray-900 font-medium">{new Date(selectedStaff.joiningDate).toLocaleDateString()}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Joining Date</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{new Date(selectedStaff.joiningDate).toLocaleDateString()}</p>
                   </div>
                 </div>
               </div>
 
               {/* Professional Information */}
               <div className="mb-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Professional Information</h4>
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Professional Information</h4>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500">Department</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.department}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Department</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.department}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Qualification</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.qualification}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Qualification</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.qualification}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Experience</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.experience}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Experience</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.experience}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Shift</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.shift}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Shift</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.shift}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Attendance</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.attendance}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Attendance</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.attendance}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500">Assigned Rooms</p>
-                    <p className="text-gray-900 font-medium">{selectedStaff.assignedRooms.join(', ')}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Assigned Rooms</p>
+                    <p className="text-gray-900 dark:text-white font-medium">{selectedStaff.assignedRooms.join(', ')}</p>
                   </div>
                 </div>
               </div>
 
               {/* Weekly Schedule */}
               <div className="mb-6">
-                <h4 className="text-lg font-semibold text-gray-800 mb-4">Weekly Schedule</h4>
+                <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Weekly Schedule</h4>
                 <div className="space-y-2">
                   {Object.entries(selectedStaff.schedule).map(([day, schedule]) => (
-                    <div key={day} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium text-gray-700 capitalize">{day}</span>
+                    <div key={day} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <span className="font-medium text-gray-700 dark:text-gray-300 capitalize">{day}</span>
                       {schedule.enabled ? (
-                        <span className="text-green-600 font-medium">
+                        <span className="text-green-600 dark:text-green-400 font-medium">
                           {schedule.start} - {schedule.end}
                         </span>
                       ) : (
@@ -900,9 +900,9 @@ const NurseStaffManagement = () => {
               {/* Performance Notes */}
               {selectedStaff.performanceNotes && (
                 <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-4">Performance Notes</h4>
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <p className="text-gray-700">{selectedStaff.performanceNotes}</p>
+                  <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Performance Notes</h4>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <p className="text-gray-700 dark:text-gray-300">{selectedStaff.performanceNotes}</p>
                   </div>
                 </div>
               )}
@@ -910,7 +910,7 @@ const NurseStaffManagement = () => {
               <div className="flex justify-end">
                 <button
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500"
                 >
                   Close
                 </button>
@@ -923,9 +923,9 @@ const NurseStaffManagement = () => {
       {/* Schedule Modal */}
       {modalType === 'schedule' && selectedStaff && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
                 Set Schedule for {selectedStaff.name}
               </h2>
             </div>
@@ -933,7 +933,7 @@ const NurseStaffManagement = () => {
             <form onSubmit={handleSubmitSchedule} className="p-6">
               <div className="space-y-4 mb-6">
                 {Object.entries(scheduleData).map(([day, schedule]) => (
-                  <div key={day} className="border border-gray-200 rounded-lg p-4">
+                  <div key={day} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                     <div className="flex items-center gap-4 mb-3">
                       <input
                         type="checkbox"
@@ -942,9 +942,9 @@ const NurseStaffManagement = () => {
                           ...scheduleData,
                           [day]: { ...schedule, enabled: e.target.checked }
                         })}
-                        className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                        className="w-5 h-5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <span className="font-medium text-gray-700 capitalize text-lg">
+                      <span className="font-medium text-gray-700 dark:text-gray-300 capitalize text-lg">
                         {day}
                       </span>
                     </div>
@@ -952,7 +952,7 @@ const NurseStaffManagement = () => {
                     {schedule.enabled && (
                       <div className="grid grid-cols-2 gap-4 ml-9">
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Start Time
                           </label>
                           <input
@@ -962,12 +962,12 @@ const NurseStaffManagement = () => {
                               ...scheduleData,
                               [day]: { ...schedule, start: e.target.value }
                             })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             required
                           />
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             End Time
                           </label>
                           <input
@@ -977,7 +977,7 @@ const NurseStaffManagement = () => {
                               ...scheduleData,
                               [day]: { ...schedule, end: e.target.value }
                             })}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             required
                           />
                         </div>
@@ -991,13 +991,13 @@ const NurseStaffManagement = () => {
                 <button
                   type="button"
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                  className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                 >
                   Save Schedule
                 </button>

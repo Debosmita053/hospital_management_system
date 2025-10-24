@@ -99,13 +99,13 @@ const AppointmentManagement = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      scheduled: 'bg-blue-100 text-blue-800',
-      confirmed: 'bg-green-100 text-green-800',
-      completed: 'bg-gray-100 text-gray-800',
-      cancelled: 'bg-red-100 text-red-800',
-      no_show: 'bg-yellow-100 text-yellow-800',
+      scheduled: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      confirmed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      completed: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
+      cancelled: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      no_show: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
   };
 
   // Calculate stats
@@ -141,48 +141,48 @@ const AppointmentManagement = () => {
     );
 
     return (
-      <div className="fixed inset-0 bg-gray-600 bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
-        <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-lg m-4">
-          <div className="flex justify-between items-center p-6 border-b">
-            <h3 className="text-xl font-bold text-gray-900">
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-75 dark:bg-gray-900 dark:bg-opacity-75 overflow-y-auto h-full w-full z-50 flex justify-center items-center">
+        <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-lg m-4">
+          <div className="flex justify-between items-center p-6 border-b dark:border-gray-700">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
               Appointment Details: {appointment.appointmentNumber}
             </h3>
             <button 
               onClick={onClose} 
-              className="p-1 rounded-full text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+              className="p-1 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <X className="h-6 w-6" />
             </button>
           </div>
           
-          <div className="p-6 space-y-4 text-sm text-gray-700">
+          <div className="p-6 space-y-4 text-sm text-gray-700 dark:text-gray-300">
             <div className="grid grid-cols-2 gap-y-3">
-              <p className="font-semibold text-gray-900">Patient:</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Patient:</p>
               <p>{appointment.patientName} ({appointment.patientNumber})</p>
 
-              <p className="font-semibold text-gray-900">Doctor:</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Doctor:</p>
               <p>{appointment.doctorName}</p>
 
-              <p className="font-semibold text-gray-900">Department:</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Department:</p>
               <p>{appointment.department}</p>
               
-              <p className="font-semibold text-gray-900">Date & Time:</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Date & Time:</p>
               <p>{appointment.date} at {appointment.time}</p>
 
-              <p className="font-semibold text-gray-900">Status:</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Status:</p>
               <StatusPill status={appointment.status} />
             </div>
 
-            <div className='pt-4 border-t mt-4'>
-                <p className="font-semibold text-gray-900 mb-2">Reason for Appointment:</p>
-                <p className='bg-gray-50 p-3 rounded-lg border'>{appointment.reason}</p>
+            <div className='pt-4 border-t dark:border-gray-700 mt-4'>
+                <p className="font-semibold text-gray-900 dark:text-white mb-2">Reason for Appointment:</p>
+                <p className='bg-gray-50 dark:bg-gray-700 p-3 rounded-lg border dark:border-gray-600'>{appointment.reason}</p>
             </div>
           </div>
 
-          <div className="p-4 border-t flex justify-end">
+          <div className="p-4 border-t dark:border-gray-700 flex justify-end">
             <button
               onClick={onClose}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition dark:bg-blue-700 dark:hover:bg-blue-600"
             >
               Close
             </button>
@@ -193,11 +193,11 @@ const AppointmentManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 dark:bg-gray-900 dark:text-gray-100 min-h-screen p-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Appointment Management</h1>
-        <p className="text-gray-600 mt-1">View and manage all patient appointments</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Appointment Management</h1>
+        <p className="text-gray-600 dark:text-gray-400 mt-1">View and manage all patient appointments</p>
       </div>
 
       {/* Colorful Stats Cards */}
@@ -229,7 +229,7 @@ const AppointmentManagement = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {/* Search */}
           <div className="relative">
@@ -239,7 +239,7 @@ const AppointmentManagement = () => {
               placeholder="Search by patient, doctor, or ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
           {/* Date Filter */}
@@ -249,7 +249,7 @@ const AppointmentManagement = () => {
               type="date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             />
           </div>
           {/* Status Filter */}
@@ -258,7 +258,7 @@ const AppointmentManagement = () => {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             >
               <option value="all">All Status</option>
               <option value="scheduled">Scheduled</option>
@@ -271,39 +271,39 @@ const AppointmentManagement = () => {
       </div>
 
       {/* Appointments Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Appointment ID
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Patient
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Doctor
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Department
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Date & Time
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredAppointments.length > 0 ? filteredAppointments.map((appointment) => (
-                <tr key={appointment.id} className="hover:bg-gray-50">
+                <tr key={appointment.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">
                       {appointment.appointmentNumber}
                     </span>
                   </td>
@@ -311,22 +311,22 @@ const AppointmentManagement = () => {
                     <div className="flex items-center">
                       <User className="h-5 w-5 text-gray-400 mr-2" />
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{appointment.patientName}</p>
-                        <p className="text-xs text-gray-500">{appointment.patientNumber}</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{appointment.patientName}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{appointment.patientNumber}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">
                     {appointment.doctorName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 py-1 text-xs font-medium bg-purple-100 text-purple-800 rounded">
+                    <span className="px-2 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded">
                       {appointment.department}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{appointment.date}</div>
-                    <div className="text-xs text-gray-500">{appointment.time}</div>
+                    <div className="text-sm text-gray-900 dark:text-white">{appointment.date}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">{appointment.time}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusColor(appointment.status)}`}>
@@ -337,7 +337,7 @@ const AppointmentManagement = () => {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleViewDetails(appointment)} 
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                        className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/50 rounded-lg"
                         title="View Details"
                       >
                         <Eye className="h-4 w-4" />
@@ -345,16 +345,16 @@ const AppointmentManagement = () => {
                       {appointment.status === 'scheduled' && (
                         <button
                           onClick={() => handleStatusUpdate(appointment.id, 'confirmed')}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg"
+                          className="p-2 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/50 rounded-lg"
                           title="Confirm Appointment"
                         >
                           <CheckCircle className="h-4 w-4" />
                         </button>
                       )}
-                        {appointment.status === 'confirmed' && (
+                      {appointment.status === 'confirmed' && (
                         <button
                           onClick={() => handleStatusUpdate(appointment.id, 'completed')}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg"
+                          className="p-2 text-green-600 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/50 rounded-lg"
                           title="Mark Complete"
                         >
                           <CheckCircle className="h-4 w-4" />
@@ -363,7 +363,7 @@ const AppointmentManagement = () => {
                       {appointment.status !== 'cancelled' && appointment.status !== 'completed' && (
                         <button
                           onClick={() => handleStatusUpdate(appointment.id, 'cancelled')}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                          className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/50 rounded-lg"
                           title="Cancel"
                         >
                           <XCircle className="h-4 w-4" />
@@ -374,7 +374,7 @@ const AppointmentManagement = () => {
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan="7" className="text-center py-10 text-gray-500">
+                  <td colSpan="7" className="text-center py-10 text-gray-500 dark:text-gray-400">
                     No appointments found matching the current filters.
                   </td>
                 </tr>

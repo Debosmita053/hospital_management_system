@@ -303,12 +303,12 @@ const DoctorManagement = () => {
   // Helper functions
   const getStatusBadge = (status) => {
     return status === 'active' ? (
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
         <CheckCircle className="w-3 h-3" />
         Active
       </span>
     ) : (
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
         <XCircle className="w-3 h-3" />
         Inactive
       </span>
@@ -327,16 +327,16 @@ const DoctorManagement = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 dark:bg-gray-900 dark:text-gray-100 min-h-screen p-4">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Doctor Management</h1>
-          <p className="text-gray-600 mt-1">Manage doctors, schedules, and assignments</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Doctor Management</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage doctors, schedules, and assignments</p>
         </div>
         <button
           onClick={handleAddDoctor}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
         >
           <Plus className="w-5 h-5" />
           Add Doctor
@@ -407,16 +407,16 @@ const DoctorManagement = () => {
       </div>
 
       {/* Tabs & Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between px-6">
             <nav className="flex space-x-8" aria-label="Tabs">
               <button
                 onClick={() => setActiveTab('all')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'all'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 All Doctors ({doctors.length})
@@ -425,8 +425,8 @@ const DoctorManagement = () => {
                 onClick={() => setActiveTab('active')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'active'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 Active ({stats.active})
@@ -435,8 +435,8 @@ const DoctorManagement = () => {
                 onClick={() => setActiveTab('inactive')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'inactive'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                    : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
                 }`}
               >
                 Inactive ({stats.inactive})
@@ -446,7 +446,7 @@ const DoctorManagement = () => {
         </div>
 
         {/* Search */}
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <input
@@ -454,7 +454,7 @@ const DoctorManagement = () => {
               placeholder="Search by name, ID, specialization, or department..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
             />
           </div>
         </div>
@@ -462,62 +462,62 @@ const DoctorManagement = () => {
         {/* Doctors Table */}
         <div className="p-6">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor ID</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Specialization</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Department</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Experience</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patients</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fee</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Doctor ID</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Specialization</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Department</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Experience</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Patients</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Fee</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {filteredDoctors.map((doctor) => (
-                  <tr key={doctor.id} className="hover:bg-gray-50">
+                  <tr key={doctor.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-900">{doctor.id}</span>
+                      <span className="text-sm font-medium text-gray-900 dark:text-white">{doctor.id}</span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center">
-                        <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-semibold text-blue-600">
+                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                          <span className="text-sm font-semibold text-blue-600 dark:text-blue-300">
                             {doctor.firstName[0]}{doctor.lastName[0]}
                           </span>
                         </div>
                         <div className="ml-3">
-                          <div className="text-sm font-medium text-gray-900">
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
                             Dr. {doctor.firstName} {doctor.lastName}
                           </div>
-                          <div className="text-sm text-gray-500">{doctor.email}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{doctor.email}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2.5 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">
+                      <span className="px-2.5 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs font-medium">
                         {doctor.specialization}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{doctor.department}</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{doctor.department}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{doctor.experience} years</div>
+                      <div className="text-sm text-gray-900 dark:text-white">{doctor.experience} years</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <button
                         onClick={() => handleViewPatients(doctor)}
-                        className="text-sm text-blue-600 hover:text-blue-900 font-medium"
+                        className="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300 font-medium"
                       >
                         {doctor.totalPatients} patients
                       </button>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-semibold text-green-600">₹{doctor.consultationFee}</div>
+                      <div className="text-sm font-semibold text-green-600 dark:text-green-400">₹{doctor.consultationFee}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       {getStatusBadge(doctor.status)}
@@ -526,35 +526,35 @@ const DoctorManagement = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleViewDoctor(doctor)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />
                         </button>
                         <button
                           onClick={() => handleEditDoctor(doctor)}
-                          className="text-green-600 hover:text-green-900"
+                          className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                           title="Edit"
                         >
                           <Edit2 className="w-5 h-5" />
                         </button>
                         <button
                           onClick={() => handleSchedule(doctor)}
-                          className="text-purple-600 hover:text-purple-900"
+                          className="text-purple-600 dark:text-purple-400 hover:text-purple-900 dark:hover:text-purple-300"
                           title="Set Schedule"
                         >
                           <Calendar className="w-5 h-5" />
                         </button>
                         <button
                           onClick={() => handleToggleStatus(doctor.id)}
-                          className={`${doctor.status === 'active' ? 'text-orange-600 hover:text-orange-900' : 'text-green-600 hover:text-green-900'}`}
+                          className={`${doctor.status === 'active' ? 'text-orange-600 dark:text-orange-400 hover:text-orange-900 dark:hover:text-orange-300' : 'text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300'}`}
                           title={doctor.status === 'active' ? 'Deactivate' : 'Activate'}
                         >
                           {doctor.status === 'active' ? <XCircle className="w-5 h-5" /> : <CheckCircle className="w-5 h-5" />}
                         </button>
                         <button
                           onClick={() => handleDeleteDoctor(doctor.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                           title="Delete"
                         >
                           <Trash2 className="w-5 h-5" />
@@ -572,39 +572,39 @@ const DoctorManagement = () => {
       {/* Modals */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             {/* Add/Edit Doctor Modal */}
             {(modalType === 'add' || modalType === 'edit') && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                     {modalType === 'add' ? 'Add New Doctor' : 'Edit Doctor'}
                   </h2>
                 </div>
                 <form onSubmit={handleSubmitDoctor} className="p-6 space-y-4">
                   {/* Personal Information Section */}
-                  <div className="border-b border-gray-200 pb-4">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
+                  <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Personal Information</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">First Name *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">First Name *</label>
                         <input
                           type="text"
                           required
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="Enter first name"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Last Name *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Last Name *</label>
                         <input
                           type="text"
                           required
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="Enter last name"
                         />
                       </div>
@@ -612,24 +612,24 @@ const DoctorManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email Address *</label>
                         <input
                           type="email"
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="doctor@hospital.com"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Phone Number *</label>
                         <input
                           type="tel"
                           required
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="+91 9876543210"
                         />
                       </div>
@@ -637,22 +637,22 @@ const DoctorManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date of Birth *</label>
                         <input
                           type="date"
                           required
                           value={formData.dateOfBirth}
                           onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Gender *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Gender *</label>
                         <select
                           required
                           value={formData.gender}
                           onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select</option>
                           <option value="male">Male</option>
@@ -664,16 +664,16 @@ const DoctorManagement = () => {
                   </div>
 
                   {/* Professional Information Section */}
-                  <div className="border-b border-gray-200 pb-4">
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">Professional Information</h3>
+                  <div className="border-b border-gray-200 dark:border-gray-700 pb-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Professional Information</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Specialization *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Specialization *</label>
                         <select
                           required
                           value={formData.specialization}
                           onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select Specialization</option>
                           {specializations.map(spec => (
@@ -682,12 +682,12 @@ const DoctorManagement = () => {
                         </select>
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Department *</label>
                         <select
                           required
                           value={formData.department}
                           onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         >
                           <option value="">Select Department</option>
                           {departments.map(dept => (
@@ -699,71 +699,71 @@ const DoctorManagement = () => {
 
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">License Number *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">License Number *</label>
                         <input
                           type="text"
                           required
                           value={formData.licenseNumber}
                           onChange={(e) => setFormData({ ...formData, licenseNumber: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                           placeholder="MED-2024-XXX"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Experience (years) *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Experience (years) *</label>
                         <input
                           type="number"
                           required
                           value={formData.experience}
                           onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
 
                     <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Education *</label>
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Education *</label>
                       <input
                         type="text"
                         required
                         value={formData.education}
                         onChange={(e) => setFormData({ ...formData, education: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         placeholder="MBBS, MD (Specialization)"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4 mt-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Consultation Fee (₹) *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Consultation Fee (₹) *</label>
                         <input
                           type="number"
                           required
                           value={formData.consultationFee}
                           onChange={(e) => setFormData({ ...formData, consultationFee: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Joining Date *</label>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Joining Date *</label>
                         <input
                           type="date"
                           required
                           value={formData.joiningDate}
                           onChange={(e) => setFormData({ ...formData, joiningDate: e.target.value })}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Status *</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status *</label>
                     <select
                       required
                       value={formData.status}
                       onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     >
                       <option value="active">Active</option>
                       <option value="inactive">Inactive</option>
@@ -773,14 +773,14 @@ const DoctorManagement = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       {modalType === 'add' ? 'Add Doctor' : 'Update Doctor'}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
                     >
                       Cancel
                     </button>
@@ -792,29 +792,29 @@ const DoctorManagement = () => {
             {/* View Doctor Modal */}
             {modalType === 'view' && selectedDoctor && (
               <>
-                <div className="p-6 border-b border-gray-200">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
                   <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-gray-900">Doctor Details</h2>
-                    <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600">
+                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Doctor Details</h2>
+                    <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                       <X className="w-6 h-6" />
                     </button>
                   </div>
                 </div>
                 <div className="p-6 space-y-6">
                   {/* Doctor Info */}
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
-                          <span className="text-2xl font-bold text-blue-600">
+                        <div className="w-16 h-16 bg-blue-200 dark:bg-blue-800 rounded-full flex items-center justify-center">
+                          <span className="text-2xl font-bold text-blue-600 dark:text-blue-300">
                             {selectedDoctor.firstName[0]}{selectedDoctor.lastName[0]}
                           </span>
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold text-gray-900">
+                          <h3 className="text-xl font-bold text-gray-900 dark:text-white">
                             Dr. {selectedDoctor.firstName} {selectedDoctor.lastName}
                           </h3>
-                          <p className="text-sm text-gray-600">{selectedDoctor.id}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{selectedDoctor.id}</p>
                         </div>
                       </div>
                       {getStatusBadge(selectedDoctor.status)}
@@ -822,43 +822,43 @@ const DoctorManagement = () => {
                     
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                       <div>
-                        <p className="text-xs text-gray-600">Age</p>
-                        <p className="text-sm font-semibold text-gray-900">{calculateAge(selectedDoctor.dateOfBirth)} years</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">Age</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{calculateAge(selectedDoctor.dateOfBirth)} years</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600">Gender</p>
-                        <p className="text-sm font-semibold text-gray-900 capitalize">{selectedDoctor.gender}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">Gender</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white capitalize">{selectedDoctor.gender}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600">Experience</p>
-                        <p className="text-sm font-semibold text-gray-900">{selectedDoctor.experience} years</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">Experience</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.experience} years</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-600">Total Patients</p>
-                        <p className="text-sm font-semibold text-gray-900">{selectedDoctor.totalPatients}</p>
+                        <p className="text-xs text-gray-600 dark:text-gray-400">Total Patients</p>
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.totalPatients}</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Contact Information */}
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <Phone className="w-5 h-5 text-blue-600" />
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                      <Phone className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       Contact Information
                     </h4>
-                    <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                    <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 space-y-3">
                       <div className="flex items-center gap-3">
                         <Mail className="w-4 h-4 text-gray-400" />
                         <div>
-                          <p className="text-xs text-gray-600">Email</p>
-                          <p className="text-sm font-medium text-gray-900">{selectedDoctor.email}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Email</p>
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">{selectedDoctor.email}</p>
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <Phone className="w-4 h-4 text-gray-400" />
                         <div>
-                          <p className="text-xs text-gray-600">Phone</p>
-                          <p className="text-sm font-medium text-gray-900">{selectedDoctor.phone}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Phone</p>
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">{selectedDoctor.phone}</p>
                         </div>
                       </div>
                     </div>
@@ -866,35 +866,35 @@ const DoctorManagement = () => {
 
                   {/* Professional Details */}
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <Stethoscope className="w-5 h-5 text-green-600" />
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                      <Stethoscope className="w-5 h-5 text-green-600 dark:text-green-400" />
                       Professional Details
                     </h4>
-                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 space-y-3">
+                    <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4 space-y-3">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <p className="text-xs text-gray-600">Specialization</p>
-                          <p className="text-sm font-semibold text-gray-900">{selectedDoctor.specialization}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Specialization</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.specialization}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Department</p>
-                          <p className="text-sm font-semibold text-gray-900">{selectedDoctor.department}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Department</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.department}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">License Number</p>
-                          <p className="text-sm font-semibold text-gray-900">{selectedDoctor.licenseNumber}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">License Number</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.licenseNumber}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Education</p>
-                          <p className="text-sm font-semibold text-gray-900">{selectedDoctor.education}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Education</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.education}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Consultation Fee</p>
-                          <p className="text-sm font-semibold text-green-600">₹{selectedDoctor.consultationFee}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Consultation Fee</p>
+                          <p className="text-sm font-semibold text-green-600 dark:text-green-400">₹{selectedDoctor.consultationFee}</p>
                         </div>
                         <div>
-                          <p className="text-xs text-gray-600">Joining Date</p>
-                          <p className="text-sm font-semibold text-gray-900">{selectedDoctor.joiningDate}</p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">Joining Date</p>
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white">{selectedDoctor.joiningDate}</p>
                         </div>
                       </div>
                     </div>
@@ -902,21 +902,21 @@ const DoctorManagement = () => {
 
                   {/* Weekly Schedule */}
                   <div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <Clock className="w-5 h-5 text-purple-600" />
+                    <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                      <Clock className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                       Weekly Schedule
                     </h4>
-                    <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+                    <div className="bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
                       <div className="space-y-2">
                         {Object.entries(selectedDoctor.availability).map(([day, schedule]) => (
-                          <div key={day} className="flex items-center justify-between p-2 bg-white rounded">
-                            <span className="text-sm font-medium text-gray-900 capitalize">{day}</span>
+                          <div key={day} className="flex items-center justify-between p-2 bg-white dark:bg-gray-700 rounded">
+                            <span className="text-sm font-medium text-gray-900 dark:text-white capitalize">{day}</span>
                             {schedule.available ? (
-                              <span className="text-sm text-green-600 font-medium">
+                              <span className="text-sm text-green-600 dark:text-green-400 font-medium">
                                 {schedule.start} - {schedule.end}
                               </span>
                             ) : (
-                              <span className="text-sm text-red-600 font-medium">Not Available</span>
+                              <span className="text-sm text-red-600 dark:text-red-400 font-medium">Not Available</span>
                             )}
                           </div>
                         ))}
@@ -930,13 +930,13 @@ const DoctorManagement = () => {
                         setShowModal(false);
                         handleEditDoctor(selectedDoctor);
                       }}
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       Edit Doctor
                     </button>
                     <button
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
                     >
                       Close
                     </button>
@@ -948,17 +948,17 @@ const DoctorManagement = () => {
             {/* Schedule Modal */}
             {modalType === 'schedule' && selectedDoctor && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">Set Doctor Schedule</h2>
-                  <p className="text-sm text-gray-600 mt-1">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Set Doctor Schedule</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Dr. {selectedDoctor.firstName} {selectedDoctor.lastName}
                   </p>
                 </div>
                 <form onSubmit={handleSubmitSchedule} className="p-6 space-y-4">
                   {Object.entries(scheduleData).map(([day, schedule]) => (
-                    <div key={day} className="border border-gray-200 rounded-lg p-4">
+                    <div key={day} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                       <div className="flex items-center justify-between mb-3">
-                        <label className="text-sm font-medium text-gray-900 capitalize">{day}</label>
+                        <label className="text-sm font-medium text-gray-900 dark:text-white capitalize">{day}</label>
                         <label className="flex items-center gap-2 cursor-pointer">
                           <input
                             type="checkbox"
@@ -967,15 +967,15 @@ const DoctorManagement = () => {
                               ...scheduleData,
                               [day]: { ...schedule, available: e.target.checked }
                             })}
-                            className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+                            className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
                           />
-                          <span className="text-sm text-gray-600">Available</span>
+                          <span className="text-sm text-gray-600 dark:text-gray-400">Available</span>
                         </label>
                       </div>
                       {schedule.available && (
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <label className="block text-xs text-gray-600 mb-1">Start Time</label>
+                            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Start Time</label>
                             <input
                               type="time"
                               value={schedule.start}
@@ -983,11 +983,11 @@ const DoctorManagement = () => {
                                 ...scheduleData,
                                 [day]: { ...schedule, start: e.target.value }
                               })}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs text-gray-600 mb-1">End Time</label>
+                            <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">End Time</label>
                             <input
                               type="time"
                               value={schedule.end}
@@ -995,7 +995,7 @@ const DoctorManagement = () => {
                                 ...scheduleData,
                                 [day]: { ...schedule, end: e.target.value }
                               })}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             />
                           </div>
                         </div>
@@ -1006,14 +1006,14 @@ const DoctorManagement = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       Save Schedule
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
                     >
                       Cancel
                     </button>
@@ -1025,9 +1025,9 @@ const DoctorManagement = () => {
             {/* Patients List Modal */}
             {modalType === 'patients' && selectedDoctor && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">Patient List</h2>
-                  <p className="text-sm text-gray-600 mt-1">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Patient List</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Dr. {selectedDoctor.firstName} {selectedDoctor.lastName} - {selectedDoctor.totalPatients} Total Patients
                   </p>
                 </div>
@@ -1035,21 +1035,23 @@ const DoctorManagement = () => {
                   {selectedDoctor.patients && selectedDoctor.patients.length > 0 ? (
                     <div className="space-y-3">
                       {selectedDoctor.patients.map((patient) => (
-                        <div key={patient.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <div key={patient.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                              <User className="w-5 h-5 text-blue-600" />
+                            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                              <User className="w-5 h-5 text-blue-600 dark:text-blue-300" />
                             </div>
                             <div>
-                              <p className="text-sm font-semibold text-gray-900">{patient.name}</p>
-                              <p className="text-xs text-gray-500">ID: {patient.id}</p>
+                              <p className="text-sm font-semibold text-gray-900 dark:text-white">{patient.name}</p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">ID: {patient.id}</p>
                             </div>
                           </div>
                           <div className="text-right">
-                            <p className="text-xs text-gray-600">Last Visit</p>
-                            <p className="text-sm font-medium text-gray-900">{patient.lastVisit}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400">Last Visit</p>
+                            <p className="text-sm font-medium text-gray-900 dark:text-white">{patient.lastVisit}</p>
                             <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                              patient.condition === 'Critical' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+                              patient.condition === 'Critical' 
+                                ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' 
+                                : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
                             }`}>
                               {patient.condition}
                             </span>
@@ -1059,15 +1061,15 @@ const DoctorManagement = () => {
                     </div>
                   ) : (
                     <div className="text-center py-12">
-                      <Users className="w-16 h-16 text-gray-300 mx-auto mb-3" />
-                      <p className="text-gray-500">No patients assigned yet</p>
+                      <Users className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                      <p className="text-gray-500 dark:text-gray-400">No patients assigned yet</p>
                     </div>
                   )}
 
                   <div className="pt-6">
                     <button
                       onClick={() => setShowModal(false)}
-                      className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="w-full px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-500"
                     >
                       Close
                     </button>

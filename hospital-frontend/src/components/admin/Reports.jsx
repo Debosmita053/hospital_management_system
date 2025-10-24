@@ -164,9 +164,9 @@ const Reports = () => {
   // Helper functions
   const getStatusBadge = (status) => {
     const styles = {
-      pending: 'bg-yellow-100 text-yellow-800',
-      'in-progress': 'bg-blue-100 text-blue-800',
-      completed: 'bg-green-100 text-green-800'
+      pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+      'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
     };
     const icons = {
       pending: <Clock className="w-3 h-3" />,
@@ -183,8 +183,8 @@ const Reports = () => {
 
   const getPriorityBadge = (priority) => {
     const styles = {
-      urgent: 'bg-red-100 text-red-800',
-      routine: 'bg-gray-100 text-gray-800'
+      urgent: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      routine: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
     };
     return (
       <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${styles[priority]}`}>
@@ -194,12 +194,12 @@ const Reports = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen p-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Reports & Lab Management</h1>
-          <p className="text-gray-600 mt-1">Analytics, lab tests, and report generation</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Reports & Lab Management</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Analytics, lab tests, and report generation</p>
         </div>
       </div>
 
@@ -259,15 +259,15 @@ const Reports = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-        <div className="border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <nav className="flex space-x-8 px-6" aria-label="Tabs">
             <button
               onClick={() => setActiveTab('overview')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'overview'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -279,8 +279,8 @@ const Reports = () => {
               onClick={() => setActiveTab('lab-requests')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'lab-requests'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -292,8 +292,8 @@ const Reports = () => {
               onClick={() => setActiveTab('test-types')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'test-types'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -305,8 +305,8 @@ const Reports = () => {
               onClick={() => setActiveTab('results')}
               className={`py-4 px-1 border-b-2 font-medium text-sm ${
                 activeTab === 'results'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  ? 'border-blue-500 text-blue-600 dark:border-blue-400 dark:text-blue-400'
+                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
               }`}
             >
               <div className="flex items-center gap-2">
@@ -324,85 +324,85 @@ const Reports = () => {
             <div className="space-y-6">
               {/* Quick Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Test Categories</h3>
-                    <Beaker className="w-6 h-6 text-blue-600" />
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Test Categories</h3>
+                    <Beaker className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div className="space-y-3">
                     {['Hematology', 'Biochemistry', 'Radiology', 'Pathology'].map((cat, idx) => (
                       <div key={cat} className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">{cat}</span>
-                        <span className="text-sm font-semibold text-gray-900">{testTypes.filter(t => t.category === cat).length}</span>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">{cat}</span>
+                        <span className="text-sm font-semibold text-gray-900 dark:text-white">{testTypes.filter(t => t.category === cat).length}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Status Breakdown</h3>
-                    <Activity className="w-6 h-6 text-green-600" />
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Status Breakdown</h3>
+                    <Activity className="w-6 h-6 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Completed</span>
-                      <span className="text-sm font-semibold text-green-600">{stats.completed}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Completed</span>
+                      <span className="text-sm font-semibold text-green-600 dark:text-green-400">{stats.completed}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">In Progress</span>
-                      <span className="text-sm font-semibold text-blue-600">{stats.inProgress}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">In Progress</span>
+                      <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">{stats.inProgress}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Pending</span>
-                      <span className="text-sm font-semibold text-yellow-600">{stats.pending}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Pending</span>
+                      <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-400">{stats.pending}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Urgent</span>
-                      <span className="text-sm font-semibold text-red-600">{stats.urgentRequests}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Urgent</span>
+                      <span className="text-sm font-semibold text-red-600 dark:text-red-400">{stats.urgentRequests}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6">
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Performance</h3>
-                    <TrendingUp className="w-6 h-6 text-purple-600" />
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Performance</h3>
+                    <TrendingUp className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Avg Turnaround</span>
-                      <span className="text-sm font-semibold text-gray-900">{stats.avgTurnaround}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Avg Turnaround</span>
+                      <span className="text-sm font-semibold text-gray-900 dark:text-white">{stats.avgTurnaround}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Total Tests</span>
-                      <span className="text-sm font-semibold text-gray-900">{stats.totalTestTypes}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Total Tests</span>
+                      <span className="text-sm font-semibold text-gray-900 dark:text-white">{stats.totalTestTypes}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Success Rate</span>
-                      <span className="text-sm font-semibold text-green-600">98.5%</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Success Rate</span>
+                      <span className="text-sm font-semibold text-green-600 dark:text-green-400">98.5%</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-600">Monthly Revenue</span>
-                      <span className="text-sm font-semibold text-green-600">₹{stats.totalRevenue.toLocaleString()}</span>
+                      <span className="text-sm text-gray-600 dark:text-gray-400">Monthly Revenue</span>
+                      <span className="text-sm font-semibold text-green-600 dark:text-green-400">₹{stats.totalRevenue.toLocaleString()}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* Recent Activity */}
-              <div className="bg-white border border-gray-200 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Test Activity</h3>
+              <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Test Activity</h3>
                 <div className="space-y-3">
                   {testRequests.slice(0, 5).map((request) => (
-                    <div key={request.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div key={request.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                          <Beaker className="w-5 h-5 text-blue-600" />
+                        <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                          <Beaker className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
                         <div>
-                          <p className="text-sm font-medium text-gray-900">{request.testName}</p>
-                          <p className="text-xs text-gray-500">{request.patientName} • {request.requestDate}</p>
+                          <p className="text-sm font-medium text-gray-900 dark:text-white">{request.testName}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{request.patientName} • {request.requestDate}</p>
                         </div>
                       </div>
                       {getStatusBadge(request.status)}
@@ -426,14 +426,14 @@ const Reports = () => {
                       placeholder="Search by patient, test, or ID..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     />
                   </div>
                 </div>
                 <select
                   value={filterStatus}
                   onChange={(e) => setFilterStatus(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 >
                   <option value="all">All Status</option>
                   <option value="pending">Pending</option>
@@ -444,40 +444,40 @@ const Reports = () => {
 
               {/* Requests Table */}
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Request ID</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Test Name</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Doctor</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Priority</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Lab</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Request ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Patient</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Test Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Doctor</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Priority</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Lab</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     {filteredRequests.map((request) => (
-                      <tr key={request.id} className="hover:bg-gray-50">
+                      <tr key={request.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-medium text-gray-900">{request.id}</span>
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">{request.id}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div>
-                            <div className="text-sm font-medium text-gray-900">{request.patientName}</div>
-                            <div className="text-sm text-gray-500">{request.patientId}</div>
+                            <div className="text-sm font-medium text-gray-900 dark:text-white">{request.patientName}</div>
+                            <div className="text-sm text-gray-500 dark:text-gray-400">{request.patientId}</div>
                           </div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">{request.testName}</div>
+                          <div className="text-sm text-gray-900 dark:text-white">{request.testName}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{request.doctorName}</div>
+                          <div className="text-sm text-gray-900 dark:text-white">{request.doctorName}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{request.requestDate}</div>
+                          <div className="text-sm text-gray-900 dark:text-white">{request.requestDate}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           {getPriorityBadge(request.priority)}
@@ -489,7 +489,7 @@ const Reports = () => {
                           {request.status === 'pending' ? (
                             <select
                               onChange={(e) => handleAssignLab(request.id, e.target.value)}
-                              className="text-sm border border-gray-300 rounded px-2 py-1"
+                              className="text-sm border border-gray-300 dark:border-gray-600 rounded px-2 py-1 dark:bg-gray-700 dark:text-white"
                               defaultValue=""
                             >
                               <option value="" disabled>Assign Lab</option>
@@ -499,18 +499,18 @@ const Reports = () => {
                               <option value="Pathology Lab">Pathology Lab</option>
                             </select>
                           ) : (
-                            <span className="text-sm text-gray-900">{request.labAssigned}</span>
+                            <span className="text-sm text-gray-900 dark:text-white">{request.labAssigned}</span>
                           )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center gap-2">
                             {request.status === 'in-progress' && (
-                              <span className="text-sm text-gray-500 italic">Awaiting lab results</span>
+                              <span className="text-sm text-gray-500 dark:text-gray-400 italic">Awaiting lab results</span>
                             )}
                             {request.status === 'completed' && (
                               <button
                                 onClick={() => handleViewResult(testResults.find(r => r.id === request.id))}
-                                className="text-blue-600 hover:text-blue-900"
+                                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                                 title="View Result"
                               >
                                 <Eye className="w-5 h-5" />
@@ -539,13 +539,13 @@ const Reports = () => {
                       placeholder="Search test types..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="w-full max-w-md pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full max-w-md pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     />
                   </div>
                 </div>
                 <button
                   onClick={handleAddTestType}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                 >
                   <Plus className="w-5 h-5" />
                   Add Test Type
@@ -555,40 +555,40 @@ const Reports = () => {
               {/* Test Types Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredTests.map((test) => (
-                  <div key={test.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                  <div key={test.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-md transition-shadow">
                     <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <Beaker className="w-6 h-6 text-blue-600" />
+                      <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                        <Beaker className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleEditTestType(test)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                         >
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => handleDeleteTestType(test.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">{test.name}</h3>
-                    <p className="text-sm text-gray-600 mb-4">{test.description}</p>
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">{test.name}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{test.description}</p>
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-500">Category:</span>
-                        <span className="font-medium text-gray-900">{test.category}</span>
+                        <span className="text-gray-500 dark:text-gray-400">Category:</span>
+                        <span className="font-medium text-gray-900 dark:text-white">{test.category}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-500">Price:</span>
-                        <span className="font-medium text-green-600">₹{test.price}</span>
+                        <span className="text-gray-500 dark:text-gray-400">Price:</span>
+                        <span className="font-medium text-green-600 dark:text-green-400">₹{test.price}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-gray-500">Turnaround:</span>
-                        <span className="font-medium text-gray-900">{test.turnaroundTime}</span>
+                        <span className="text-gray-500 dark:text-gray-400">Turnaround:</span>
+                        <span className="font-medium text-gray-900 dark:text-white">{test.turnaroundTime}</span>
                       </div>
                     </div>
                   </div>
@@ -608,57 +608,57 @@ const Reports = () => {
                   placeholder="Search results..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 />
               </div>
 
               {/* Results Table */}
               <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                  <thead className="bg-gray-50 dark:bg-gray-700">
                     <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Request ID</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Patient</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Test Name</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Completed Date</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Uploaded By</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Notes</th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Request ID</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Patient</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Test Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Completed Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Uploaded By</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Notes</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
+                  <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                     {filteredResults.map((result) => (
-                      <tr key={result.id} className="hover:bg-gray-50">
+                      <tr key={result.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="text-sm font-medium text-gray-900">{result.id}</span>
+                          <span className="text-sm font-medium text-gray-900 dark:text-white">{result.id}</span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">{result.patientName}</div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{result.patientName}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">{result.testName}</div>
+                          <div className="text-sm text-gray-900 dark:text-white">{result.testName}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{result.completedDate}</div>
+                          <div className="text-sm text-gray-900 dark:text-white">{result.completedDate}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{result.uploadedBy}</div>
+                          <div className="text-sm text-gray-900 dark:text-white">{result.uploadedBy}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <div className="text-sm text-gray-600 max-w-xs truncate">{result.notes}</div>
+                          <div className="text-sm text-gray-600 dark:text-gray-400 max-w-xs truncate">{result.notes}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => handleViewResult(result)}
-                              className="text-blue-600 hover:text-blue-900"
+                              className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                               title="View Result"
                             >
                               <Eye className="w-5 h-5" />
                             </button>
                             <button
                               onClick={() => handleDownloadReport(result)}
-                              className="text-green-600 hover:text-green-900"
+                              className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
                               title="Download Report"
                             >
                               <Download className="w-5 h-5" />
@@ -678,18 +678,18 @@ const Reports = () => {
       {/* Modals */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
             {/* Add/Edit Test Type Modal */}
             {modalType === 'addTest' && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                     {selectedItem ? 'Edit Test Type' : 'Add New Test Type'}
                   </h2>
                 </div>
                 <form onSubmit={handleSubmitTestType} className="p-6 space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Test Name *
                     </label>
                     <input
@@ -697,21 +697,21 @@ const Reports = () => {
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                       placeholder="e.g., Complete Blood Count"
                     />
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Category *
                       </label>
                       <select
                         required
                         value={formData.category}
                         onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       >
                         <option value="">Select Category</option>
                         <option value="Hematology">Hematology</option>
@@ -725,7 +725,7 @@ const Reports = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Price (₹) *
                       </label>
                       <input
@@ -733,14 +733,14 @@ const Reports = () => {
                         required
                         value={formData.price}
                         onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                         placeholder="500"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Turnaround Time *
                     </label>
                     <input
@@ -748,20 +748,20 @@ const Reports = () => {
                       required
                       value={formData.turnaroundTime}
                       onChange={(e) => setFormData({ ...formData, turnaroundTime: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       placeholder="e.g., 24 hours, 2 days"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Description
                     </label>
                     <textarea
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       rows="3"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                       placeholder="Brief description of the test..."
                     />
                   </div>
@@ -769,14 +769,14 @@ const Reports = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       {selectedItem ? 'Update Test Type' : 'Add Test Type'}
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                       Cancel
                     </button>
@@ -788,18 +788,18 @@ const Reports = () => {
             {/* Upload Result Modal */}
             {modalType === 'uploadResult' && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">Upload Test Result</h2>
-                  <p className="text-sm text-gray-600 mt-1">
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Upload Test Result</h2>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                     Patient: {selectedItem?.patientName} | Test: {selectedItem?.testName}
                   </p>
                 </div>
                 <form onSubmit={handleSubmitResult} className="p-6 space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Upload Result File (PDF) *
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
+                    <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-500 transition-colors">
                       <input
                         type="file"
                         accept=".pdf"
@@ -809,24 +809,24 @@ const Reports = () => {
                         required
                       />
                       <label htmlFor="file-upload" className="cursor-pointer">
-                        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                        <p className="text-sm text-gray-600">
+                        <Upload className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-3" />
+                        <p className="text-sm text-gray-600 dark:text-gray-400">
                           {formData.resultFile ? formData.resultFile.name : 'Click to upload or drag and drop'}
                         </p>
-                        <p className="text-xs text-gray-500 mt-1">PDF files only</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">PDF files only</p>
                       </label>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Notes (Optional)
                     </label>
                     <textarea
                       value={formData.notes}
                       onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                       rows="4"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                       placeholder="Add any important notes about the test results..."
                     />
                   </div>
@@ -834,14 +834,14 @@ const Reports = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       type="submit"
-                      className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                      className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors dark:bg-green-700 dark:hover:bg-green-600"
                     >
                       Upload Result
                     </button>
                     <button
                       type="button"
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                       Cancel
                     </button>
@@ -853,44 +853,44 @@ const Reports = () => {
             {/* View Result Modal */}
             {modalType === 'viewResult' && selectedItem && (
               <>
-                <div className="p-6 border-b border-gray-200">
-                  <h2 className="text-xl font-semibold text-gray-900">Test Result Details</h2>
+                <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Test Result Details</h2>
                 </div>
                 <div className="p-6 space-y-4">
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <p className="text-sm text-gray-600">Request ID</p>
-                        <p className="text-base font-semibold text-gray-900">{selectedItem.id}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Request ID</p>
+                        <p className="text-base font-semibold text-gray-900 dark:text-white">{selectedItem.id}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Patient Name</p>
-                        <p className="text-base font-semibold text-gray-900">{selectedItem.patientName}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Patient Name</p>
+                        <p className="text-base font-semibold text-gray-900 dark:text-white">{selectedItem.patientName}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Test Name</p>
-                        <p className="text-base font-semibold text-gray-900">{selectedItem.testName}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Test Name</p>
+                        <p className="text-base font-semibold text-gray-900 dark:text-white">{selectedItem.testName}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600">Completed Date</p>
-                        <p className="text-base font-semibold text-gray-900">{selectedItem.completedDate}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">Completed Date</p>
+                        <p className="text-base font-semibold text-gray-900 dark:text-white">{selectedItem.completedDate}</p>
                       </div>
                     </div>
                   </div>
 
                   <div>
-                    <p className="text-sm font-medium text-gray-700 mb-2">Uploaded By</p>
-                    <p className="text-gray-900">{selectedItem.uploadedBy}</p>
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Uploaded By</p>
+                    <p className="text-gray-900 dark:text-white">{selectedItem.uploadedBy}</p>
                   </div>
 
                   <div>
-                    <p className="text-sm font-medium text-gray-700 mb-2">Result File</p>
-                    <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                      <FileText className="w-5 h-5 text-red-600" />
-                      <span className="text-sm text-gray-900 flex-1">{selectedItem.resultFile}</span>
+                    <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Result File</p>
+                    <div className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <FileText className="w-5 h-5 text-red-600 dark:text-red-400" />
+                      <span className="text-sm text-gray-900 dark:text-white flex-1">{selectedItem.resultFile}</span>
                       <button
                         onClick={() => handleDownloadReport(selectedItem)}
-                        className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                        className="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                       >
                         <Download className="w-4 h-4" />
                         Download
@@ -900,9 +900,9 @@ const Reports = () => {
 
                   {selectedItem.notes && (
                     <div>
-                      <p className="text-sm font-medium text-gray-700 mb-2">Notes</p>
-                      <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-                        <p className="text-sm text-gray-700">{selectedItem.notes}</p>
+                      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Notes</p>
+                      <div className="p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                        <p className="text-sm text-gray-700 dark:text-gray-300">{selectedItem.notes}</p>
                       </div>
                     </div>
                   )}
@@ -910,14 +910,14 @@ const Reports = () => {
                   <div className="flex gap-3 pt-4">
                     <button
                       onClick={() => handleDownloadReport(selectedItem)}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       <Download className="w-5 h-5" />
                       Download Report
                     </button>
                     <button
                       onClick={() => setShowModal(false)}
-                      className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                     >
                       Close
                     </button>

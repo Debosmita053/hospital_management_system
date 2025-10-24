@@ -279,10 +279,10 @@ const Prescriptions = () => {
 
   const getPharmacyStatusBadge = (status) => {
     const badges = {
-      'pending': { bg: 'bg-gray-100', text: 'text-gray-800', label: 'Not Sent' },
-      'sent': { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Sent' },
-      'processing': { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Processing' },
-      'dispensed': { bg: 'bg-green-100', text: 'text-green-800', label: 'Dispensed' }
+      'pending': { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-800 dark:text-gray-300', label: 'Not Sent' },
+      'sent': { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-800 dark:text-blue-300', label: 'Sent' },
+      'processing': { bg: 'bg-yellow-100 dark:bg-yellow-900/30', text: 'text-yellow-800 dark:text-yellow-300', label: 'Processing' },
+      'dispensed': { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-800 dark:text-green-300', label: 'Dispensed' }
     };
     const badge = badges[status] || badges.pending;
     return (
@@ -306,12 +306,12 @@ const Prescriptions = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
+    <div className="space-y-6 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Prescriptions</h1>
-          <p className="text-gray-600 mt-1">Create and manage patient prescriptions</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Prescriptions</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Create and manage patient prescriptions</p>
         </div>
         <button
           onClick={() => setShowModal(true)}
@@ -346,32 +346,32 @@ const Prescriptions = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6">
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button 
             onClick={() => setShowModal(true)}
-            className="flex items-center gap-4 p-4 border-2 border-blue-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition-all group"
+            className="flex items-center gap-4 p-4 border-2 border-blue-200 dark:border-blue-800 rounded-lg hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all group"
           >
-            <div className="p-3 bg-blue-100 rounded-lg group-hover:bg-blue-500 transition-colors">
-              <Plus className="w-6 h-6 text-blue-600 group-hover:text-white" />
+            <div className="p-3 bg-blue-100 dark:bg-blue-900/40 rounded-lg group-hover:bg-blue-500 transition-colors">
+              <Plus className="w-6 h-6 text-blue-600 dark:text-blue-400 group-hover:text-white" />
             </div>
             <div className="text-left">
-              <p className="font-semibold text-gray-900">Create Prescription</p>
-              <p className="text-sm text-gray-500">Write new prescription</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Create Prescription</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Write new prescription</p>
             </div>
           </button>
 
           <button 
             onClick={handleSendToPharmacy}
-            className="flex items-center gap-4 p-4 border-2 border-green-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition-all group"
+            className="flex items-center gap-4 p-4 border-2 border-green-200 dark:border-green-800 rounded-lg hover:border-green-500 dark:hover:border-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-all group"
           >
-            <div className="p-3 bg-green-100 rounded-lg group-hover:bg-green-500 transition-colors">
-              <Send className="w-6 h-6 text-green-600 group-hover:text-white" />
+            <div className="p-3 bg-green-100 dark:bg-green-900/40 rounded-lg group-hover:bg-green-500 transition-colors">
+              <Send className="w-6 h-6 text-green-600 dark:text-green-400 group-hover:text-white" />
             </div>
             <div className="text-left">
-              <p className="font-semibold text-gray-900">Send to Pharmacy</p>
-              <p className="text-sm text-gray-500">
+              <p className="font-semibold text-gray-900 dark:text-white">Send to Pharmacy</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 Send {prescriptions.filter(rx => !rx.sentToPharmacy).length} pending
               </p>
             </div>
@@ -379,21 +379,21 @@ const Prescriptions = () => {
 
           <button 
             onClick={handlePrintReport}
-            className="flex items-center gap-4 p-4 border-2 border-purple-200 rounded-lg hover:border-purple-500 hover:bg-purple-50 transition-all group"
+            className="flex items-center gap-4 p-4 border-2 border-purple-200 dark:border-purple-800 rounded-lg hover:border-purple-500 dark:hover:border-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all group"
           >
-            <div className="p-3 bg-purple-100 rounded-lg group-hover:bg-purple-500 transition-colors">
-              <Printer className="w-6 h-6 text-purple-600 group-hover:text-white" />
+            <div className="p-3 bg-purple-100 dark:bg-purple-900/40 rounded-lg group-hover:bg-purple-500 transition-colors">
+              <Printer className="w-6 h-6 text-purple-600 dark:text-purple-400 group-hover:text-white" />
             </div>
             <div className="text-left">
-              <p className="font-semibold text-gray-900">Print Reports</p>
-              <p className="text-sm text-gray-500">Monthly prescription report</p>
+              <p className="font-semibold text-gray-900 dark:text-white">Print Reports</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Monthly prescription report</p>
             </div>
           </button>
         </div>
       </div>
 
       {/* Search */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input
@@ -401,7 +401,7 @@ const Prescriptions = () => {
             placeholder="Search by patient name, ID, or prescription number..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
           />
         </div>
       </div>
@@ -409,71 +409,71 @@ const Prescriptions = () => {
       {/* Recent Prescriptions List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold text-gray-900">Recent Prescriptions</h2>
-          <span className="text-sm text-gray-500">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">Recent Prescriptions</h2>
+          <span className="text-sm text-gray-500 dark:text-gray-400">
             Last 3 months • {getRecentPrescriptions().length} prescriptions
           </span>
         </div>
 
         {getRecentPrescriptions().length === 0 ? (
-          <div className="bg-white rounded-xl shadow-sm p-12 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-12 text-center">
             <Pill className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">No recent prescriptions found</p>
-            <p className="text-sm text-gray-500 mt-2">Try creating a new prescription or adjusting your search</p>
+            <p className="text-gray-600 dark:text-gray-400">No recent prescriptions found</p>
+            <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">Try creating a new prescription or adjusting your search</p>
           </div>
         ) : (
           getRecentPrescriptions().map((rx) => (
-            <div key={rx.id} className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100">
+            <div key={rx.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow border border-gray-100 dark:border-gray-700">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center space-x-4">
-                  <div className="w-14 h-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-semibold">
+                  <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-semibold">
                     {rx.avatar}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{rx.patientName}</h3>
-                    <p className="text-sm text-gray-600">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{rx.patientName}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       Patient ID: {rx.patientId} • Prescription: {rx.id}
                     </p>
-                    <p className="text-xs text-gray-500 flex items-center mt-1">
+                    <p className="text-xs text-gray-500 dark:text-gray-500 flex items-center mt-1">
                       <Clock className="w-3 h-3 mr-1" />
                       {getTimeSince(rx.date)} • {rx.doctor}
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-500">{rx.date}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{rx.date}</span>
                   {getPharmacyStatusBadge(rx.pharmacyStatus)}
                 </div>
               </div>
 
               {/* Patient Medical Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <p className="text-xs text-gray-600 mb-1 font-medium">Diagnosis</p>
-                  <p className="text-sm text-gray-900">{rx.diagnosis}</p>
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 font-medium">Diagnosis</p>
+                  <p className="text-sm text-gray-900 dark:text-white">{rx.diagnosis}</p>
                 </div>
-                <div className="bg-red-50 p-4 rounded-lg">
-                  <p className="text-xs text-gray-600 mb-1 font-medium">Allergies</p>
-                  <p className="text-sm text-gray-900">
+                <div className="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 font-medium">Allergies</p>
+                  <p className="text-sm text-gray-900 dark:text-white">
                     {Array.isArray(rx.allergies) ? rx.allergies.join(', ') : 'None reported'}
                   </p>
                 </div>
               </div>
 
               <div className="space-y-3 mb-4">
-                <p className="text-sm font-medium text-gray-700">Medications:</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Medications:</p>
                 {rx.medications.map((med, index) => (
-                  <div key={index} className="bg-gray-50 p-4 rounded-lg">
+                  <div key={index} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                     <div className="flex items-start justify-between mb-2">
                       <div>
-                        <p className="font-semibold text-gray-900">{med.name}</p>
-                        <p className="text-sm text-gray-600">{med.dosage} • {med.frequency}</p>
+                        <p className="font-semibold text-gray-900 dark:text-white">{med.name}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{med.dosage} • {med.frequency}</p>
                       </div>
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                      <span className="text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 px-2 py-1 rounded-full">
                         {med.duration}
                       </span>
                     </div>
-                    <p className="text-sm text-gray-700 bg-yellow-50 p-2 rounded">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 bg-yellow-50 dark:bg-yellow-900/20 p-2 rounded">
                       📋 {med.instructions}
                     </p>
                   </div>
@@ -481,9 +481,9 @@ const Prescriptions = () => {
               </div>
 
               {rx.notes && (
-                <div className="bg-yellow-50 p-4 rounded-lg mb-4">
-                  <p className="text-xs text-gray-600 mb-1 font-medium">Additional Notes</p>
-                  <p className="text-sm text-gray-900">{rx.notes}</p>
+                <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg mb-4">
+                  <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 font-medium">Additional Notes</p>
+                  <p className="text-sm text-gray-900 dark:text-white">{rx.notes}</p>
                 </div>
               )}
 
@@ -528,9 +528,9 @@ const Prescriptions = () => {
       {/* CREATE PRESCRIPTION MODAL */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">New Prescription</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">New Prescription</h2>
               <button
                 onClick={() => {
                   setShowModal(false);
@@ -544,7 +544,7 @@ const Prescriptions = () => {
                     conditions: ''
                   });
                 }}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -554,27 +554,27 @@ const Prescriptions = () => {
               {/* Patient Info */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Patient ID *
                   </label>
                   <input
                     type="text"
                     value={formData.patientId}
                     onChange={(e) => handleInputChange('patientId', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Patient Name *
                   </label>
                   <input
                     type="text"
                     value={formData.patientName}
                     onChange={(e) => handleInputChange('patientName', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     required
                   />
                 </div>
@@ -583,43 +583,43 @@ const Prescriptions = () => {
               {/* Medical Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Known Allergies
                   </label>
                   <input
                     type="text"
                     value={formData.allergies}
                     onChange={(e) => handleInputChange('allergies', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="e.g., Penicillin, Sulfa drugs"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Separate multiple allergies with commas</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Separate multiple allergies with commas</p>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Existing Conditions
                   </label>
                   <input
                     type="text"
                     value={formData.conditions}
                     onChange={(e) => handleInputChange('conditions', e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                     placeholder="e.g., Hypertension, Diabetes"
                   />
-                  <p className="text-xs text-gray-500 mt-1">Separate multiple conditions with commas</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Separate multiple conditions with commas</p>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Diagnosis *
                 </label>
                 <input
                   type="text"
                   value={formData.diagnosis}
                   onChange={(e) => handleInputChange('diagnosis', e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="e.g., Hypertension, Diabetes Type 2"
                   required
                 />
@@ -628,7 +628,7 @@ const Prescriptions = () => {
               {/* Medications */}
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                     Medications *
                   </label>
                   <button
@@ -643,9 +643,9 @@ const Prescriptions = () => {
 
                 <div className="space-y-4">
                   {formData.medications.map((med, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                    <div key={index} className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-700">
                       <div className="flex items-center justify-between mb-4">
-                        <h4 className="font-medium text-gray-900">Medication {index + 1}</h4>
+                        <h4 className="font-medium text-gray-900 dark:text-white">Medication {index + 1}</h4>
                         {formData.medications.length > 1 && (
                           <button
                             type="button"
@@ -659,41 +659,41 @@ const Prescriptions = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs text-gray-600 mb-1">
+                          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                             Medicine Name *
                           </label>
                           <input
                             type="text"
                             value={med.name}
                             onChange={(e) => handleMedicationChange(index, 'name', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             placeholder="e.g., Amlodipine"
                             required
                           />
                         </div>
 
                         <div>
-                          <label className="block text-xs text-gray-600 mb-1">
+                          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                             Dosage *
                           </label>
                           <input
                             type="text"
                             value={med.dosage}
                             onChange={(e) => handleMedicationChange(index, 'dosage', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             placeholder="e.g., 5mg, 500mg"
                             required
                           />
                         </div>
 
                         <div>
-                          <label className="block text-xs text-gray-600 mb-1">
+                          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                             Frequency *
                           </label>
                           <select
                             value={med.frequency}
                             onChange={(e) => handleMedicationChange(index, 'frequency', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             required
                           >
                             <option value="">Select frequency</option>
@@ -709,28 +709,28 @@ const Prescriptions = () => {
                         </div>
 
                         <div>
-                          <label className="block text-xs text-gray-600 mb-1">
+                          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                             Duration *
                           </label>
                           <input
                             type="text"
                             value={med.duration}
                             onChange={(e) => handleMedicationChange(index, 'duration', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             placeholder="e.g., 7 days, 30 days"
                             required
                           />
                         </div>
 
                         <div className="md:col-span-2">
-                          <label className="block text-xs text-gray-600 mb-1">
+                          <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
                             Instructions *
                           </label>
                           <input
                             type="text"
                             value={med.instructions}
                             onChange={(e) => handleMedicationChange(index, 'instructions', e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                             placeholder="e.g., Take with food, Take in the morning"
                             required
                           />
@@ -743,14 +743,14 @@ const Prescriptions = () => {
 
               {/* Additional Notes */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Additional Notes
                 </label>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => handleInputChange('notes', e.target.value)}
                   rows="4"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   placeholder="Any additional instructions, precautions, or follow-up notes..."
                 />
               </div>
@@ -777,7 +777,7 @@ const Prescriptions = () => {
                       conditions: ''
                     });
                   }}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>
@@ -790,19 +790,19 @@ const Prescriptions = () => {
       {/* PATIENT MEDICAL HISTORY MODAL */}
       {showHistoryModal && selectedPatient && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
               <div>
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                   Medical History - {selectedPatient}
                 </h2>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
                   Complete prescription and treatment history
                 </p>
               </div>
               <button
                 onClick={() => setShowHistoryModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -810,24 +810,24 @@ const Prescriptions = () => {
 
             <div className="p-6">
               {/* Patient Summary */}
-              <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold text-gray-900 mb-3">Patient Summary</h3>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-3">Patient Summary</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                   <div>
-                    <span className="font-medium text-gray-600">Total Prescriptions:</span>
-                    <span className="ml-2 text-gray-900">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Total Prescriptions:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
                       {getPatientMedicalHistory(selectedPatient).length}
                     </span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-600">First Visit:</span>
-                    <span className="ml-2 text-gray-900">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">First Visit:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
                       {getPatientMedicalHistory(selectedPatient).slice(-1)[0]?.date}
                     </span>
                   </div>
                   <div>
-                    <span className="font-medium text-gray-600">Latest Visit:</span>
-                    <span className="ml-2 text-gray-900">
+                    <span className="font-medium text-gray-600 dark:text-gray-400">Latest Visit:</span>
+                    <span className="ml-2 text-gray-900 dark:text-white">
                       {getPatientMedicalHistory(selectedPatient)[0]?.date}
                     </span>
                   </div>
@@ -836,55 +836,55 @@ const Prescriptions = () => {
 
               {/* Medical History Timeline */}
               <div className="space-y-6">
-                <h3 className="font-semibold text-gray-900 mb-4">Prescription History</h3>
+                <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Prescription History</h3>
                 {getPatientMedicalHistory(selectedPatient).map((rx, index) => (
-                  <div key={rx.id} className="border-l-2 border-blue-200 pl-6 pb-6 relative">
+                  <div key={rx.id} className="border-l-2 border-blue-200 dark:border-blue-700 pl-6 pb-6 relative">
                     {/* Timeline dot */}
-                    <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-500 rounded-full border-4 border-white"></div>
+                    <div className="absolute -left-2 top-0 w-4 h-4 bg-blue-500 rounded-full border-4 border-white dark:border-gray-800"></div>
                     
-                    <div className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md transition-shadow">
                       <div className="flex items-center justify-between mb-3">
                         <div>
-                          <h4 className="font-semibold text-gray-900">Prescription {rx.id}</h4>
-                          <p className="text-sm text-gray-600">{rx.date}</p>
-                          <p className="text-xs text-gray-500 flex items-center mt-1">
+                          <h4 className="font-semibold text-gray-900 dark:text-white">Prescription {rx.id}</h4>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{rx.date}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-500 flex items-center mt-1">
                             <User className="w-3 h-3 mr-1" />
                             {rx.doctor}
                           </p>
                         </div>
                         <div className="text-right">
                           {getPharmacyStatusBadge(rx.pharmacyStatus)}
-                          <p className="text-xs text-gray-500 mt-1">{getTimeSince(rx.date)}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{getTimeSince(rx.date)}</p>
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3">
-                        <div className="bg-blue-50 p-3 rounded-lg">
-                          <p className="text-xs text-gray-600 mb-1 font-medium">Diagnosis</p>
-                          <p className="text-sm text-gray-900">{rx.diagnosis}</p>
+                        <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded-lg">
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 font-medium">Diagnosis</p>
+                          <p className="text-sm text-gray-900 dark:text-white">{rx.diagnosis}</p>
                         </div>
-                        <div className="bg-red-50 p-3 rounded-lg">
-                          <p className="text-xs text-gray-600 mb-1 font-medium">Allergies</p>
-                          <p className="text-sm text-gray-900">
+                        <div className="bg-red-50 dark:bg-red-900/20 p-3 rounded-lg">
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 font-medium">Allergies</p>
+                          <p className="text-sm text-gray-900 dark:text-white">
                             {Array.isArray(rx.allergies) ? rx.allergies.join(', ') : 'None reported'}
                           </p>
                         </div>
                       </div>
 
                       <div className="space-y-2 mb-3">
-                        <p className="text-sm font-medium text-gray-700">Medications Prescribed:</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Medications Prescribed:</p>
                         {rx.medications.map((med, medIndex) => (
-                          <div key={medIndex} className="flex justify-between text-sm bg-gray-50 p-2 rounded">
-                            <span className="font-medium">{med.name}</span>
-                            <span className="text-gray-600">{med.dosage} • {med.frequency}</span>
+                          <div key={medIndex} className="flex justify-between text-sm bg-gray-50 dark:bg-gray-700 p-2 rounded">
+                            <span className="font-medium text-gray-900 dark:text-white">{med.name}</span>
+                            <span className="text-gray-600 dark:text-gray-400">{med.dosage} • {med.frequency}</span>
                           </div>
                         ))}
                       </div>
 
                       {rx.notes && (
-                        <div className="bg-yellow-50 p-3 rounded">
-                          <p className="text-xs text-gray-600 mb-1 font-medium">Clinical Notes</p>
-                          <p className="text-sm text-gray-900">{rx.notes}</p>
+                        <div className="bg-yellow-50 dark:bg-yellow-900/20 p-3 rounded">
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mb-1 font-medium">Clinical Notes</p>
+                          <p className="text-sm text-gray-900 dark:text-white">{rx.notes}</p>
                         </div>
                       )}
                     </div>
@@ -895,7 +895,7 @@ const Prescriptions = () => {
               <div className="mt-6 flex justify-end">
                 <button
                   onClick={() => setShowHistoryModal(false)}
-                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
                 >
                   Close Medical History
                 </button>
@@ -908,12 +908,12 @@ const Prescriptions = () => {
       {/* Print Report Modal */}
       {showPrintModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-md w-full">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-gray-900">Generate Report</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full">
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Generate Report</h2>
               <button
                 onClick={() => setShowPrintModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
+                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -921,13 +921,13 @@ const Prescriptions = () => {
 
             <form onSubmit={handleGeneratePrintReport} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Report Period
                 </label>
                 <select 
                   value={printReportForm.period}
                   onChange={(e) => setPrintReportForm(prev => ({...prev, period: e.target.value}))}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="last_7_days">Last 7 Days</option>
                   <option value="last_30_days">Last 30 Days</option>
@@ -938,13 +938,13 @@ const Prescriptions = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Report Type
                 </label>
                 <select 
                   value={printReportForm.reportType}
                   onChange={(e) => setPrintReportForm(prev => ({...prev, reportType: e.target.value}))}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="summary">Summary Report</option>
                   <option value="detailed">Detailed Report</option>
@@ -961,7 +961,7 @@ const Prescriptions = () => {
                     onChange={(e) => setPrintReportForm(prev => ({...prev, includeDetails: e.target.checked}))}
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="ml-2 text-sm text-gray-700">Include medication details</span>
+                  <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">Include medication details</span>
                 </label>
               </div>
 
@@ -976,7 +976,7 @@ const Prescriptions = () => {
                 <button
                   type="button"
                   onClick={() => setShowPrintModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>

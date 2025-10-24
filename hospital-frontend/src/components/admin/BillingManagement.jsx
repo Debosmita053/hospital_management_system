@@ -18,42 +18,42 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
       label: 'Claim Submitted', 
       description: 'Initial claim submitted to insurance',
       icon: Clock,
-      color: 'text-blue-600'
+      color: 'text-blue-600 dark:text-blue-400'
     },
     { 
       key: 'under_review', 
       label: 'Under Review', 
       description: 'Insurance company reviewing documents',
       icon: Search,
-      color: 'text-yellow-600'
+      color: 'text-yellow-600 dark:text-yellow-400'
     },
     { 
       key: 'additional_info', 
       label: 'Additional Info Required', 
       description: 'Need more medical documentation',
       icon: AlertCircle,
-      color: 'text-orange-600'
+      color: 'text-orange-600 dark:text-orange-400'
     },
     { 
       key: 'approved', 
       label: 'Approved', 
       description: 'Claim approved for payment',
       icon: ThumbsUp,
-      color: 'text-green-600'
+      color: 'text-green-600 dark:text-green-400'
     },
     { 
       key: 'rejected', 
       label: 'Rejected', 
       description: 'Claim denied by insurance',
       icon: ThumbsDown,
-      color: 'text-red-600'
+      color: 'text-red-600 dark:text-red-400'
     },
     { 
       key: 'paid', 
       label: 'Payment Processed', 
       description: 'Insurance payment received',
       icon: CheckCircle,
-      color: 'text-purple-600'
+      color: 'text-purple-600 dark:text-purple-400'
     }
   ];
 
@@ -73,19 +73,19 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b dark:border-gray-700">
           <div>
-            <h2 className="text-xl font-semibold text-gray-900">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
               Insurance Claim Approval Workflow
             </h2>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               {bill.billNumber} - {bill.patientName}
             </p>
           </div>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
@@ -93,42 +93,41 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
 
         <div className="p-6 space-y-6">
           {/* Claim Summary */}
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
             <div className="grid grid-cols-3 gap-4 text-sm">
               <div>
-                <p className="text-gray-600">Total Bill Amount</p>
-                <p className="font-semibold">₹{bill.totalAmount.toLocaleString('en-IN')}</p>
+                <p className="text-gray-600 dark:text-gray-400">Total Bill Amount</p>
+                <p className="font-semibold dark:text-white">₹{bill.totalAmount.toLocaleString('en-IN')}</p>
               </div>
               <div>
-                <p className="text-gray-600">Claim Amount</p>
-                <p className="font-semibold">₹{bill.claimAmount.toLocaleString('en-IN')}</p>
+                <p className="text-gray-600 dark:text-gray-400">Claim Amount</p>
+                <p className="font-semibold dark:text-white">₹{bill.claimAmount.toLocaleString('en-IN')}</p>
               </div>
               <div>
-                <p className="text-gray-600">Insurance Provider</p>
-                <p className="font-semibold">{bill.insuranceProvider}</p>
+                <p className="text-gray-600 dark:text-gray-400">Insurance Provider</p>
+                <p className="font-semibold dark:text-white">{bill.insuranceProvider}</p>
               </div>
             </div>
           </div>
 
           {/* Workflow Steps */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Approval Process</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Approval Process</h3>
             <div className="space-y-4">
               {workflowSteps.map((step, index) => {
                 const StepIcon = step.icon;
                 const isCompleted = index < getCurrentStepIndex();
                 const isCurrent = step.key === currentStep;
-                
 
                 return (
                   <div
                     key={step.key}
                     className={`flex items-center space-x-4 p-4 rounded-lg border-2 ${
                       isCurrent
-                        ? 'border-blue-500 bg-blue-50'
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-400'
                         : isCompleted
-                        ? 'border-green-500 bg-green-50'
-                        : 'border-gray-200 bg-gray-50'
+                        ? 'border-green-500 bg-green-50 dark:bg-green-900/20 dark:border-green-400'
+                        : 'border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700'
                     }`}
                   >
                     <div className={`flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${
@@ -136,20 +135,22 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
                         ? 'bg-blue-500 text-white'
                         : isCompleted
                         ? 'bg-green-500 text-white'
-                        : 'bg-gray-300 text-gray-600'
+                        : 'bg-gray-300 dark:bg-gray-600 text-gray-600 dark:text-gray-400'
                     }`}>
                       <StepIcon className="w-5 h-5" />
                     </div>
                     <div className="flex-1">
                       <p className={`font-semibold ${
-                        isCurrent ? 'text-blue-900' : isCompleted ? 'text-green-900' : 'text-gray-600'
+                        isCurrent ? 'text-blue-900 dark:text-blue-100' : 
+                        isCompleted ? 'text-green-900 dark:text-green-100' : 
+                        'text-gray-600 dark:text-gray-400'
                       }`}>
                         {step.label}
                       </p>
-                      <p className="text-sm text-gray-600">{step.description}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{step.description}</p>
                       {isCurrent && step.key === 'approved' && (
                         <div className="mt-2">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Approved Amount (₹)
                           </label>
                           <input
@@ -157,14 +158,14 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
                             value={approvedAmount}
                             onChange={(e) => setApprovedAmount(parseFloat(e.target.value))}
                             max={bill.claimAmount}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                           />
                         </div>
                       )}
                     </div>
                     <div className="flex-shrink-0">
                       {isCompleted && (
-                        <CheckCircle className="w-6 h-6 text-green-500" />
+                        <CheckCircle className="w-6 h-6 text-green-500 dark:text-green-400" />
                       )}
                     </div>
                   </div>
@@ -176,28 +177,28 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
           {/* Notes and Actions */}
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Review Notes & Comments
               </label>
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="Add notes about this claim review..."
               />
             </div>
 
-            <div className="flex justify-between items-center pt-4 border-t">
-              <div className="text-sm text-gray-600">
-                Current Status: <span className="font-semibold capitalize">{currentStep.replace('_', ' ')}</span>
+            <div className="flex justify-between items-center pt-4 border-t dark:border-gray-700">
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                Current Status: <span className="font-semibold capitalize dark:text-white">{currentStep.replace('_', ' ')}</span>
               </div>
               
               <div className="flex space-x-3">
                 {currentStep === 'submitted' && (
                   <button
                     onClick={() => handleStatusUpdate('under_review')}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                   >
                     Mark Under Review
                   </button>
@@ -207,19 +208,19 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
                   <>
                     <button
                       onClick={() => handleStatusUpdate('additional_info')}
-                      className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700"
+                      className="px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 dark:bg-orange-700 dark:hover:bg-orange-600"
                     >
                       Request More Info
                     </button>
                     <button
                       onClick={() => handleStatusUpdate('approved')}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
                     >
                       Approve Claim
                     </button>
                     <button
                       onClick={() => handleStatusUpdate('rejected')}
-                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600"
                     >
                       Reject Claim
                     </button>
@@ -230,7 +231,7 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
                   <>
                     <button
                       onClick={() => handleStatusUpdate('under_review')}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                     >
                       Back to Review
                     </button>
@@ -240,7 +241,7 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
                 {currentStep === 'approved' && (
                   <button
                     onClick={() => handleStatusUpdate('paid')}
-                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+                    className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600"
                   >
                     Mark as Paid
                   </button>
@@ -248,7 +249,7 @@ const InsuranceApprovalWorkflow = memo(({ bill, onStatusUpdate, onClose }) => {
                 
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                   Close
                 </button>
@@ -300,14 +301,14 @@ const EnhancedInsuranceModal = memo(({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Submit Insurance Claim
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
@@ -315,10 +316,10 @@ const EnhancedInsuranceModal = memo(({
 
         <div className="p-6 space-y-6">
           {/* Bill Summary */}
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <p className="text-sm text-gray-600">Bill: {selectedBillForInsurance.billNumber}</p>
-            <p className="text-sm font-medium text-gray-900">{selectedBillForInsurance.patientName}</p>
-            <p className="text-sm text-gray-600 mt-1">
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+            <p className="text-sm text-gray-600 dark:text-gray-400">Bill: {selectedBillForInsurance.billNumber}</p>
+            <p className="text-sm font-medium text-gray-900 dark:text-white">{selectedBillForInsurance.patientName}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Total Amount: ₹{selectedBillForInsurance.totalAmount.toLocaleString('en-IN')}
             </p>
           </div>
@@ -326,14 +327,14 @@ const EnhancedInsuranceModal = memo(({
           {/* Insurance Details */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Insurance Provider *
               </label>
               <select
                 required
                 value={insuranceForm.provider}
                 onChange={(e) => onInsuranceFormChange('provider', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="">Select Provider</option>
                 <option value="HealthCare Inc.">HealthCare Inc.</option>
@@ -346,7 +347,7 @@ const EnhancedInsuranceModal = memo(({
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Policy Number *
               </label>
               <input
@@ -354,7 +355,7 @@ const EnhancedInsuranceModal = memo(({
                 required
                 value={insuranceForm.policyNumber}
                 onChange={(e) => onInsuranceFormChange('policyNumber', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="Enter policy number"
               />
             </div>
@@ -362,7 +363,7 @@ const EnhancedInsuranceModal = memo(({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Claim Amount (₹) *
               </label>
               <input
@@ -371,22 +372,22 @@ const EnhancedInsuranceModal = memo(({
                 value={insuranceForm.claimAmount}
                 onChange={(e) => onInsuranceFormChange('claimAmount', e.target.value)}
                 max={selectedBillForInsurance.totalAmount}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 placeholder="Enter claim amount"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Max: ₹{selectedBillForInsurance.totalAmount.toLocaleString('en-IN')}
               </p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Insurance Type
               </label>
               <select
                 value={insuranceForm.insuranceType}
                 onChange={(e) => onInsuranceFormChange('insuranceType', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
               >
                 <option value="cashless">Cashless</option>
                 <option value="reimbursement">Reimbursement</option>
@@ -396,21 +397,21 @@ const EnhancedInsuranceModal = memo(({
 
           {/* Document Upload Section */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
               Required Documents
             </label>
             
             <div className="space-y-3">
               {requiredDocuments.map((doc, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <div className="flex items-center space-x-3">
-                    <FileText className="w-4 h-4 text-gray-500" />
-                    <span className="text-sm text-gray-700">{doc}</span>
+                    <FileText className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{doc}</span>
                   </div>
                   <span className={`px-2 py-1 text-xs rounded-full ${
                     documents.some(d => d.name.includes(doc)) 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-yellow-100 text-yellow-800'
+                      ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' 
+                      : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
                   }`}>
                     {documents.some(d => d.name.includes(doc)) ? 'Uploaded' : 'Pending'}
                   </span>
@@ -419,17 +420,17 @@ const EnhancedInsuranceModal = memo(({
             </div>
 
             <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Upload Documents
               </label>
               <input
                 type="file"
                 multiple
                 onChange={handleDocumentUpload}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                 accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
               />
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 Supported formats: PDF, JPG, PNG, DOC (Max 10MB per file)
               </p>
             </div>
@@ -437,17 +438,17 @@ const EnhancedInsuranceModal = memo(({
             {/* Uploaded Documents List */}
             {documents.length > 0 && (
               <div className="mt-4">
-                <p className="text-sm font-medium text-gray-700 mb-2">Uploaded Files:</p>
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Uploaded Files:</p>
                 <div className="space-y-2">
                   {documents.map(doc => (
-                    <div key={doc.id} className="flex items-center justify-between p-2 bg-blue-50 rounded">
+                    <div key={doc.id} className="flex items-center justify-between p-2 bg-blue-50 dark:bg-blue-900/20 rounded">
                       <div className="flex items-center space-x-2">
-                        <FileText className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm">{doc.name}</span>
+                        <FileText className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                        <span className="text-sm dark:text-white">{doc.name}</span>
                       </div>
                       <button
                         onClick={() => handleRemoveDocument(doc.id)}
-                        className="text-red-600 hover:text-red-800"
+                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
                       >
                         <X className="w-4 h-4" />
                       </button>
@@ -460,31 +461,31 @@ const EnhancedInsuranceModal = memo(({
 
           {/* Additional Information */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Additional Notes
             </label>
             <textarea
               value={insuranceForm.notes}
               onChange={(e) => onInsuranceFormChange('notes', e.target.value)}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               placeholder="Any additional information for the insurance claim..."
             />
           </div>
         </div>
 
-        <div className="p-4 border-t flex justify-end gap-3">
+        <div className="p-4 border-t dark:border-gray-700 flex justify-end gap-3">
           <button
             onClick={onSubmitInsurance}
             disabled={documents.length === 0}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed dark:bg-blue-700 dark:hover:bg-blue-600"
           >
             <Mail className="w-4 h-4 inline mr-2" />
             Submit Claim
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
           >
             Cancel
           </button>
@@ -500,24 +501,24 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
 
   const getStatusColor = (status) => {
     const colors = {
-      paid: 'bg-green-100 text-green-800',
-      partially_paid: 'bg-yellow-100 text-yellow-800',
-      unpaid: 'bg-red-100 text-red-800',
-      insurance_pending: 'bg-blue-100 text-blue-800',
+      paid: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      partially_paid: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+      unpaid: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      insurance_pending: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Bill Details: {bill.billNumber}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
@@ -527,19 +528,19 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
           {/* Patient and Bill Info */}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-sm font-semibold text-gray-900">Patient:</p>
-              <p className="text-sm text-gray-600">{bill.patientName} ({bill.patientNumber})</p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">Patient:</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{bill.patientName} ({bill.patientNumber})</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">Admission No:</p>
-              <p className="text-sm text-gray-600">{bill.admissionNumber}</p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">Admission No:</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{bill.admissionNumber}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">Bill Date:</p>
-              <p className="text-sm text-gray-600">{bill.billDate}</p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">Bill Date:</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{bill.billDate}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">Status:</p>
+              <p className="text-sm font-semibold text-gray-900 dark:text-white">Status:</p>
               <span className={`px-3 py-1 text-xs font-medium rounded-full ${getStatusColor(bill.status)}`}>
                 {bill.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
               </span>
@@ -548,26 +549,26 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
 
           {/* Insurance Info */}
           {bill.insuranceClaim && (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
-                <Shield className="w-4 h-4 text-blue-600" />
-                <p className="text-sm font-semibold text-blue-900">Insurance Claim</p>
+                <Shield className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100">Insurance Claim</p>
               </div>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <p className="text-blue-700">Provider:</p>
-                  <p className="font-medium">{bill.insuranceProvider}</p>
+                  <p className="text-blue-700 dark:text-blue-300">Provider:</p>
+                  <p className="font-medium dark:text-white">{bill.insuranceProvider}</p>
                 </div>
                 <div>
-                  <p className="text-blue-700">Claim Amount:</p>
-                  <p className="font-medium">₹{bill.claimAmount?.toLocaleString('en-IN')}</p>
+                  <p className="text-blue-700 dark:text-blue-300">Claim Amount:</p>
+                  <p className="font-medium dark:text-white">₹{bill.claimAmount?.toLocaleString('en-IN')}</p>
                 </div>
                 <div>
-                  <p className="text-blue-700">Status:</p>
+                  <p className="text-blue-700 dark:text-blue-300">Status:</p>
                   <span className={`px-2 py-1 text-xs rounded-full ${
-                    bill.claimStatus === 'approved' ? 'bg-green-100 text-green-800' :
-                    bill.claimStatus === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
+                    bill.claimStatus === 'approved' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' :
+                    bill.claimStatus === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' :
+                    'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                   }`}>
                     {bill.claimStatus}
                   </span>
@@ -578,27 +579,27 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
 
           {/* Bill Items */}
           <div>
-            <p className="text-sm font-semibold text-gray-900 mb-3">Billed Items:</p>
-            <div className="border rounded-lg overflow-hidden">
+            <p className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Billed Items:</p>
+            <div className="border dark:border-gray-700 rounded-lg overflow-hidden">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500">Description</th>
-                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500">Amount (₹)</th>
+                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-300">Description</th>
+                    <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 dark:text-gray-300">Amount (₹)</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
                   {bill.items.map((item, index) => (
                     <tr key={index}>
-                      <td className="px-4 py-2 text-sm text-gray-600">{item.description}</td>
-                      <td className="px-4 py-2 text-sm text-gray-900 text-right">₹{item.amount.toLocaleString('en-IN')}</td>
+                      <td className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400">{item.description}</td>
+                      <td className="px-4 py-2 text-sm text-gray-900 dark:text-white text-right">₹{item.amount.toLocaleString('en-IN')}</td>
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="bg-gray-50">
+                <tfoot className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <td className="px-4 py-2 text-sm font-semibold text-gray-900">Total</td>
-                    <td className="px-4 py-2 text-sm font-semibold text-gray-900 text-right">
+                    <td className="px-4 py-2 text-sm font-semibold text-gray-900 dark:text-white">Total</td>
+                    <td className="px-4 py-2 text-sm font-semibold text-gray-900 dark:text-white text-right">
                       ₹{bill.totalAmount.toLocaleString('en-IN')}
                     </td>
                   </tr>
@@ -608,26 +609,26 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
           </div>
 
           {/* Payment Summary */}
-          <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 rounded-lg">
+          <div className="grid grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
             <div className="text-center">
-              <p className="text-sm text-gray-600">Total Amount</p>
-              <p className="text-lg font-bold text-gray-900">₹{bill.totalAmount.toLocaleString('en-IN')}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Total Amount</p>
+              <p className="text-lg font-bold text-gray-900 dark:text-white">₹{bill.totalAmount.toLocaleString('en-IN')}</p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-600">Paid Amount</p>
-              <p className="text-lg font-bold text-green-600">₹{bill.paidAmount.toLocaleString('en-IN')}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Paid Amount</p>
+              <p className="text-lg font-bold text-green-600 dark:text-green-400">₹{bill.paidAmount.toLocaleString('en-IN')}</p>
             </div>
             <div className="text-center">
-              <p className="text-sm text-gray-600">Due Amount</p>
-              <p className="text-lg font-bold text-red-600">₹{bill.dueAmount.toLocaleString('en-IN')}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Due Amount</p>
+              <p className="text-lg font-bold text-red-600 dark:text-red-400">₹{bill.dueAmount.toLocaleString('en-IN')}</p>
             </div>
           </div>
         </div>
 
-        <div className="p-4 border-t flex justify-end gap-3">
+        <div className="p-4 border-t dark:border-gray-700 flex justify-end gap-3">
           <button
             onClick={() => onDownloadInvoice(bill)}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center gap-2 dark:bg-blue-700 dark:hover:bg-blue-600"
           >
             <Download className="h-4 w-4" />
             Download Invoice
@@ -638,7 +639,7 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
                 onClose();
                 onAddInsurance(bill);
               }}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center gap-2"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex items-center gap-2 dark:bg-indigo-700 dark:hover:bg-indigo-600"
             >
               <Shield className="h-4 w-4" />
               Add Insurance
@@ -646,7 +647,7 @@ const BillDetailModal = memo(({ bill, onClose, onAddInsurance, onDownloadInvoice
           )}
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
           >
             Close
           </button>
@@ -670,14 +671,14 @@ const GenerateBillModal = memo(({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="flex justify-between items-center p-6 border-b dark:border-gray-700">
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
             Generate New Bill
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
           >
             <X className="w-6 h-6" />
           </button>
@@ -686,7 +687,7 @@ const GenerateBillModal = memo(({
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Patient Name *
               </label>
               <input
@@ -694,12 +695,12 @@ const GenerateBillModal = memo(({
                 required
                 value={billForm.patientName}
                 onChange={(e) => onBillFormChange('patientName', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="Enter patient name"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Patient Number *
               </label>
               <input
@@ -707,14 +708,14 @@ const GenerateBillModal = memo(({
                 required
                 value={billForm.patientNumber}
                 onChange={(e) => onBillFormChange('patientNumber', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 placeholder="PAT001"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               Admission Number *
             </label>
             <input
@@ -722,33 +723,33 @@ const GenerateBillModal = memo(({
               required
               value={billForm.admissionNumber}
               onChange={(e) => onBillFormChange('admissionNumber', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
               placeholder="ADM001"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Room Charges (₹)
               </label>
               <input
                 type="number"
                 value={billForm.roomCharges}
                 onChange={(e) => onBillFormChange('roomCharges', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Consultation Fee (₹)
               </label>
               <input
                 type="number"
                 value={billForm.consultationFee}
                 onChange={(e) => onBillFormChange('consultationFee', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="0"
               />
             </div>
@@ -756,26 +757,26 @@ const GenerateBillModal = memo(({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Lab Tests (₹)
               </label>
               <input
                 type="number"
                 value={billForm.labTests}
                 onChange={(e) => onBillFormChange('labTests', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Medicines (₹)
               </label>
               <input
                 type="number"
                 value={billForm.medicines}
                 onChange={(e) => onBillFormChange('medicines', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="0"
               />
             </div>
@@ -783,26 +784,26 @@ const GenerateBillModal = memo(({
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Procedures (₹)
               </label>
               <input
                 type="number"
                 value={billForm.procedures}
                 onChange={(e) => onBillFormChange('procedures', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="0"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Other Charges (₹)
               </label>
               <input
                 type="number"
                 value={billForm.otherCharges}
                 onChange={(e) => onBillFormChange('otherCharges', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="0"
               />
             </div>
@@ -813,9 +814,9 @@ const GenerateBillModal = memo(({
               type="checkbox"
               checked={billForm.insuranceClaim}
               onChange={(e) => onBillFormChange('insuranceClaim', e.target.checked)}
-              className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
+              className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600"
             />
-            <label className="text-sm font-medium text-gray-700">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Insurance Claim
             </label>
           </div>
@@ -823,26 +824,26 @@ const GenerateBillModal = memo(({
           {billForm.insuranceClaim && (
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Insurance Provider
                 </label>
                 <input
                   type="text"
                   value={billForm.insuranceProvider}
                   onChange={(e) => onBillFormChange('insuranceProvider', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                   placeholder="Insurance company name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Claim Amount (₹)
                 </label>
                 <input
                   type="number"
                   value={billForm.claimAmount}
                   onChange={(e) => onBillFormChange('claimAmount', e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder="0"
                 />
               </div>
@@ -852,7 +853,7 @@ const GenerateBillModal = memo(({
           <div className="flex gap-3 pt-4">
             <button
               type="submit"
-              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2"
+              className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition flex items-center justify-center gap-2 dark:bg-blue-700 dark:hover:bg-blue-600"
             >
               <FileText className="h-4 w-4" />
               Generate Bill
@@ -860,7 +861,7 @@ const GenerateBillModal = memo(({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition"
+              className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
             >
               Cancel
             </button>
@@ -1005,12 +1006,12 @@ const BillingManagement = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      paid: 'bg-green-100 text-green-800',
-      partially_paid: 'bg-yellow-100 text-yellow-800',
-      unpaid: 'bg-red-100 text-red-800',
-      insurance_pending: 'bg-blue-100 text-blue-800',
+      paid: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      partially_paid: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+      unpaid: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      insurance_pending: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
   };
 
   const handleMarkPaid = useCallback((id) => {
@@ -1187,16 +1188,16 @@ const BillingManagement = () => {
   const pendingClaims = bills.filter(b => b.claimStatus === 'pending' || b.claimStatus === 'submitted').length;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 bg-gray-50 dark:bg-gray-900 min-h-screen p-6">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Billing Management</h1>
-          <p className="text-gray-600 mt-1">Manage patient bills, payments, and insurance claims</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Billing Management</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage patient bills, payments, and insurance claims</p>
         </div>
         <button
           onClick={() => setShowGenerateBill(true)}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
         >
           <Plus className="w-5 h-5" />
           Generate Bill
@@ -1256,7 +1257,7 @@ const BillingManagement = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -1265,14 +1266,14 @@ const BillingManagement = () => {
               placeholder="Search by patient or bill number..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
             />
           </div>
 
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
           >
             <option value="all">All Status</option>
             <option value="paid">Paid</option>
@@ -1284,56 +1285,56 @@ const BillingManagement = () => {
       </div>
 
       {/* Bills Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+            <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Bill Number
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Patient
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Bill Date
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Total Amount (₹)
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Due (₹)
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Insurance
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredBills.map((bill) => (
-                <tr key={bill.id} className="hover:bg-gray-50">
+                <tr key={bill.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm font-medium text-gray-900">{bill.billNumber}</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-white">{bill.billNumber}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{bill.patientName}</p>
-                      <p className="text-xs text-gray-500">{bill.patientNumber}</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">{bill.patientName}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{bill.patientNumber}</p>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
                     {bill.billDate}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                     ₹{bill.totalAmount.toLocaleString('en-IN')}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-red-600 dark:text-red-400">
                     ₹{bill.dueAmount.toLocaleString('en-IN')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -1345,36 +1346,36 @@ const BillingManagement = () => {
                     {bill.insuranceClaim ? (
                       <div className="flex items-center space-x-2">
                         <span className={`text-xs font-medium px-2 py-1 rounded-full ${
-                          bill.claimStatus === 'approved' ? 'bg-green-100 text-green-800' :
-                          bill.claimStatus === 'rejected' ? 'bg-red-100 text-red-800' :
-                          bill.claimStatus === 'paid' ? 'bg-purple-100 text-purple-800' :
-                          'bg-yellow-100 text-yellow-800'
+                          bill.claimStatus === 'approved' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                          bill.claimStatus === 'rejected' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                          bill.claimStatus === 'paid' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
+                          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
                         }`}>
                           {bill.claimStatus?.replace('_', ' ') || 'submitted'}
                         </span>
                         <button
                           onClick={() => handleOpenApprovalWorkflow(bill)}
-                          className="p-1 text-blue-600 hover:bg-blue-50 rounded"
+                          className="p-1 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"
                           title="Manage Approval"
                         >
                           <Shield className="h-3 w-3" />
                         </button>
                       </div>
                     ) : (
-                      <span className="text-xs text-gray-500">No</span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">No</span>
                     )}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleViewDetails(bill)}
-                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg"
+                        className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg"
                         title="View Details"
                       >
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
-                        className="p-2 text-purple-600 hover:bg-purple-50 rounded-lg"
+                        className="p-2 text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg"
                         title="Download Invoice"
                         onClick={() => handleDownloadInvoice(bill)}
                       >
@@ -1383,7 +1384,7 @@ const BillingManagement = () => {
                       {!bill.insuranceClaim && bill.dueAmount > 0 && (
                         <button
                           onClick={() => handleAddInsurance(bill)}
-                          className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg"
+                          className="p-2 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 rounded-lg"
                           title="Add Insurance"
                         >
                           <Shield className="h-4 w-4" />
@@ -1392,7 +1393,7 @@ const BillingManagement = () => {
                       {bill.status !== 'paid' && (
                         <button
                           onClick={() => handleMarkPaid(bill.id)}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg"
+                          className="p-2 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg"
                           title="Mark as Paid"
                         >
                           <CheckCircle className="h-4 w-4" />

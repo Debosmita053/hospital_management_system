@@ -315,11 +315,11 @@ const PharmacyInventory = () => {
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="p-6 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900 min-h-screen">
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Pharmacy & Inventory Management</h1>
-        <p className="text-gray-600">Manage medicines, prescriptions, and stock levels</p>
+        <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-2">Pharmacy & Inventory Management</h1>
+        <p className="text-gray-600 dark:text-gray-400">Manage medicines, prescriptions, and stock levels</p>
       </div>
 
       {/* Stats Cards */}
@@ -386,15 +386,15 @@ const PharmacyInventory = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-white rounded-lg shadow-md mb-6">
-        <div className="border-b border-gray-200">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md mb-6">
+        <div className="border-b border-gray-200 dark:border-gray-700">
           <div className="flex">
             <button
               onClick={() => setActiveTab('medicines')}
               className={`px-6 py-3 text-sm font-medium ${
                 activeTab === 'medicines'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
               <Package className="w-4 h-4 inline mr-2" />
@@ -404,8 +404,8 @@ const PharmacyInventory = () => {
               onClick={() => setActiveTab('prescriptions')}
               className={`px-6 py-3 text-sm font-medium ${
                 activeTab === 'prescriptions'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
               <Calendar className="w-4 h-4 inline mr-2" />
@@ -415,8 +415,8 @@ const PharmacyInventory = () => {
               onClick={() => setActiveTab('restock')}
               className={`px-6 py-3 text-sm font-medium ${
                 activeTab === 'restock'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}
             >
               <TrendingDown className="w-4 h-4 inline mr-2" />
@@ -430,7 +430,7 @@ const PharmacyInventory = () => {
       {activeTab === 'medicines' && (
         <>
           {/* Filters & Search */}
-          <div className="bg-white rounded-lg shadow-md p-4 mb-6">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-6 border border-gray-200 dark:border-gray-700">
             <div className="flex flex-col md:flex-row gap-4">
               <div className="flex-1 relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -439,14 +439,14 @@ const PharmacyInventory = () => {
                   placeholder="Search medicines by name or ID..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 />
               </div>
               
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               >
                 <option value="all">All Categories</option>
                 {categories.map(cat => (
@@ -456,7 +456,7 @@ const PharmacyInventory = () => {
 
               <button
                 onClick={generateReport}
-                className="flex items-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                className="flex items-center gap-2 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors dark:bg-green-700 dark:hover:bg-green-600"
               >
                 <Download className="w-5 h-5" />
                 Generate Report
@@ -464,7 +464,7 @@ const PharmacyInventory = () => {
 
               <button
                 onClick={handleAddMedicine}
-                className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors dark:bg-blue-700 dark:hover:bg-blue-600"
               >
                 <Plus className="w-5 h-5" />
                 Add Medicine
@@ -473,68 +473,68 @@ const PharmacyInventory = () => {
           </div>
 
           {/* Medicines Table */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Medicine ID
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Name
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Category
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Stock
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Unit Price
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Expiry Date
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredMedicines.map((medicine) => {
                     const stockStatus = getStockStatus(medicine);
                     return (
-                      <tr key={medicine.id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      <tr key={medicine.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                           {medicine.id}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-gray-900">{medicine.name}</div>
-                          <div className="text-sm text-gray-500">{medicine.manufacturer}</div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">{medicine.name}</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">{medicine.manufacturer}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                          <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200">
                             {medicine.category}
                           </span>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {medicine.quantity} units
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           ₹{medicine.unitPrice.toFixed(2)}
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                           {new Date(medicine.expiryDate).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                            stockStatus.color === 'green' ? 'bg-green-100 text-green-800' :
-                            stockStatus.color === 'yellow' ? 'bg-yellow-100 text-yellow-800' :
-                            'bg-red-100 text-red-800'
+                            stockStatus.color === 'green' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' :
+                            stockStatus.color === 'yellow' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' :
+                            'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200'
                           }`}>
                             {stockStatus.status}
                           </span>
@@ -543,21 +543,21 @@ const PharmacyInventory = () => {
                           <div className="flex items-center gap-2">
                             <button
                               onClick={() => handleViewMedicine(medicine)}
-                              className="text-blue-600 hover:text-blue-900"
+                              className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                               title="View Details"
                             >
                               <Eye className="w-5 h-5" />
                             </button>
                             <button
                               onClick={() => handleEditMedicine(medicine)}
-                              className="text-yellow-600 hover:text-yellow-900"
+                              className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-900 dark:hover:text-yellow-300"
                               title="Edit"
                             >
                               <Edit2 className="w-5 h-5" />
                             </button>
                             <button
                               onClick={() => handleDeleteMedicine(medicine)}
-                              className="text-red-600 hover:text-red-900"
+                              className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                               title="Delete"
                             >
                               <Trash2 className="w-5 h-5" />
@@ -571,7 +571,7 @@ const PharmacyInventory = () => {
               </table>
 
               {filteredMedicines.length === 0 && (
-                <div className="text-center py-12 text-gray-500">
+                <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                   No medicines found
                 </div>
               )}
@@ -582,66 +582,66 @@ const PharmacyInventory = () => {
 
       {/* Prescriptions Tab */}
       {activeTab === 'prescriptions' && (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Rx ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Patient
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Doctor
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Medicines
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Priority
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {prescriptions.map((prescription) => (
-                  <tr key={prescription.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={prescription.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       {prescription.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{prescription.patientName}</div>
-                      <div className="text-sm text-gray-500">{prescription.patientId}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{prescription.patientName}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{prescription.patientId}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                       {prescription.doctorName}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                       {new Date(prescription.date).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                       {prescription.medicines.length} item(s)
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        prescription.priority === 'Urgent' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+                        prescription.priority === 'Urgent' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' : 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
                       }`}>
                         {prescription.priority}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        prescription.status === 'Dispensed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
+                        prescription.status === 'Dispensed' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' : 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
                       }`}>
                         {prescription.status}
                       </span>
@@ -650,7 +650,7 @@ const PharmacyInventory = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleViewPrescription(prescription)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />
@@ -658,7 +658,7 @@ const PharmacyInventory = () => {
                         {prescription.status === 'Pending' && (
                           <button
                             onClick={() => handleDispensePrescription(prescription)}
-                            className="text-green-600 hover:text-green-900"
+                            className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                             title="Dispense"
                           >
                             <CheckCircle className="w-5 h-5" />
@@ -672,7 +672,7 @@ const PharmacyInventory = () => {
             </table>
 
             {prescriptions.length === 0 && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                 No prescriptions found
               </div>
             )}
@@ -682,70 +682,70 @@ const PharmacyInventory = () => {
 
       {/* Restock Requests Tab */}
       {activeTab === 'restock' && (
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
+            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+              <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Request ID
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Medicine
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Current Stock
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Requested Qty
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Est. Cost
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Urgency
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Status
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 {restockRequests.map((request) => (
-                  <tr key={request.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <tr key={request.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       {request.id}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{request.medicineName}</div>
-                      <div className="text-sm text-gray-500">{request.supplier}</div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-white">{request.medicineName}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{request.supplier}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                       {request.currentStock} units
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
                       {request.requestedQuantity} units
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                       ₹{request.estimatedCost.toFixed(2)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        request.urgency === 'High' ? 'bg-red-100 text-red-800' :
-                        request.urgency === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-blue-100 text-blue-800'
+                        request.urgency === 'High' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' :
+                        request.urgency === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' :
+                        'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
                       }`}>
                         {request.urgency}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        request.status === 'Approved' ? 'bg-green-100 text-green-800' :
-                        request.status === 'Rejected' ? 'bg-red-100 text-red-800' :
-                        'bg-yellow-100 text-yellow-800'
+                        request.status === 'Approved' ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' :
+                        request.status === 'Rejected' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' :
+                        'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200'
                       }`}>
                         {request.status}
                       </span>
@@ -754,7 +754,7 @@ const PharmacyInventory = () => {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => handleViewRestockRequest(request)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-blue-600 dark:text-blue-400 hover:text-blue-900 dark:hover:text-blue-300"
                           title="View Details"
                         >
                           <Eye className="w-5 h-5" />
@@ -763,14 +763,14 @@ const PharmacyInventory = () => {
                           <>
                             <button
                               onClick={() => handleApproveRestock(request)}
-                              className="text-green-600 hover:text-green-900"
+                              className="text-green-600 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300"
                               title="Approve"
                             >
                               <CheckCircle className="w-5 h-5" />
                             </button>
                             <button
                               onClick={() => handleRejectRestock(request)}
-                              className="text-red-600 hover:text-red-900"
+                              className="text-red-600 dark:text-red-400 hover:text-red-900 dark:hover:text-red-300"
                               title="Reject"
                             >
                               <XCircle className="w-5 h-5" />
@@ -785,7 +785,7 @@ const PharmacyInventory = () => {
             </table>
 
             {restockRequests.length === 0 && (
-              <div className="text-center py-12 text-gray-500">
+              <div className="text-center py-12 text-gray-500 dark:text-gray-400">
                 No restock requests found
               </div>
             )}
@@ -796,9 +796,9 @@ const PharmacyInventory = () => {
       {/* Add/Edit Medicine Modal */}
       {(modalType === 'add' || modalType === 'edit') && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
                 {modalType === 'add' ? 'Add New Medicine' : 'Edit Medicine'}
               </h2>
             </div>
@@ -806,26 +806,26 @@ const PharmacyInventory = () => {
             <form onSubmit={handleSubmitMedicine} className="p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Medicine Name *
                   </label>
                   <input
                     type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Category *
                   </label>
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     required
                   >
                     <option value="">Select Category</option>
@@ -836,60 +836,60 @@ const PharmacyInventory = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Manufacturer *
                   </label>
                   <input
                     type="text"
                     value={formData.manufacturer}
                     onChange={(e) => setFormData({ ...formData, manufacturer: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Supplier *
                   </label>
                   <input
                     type="text"
                     value={formData.supplier}
                     onChange={(e) => setFormData({ ...formData, supplier: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Batch Number *
                   </label>
                   <input
                     type="text"
                     value={formData.batchNumber}
                     onChange={(e) => setFormData({ ...formData, batchNumber: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Quantity *
                   </label>
                   <input
                     type="number"
                     value={formData.quantity}
                     onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     required
                     min="0"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Unit Price (₹) *
                   </label>
                   <input
@@ -897,41 +897,41 @@ const PharmacyInventory = () => {
                     step="0.01"
                     value={formData.unitPrice}
                     onChange={(e) => setFormData({ ...formData, unitPrice: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     required
                     min="0"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Expiry Date *
                   </label>
                   <input
                     type="date"
                     value={formData.expiryDate}
                     onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     required
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Reorder Level *
                   </label>
                   <input
                     type="number"
                     value={formData.reorderLevel}
                     onChange={(e) => setFormData({ ...formData, reorderLevel: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     required
                     min="0"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Storage Location *
                   </label>
                   <input
@@ -939,14 +939,14 @@ const PharmacyInventory = () => {
                     value={formData.location}
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     placeholder="e.g., Shelf A-12"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                     required
                   />
                 </div>
               </div>
 
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Description
                 </label>
                 <textarea
@@ -954,7 +954,7 @@ const PharmacyInventory = () => {
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows="3"
                   placeholder="Add medicine description..."
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                 />
               </div>
 
@@ -962,13 +962,13 @@ const PharmacyInventory = () => {
                 <button
                   type="button"
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                  className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                 >
                   {modalType === 'add' ? 'Add Medicine' : 'Update Medicine'}
                 </button>
@@ -981,74 +981,74 @@ const PharmacyInventory = () => {
       {/* View Medicine Modal */}
       {modalType === 'view' && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">Medicine Details</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Medicine Details</h2>
             </div>
 
             <div className="p-6">
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                  <p className="text-sm text-gray-500">Medicine ID</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.id}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Medicine ID</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.id}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Name</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.name}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Name</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.name}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Category</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.category}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Category</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.category}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Manufacturer</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.manufacturer}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Manufacturer</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.manufacturer}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Supplier</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.supplier}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Supplier</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.supplier}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Batch Number</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.batchNumber}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Batch Number</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.batchNumber}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Current Stock</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.quantity} units</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Current Stock</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.quantity} units</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Unit Price</p>
-                  <p className="text-gray-900 font-medium">₹{selectedItem.unitPrice.toFixed(2)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Unit Price</p>
+                  <p className="text-gray-900 dark:text-white font-medium">₹{selectedItem.unitPrice.toFixed(2)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Total Value</p>
-                  <p className="text-gray-900 font-medium">₹{(selectedItem.quantity * selectedItem.unitPrice).toFixed(2)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Total Value</p>
+                  <p className="text-gray-900 dark:text-white font-medium">₹{(selectedItem.quantity * selectedItem.unitPrice).toFixed(2)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Expiry Date</p>
-                  <p className="text-gray-900 font-medium">{new Date(selectedItem.expiryDate).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Expiry Date</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{new Date(selectedItem.expiryDate).toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Reorder Level</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.reorderLevel} units</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Reorder Level</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.reorderLevel} units</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Storage Location</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.location}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Storage Location</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.location}</p>
                 </div>
               </div>
 
               {selectedItem.description && (
                 <div className="mb-6">
-                  <p className="text-sm text-gray-500 mb-2">Description</p>
-                  <p className="text-gray-900">{selectedItem.description}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Description</p>
+                  <p className="text-gray-900 dark:text-white">{selectedItem.description}</p>
                 </div>
               )}
 
               <div className="flex justify-end">
                 <button
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                   Close
                 </button>
@@ -1061,37 +1061,37 @@ const PharmacyInventory = () => {
       {/* View Prescription Modal */}
       {modalType === 'viewPrescription' && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">Prescription Details</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Prescription Details</h2>
             </div>
 
             <div className="p-6">
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                  <p className="text-sm text-gray-500">Prescription ID</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.id}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Prescription ID</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.id}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Date</p>
-                  <p className="text-gray-900 font-medium">{new Date(selectedItem.date).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Date</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{new Date(selectedItem.date).toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Patient Name</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.patientName}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Patient Name</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.patientName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Patient ID</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.patientId}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Patient ID</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.patientId}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Doctor</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.doctorName}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Doctor</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.doctorName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Priority</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Priority</p>
                   <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    selectedItem.priority === 'Urgent' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'
+                    selectedItem.priority === 'Urgent' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' : 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
                   }`}>
                     {selectedItem.priority}
                   </span>
@@ -1099,16 +1099,16 @@ const PharmacyInventory = () => {
               </div>
 
               <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Prescribed Medicines</h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Prescribed Medicines</h3>
                 <div className="space-y-3">
                   {selectedItem.medicines.map((med, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-4">
+                    <div key={index} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4">
                       <div className="flex justify-between items-start mb-2">
                         <div>
-                          <p className="font-medium text-gray-900">{med.name}</p>
-                          <p className="text-sm text-gray-600">{med.dosage}</p>
+                          <p className="font-medium text-gray-900 dark:text-white">{med.name}</p>
+                          <p className="text-sm text-gray-600 dark:text-gray-400">{med.dosage}</p>
                         </div>
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded">
+                        <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm font-medium rounded">
                           Qty: {med.quantity}
                         </span>
                       </div>
@@ -1120,7 +1120,7 @@ const PharmacyInventory = () => {
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                   Close
                 </button>
@@ -1130,7 +1130,7 @@ const PharmacyInventory = () => {
                       handleDispensePrescription(selectedItem);
                       setModalType(null);
                     }}
-                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
                   >
                     Dispense
                   </button>
@@ -1144,55 +1144,55 @@ const PharmacyInventory = () => {
       {/* View Restock Request Modal */}
       {modalType === 'viewRestock' && selectedItem && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h2 className="text-2xl font-bold text-gray-800">Restock Request Details</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Restock Request Details</h2>
             </div>
 
             <div className="p-6">
               <div className="grid grid-cols-2 gap-4 mb-6">
                 <div>
-                  <p className="text-sm text-gray-500">Request ID</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.id}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Request ID</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.id}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Request Date</p>
-                  <p className="text-gray-900 font-medium">{new Date(selectedItem.requestDate).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Request Date</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{new Date(selectedItem.requestDate).toLocaleDateString()}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Medicine Name</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.medicineName}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Medicine Name</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.medicineName}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Medicine ID</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.medicineId}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Medicine ID</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.medicineId}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Current Stock</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.currentStock} units</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Current Stock</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.currentStock} units</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Requested Quantity</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.requestedQuantity} units</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Requested Quantity</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.requestedQuantity} units</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Supplier</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.supplier}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Supplier</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.supplier}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Estimated Cost</p>
-                  <p className="text-gray-900 font-medium">₹{selectedItem.estimatedCost.toFixed(2)}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Estimated Cost</p>
+                  <p className="text-gray-900 dark:text-white font-medium">₹{selectedItem.estimatedCost.toFixed(2)}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Requested By</p>
-                  <p className="text-gray-900 font-medium">{selectedItem.requestedBy}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Requested By</p>
+                  <p className="text-gray-900 dark:text-white font-medium">{selectedItem.requestedBy}</p>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Urgency</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Urgency</p>
                   <span className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    selectedItem.urgency === 'High' ? 'bg-red-100 text-red-800' :
-                    selectedItem.urgency === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-blue-100 text-blue-800'
+                    selectedItem.urgency === 'High' ? 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200' :
+                    selectedItem.urgency === 'Medium' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200' :
+                    'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
                   }`}>
                     {selectedItem.urgency}
                   </span>
@@ -1200,14 +1200,14 @@ const PharmacyInventory = () => {
               </div>
 
               <div className="mb-6">
-                <p className="text-sm text-gray-500 mb-2">Reason</p>
-                <p className="text-gray-900">{selectedItem.reason}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">Reason</p>
+                <p className="text-gray-900 dark:text-white">{selectedItem.reason}</p>
               </div>
 
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => setModalType(null)}
-                  className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  className="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
                 >
                   Close
                 </button>
@@ -1218,7 +1218,7 @@ const PharmacyInventory = () => {
                         handleRejectRestock(selectedItem);
                         setModalType(null);
                       }}
-                      className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                      className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600"
                     >
                       Reject
                     </button>
@@ -1227,7 +1227,7 @@ const PharmacyInventory = () => {
                         handleApproveRestock(selectedItem);
                         setModalType(null);
                       }}
-                      className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                      className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600"
                     >
                       Approve
                     </button>

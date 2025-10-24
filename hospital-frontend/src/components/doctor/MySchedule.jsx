@@ -125,11 +125,11 @@ const MySchedule = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">My Schedule</h1>
-          <p className="text-gray-600 mt-1">Manage your availability and appointment slots</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">My Schedule</h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">Manage your availability and appointment slots</p>
         </div>
       </div>
 
@@ -175,7 +175,7 @@ const MySchedule = () => {
       </div>
 
       {/* Day Selector */}
-      <div className="bg-white rounded-xl shadow-sm p-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4">
         <div className="flex space-x-2 overflow-x-auto">
           {days.map((day) => (
             <button
@@ -183,8 +183,8 @@ const MySchedule = () => {
               onClick={() => setSelectedDay(day)}
               className={`px-6 py-3 rounded-lg font-medium whitespace-nowrap transition-all ${
                 selectedDay === day
-                  ? 'bg-primary-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-blue-600 text-white shadow-md'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               {day}
@@ -197,12 +197,12 @@ const MySchedule = () => {
       </div>
 
       {/* Schedule for Selected Day */}
-      <div className="bg-white rounded-xl shadow-sm p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-gray-900">{selectedDay}'s Schedule</h2>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">{selectedDay}'s Schedule</h2>
           <button
             onClick={handleAddSlot}
-            className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center space-x-2 font-medium"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2 font-medium"
           >
             <Plus className="w-5 h-5" />
             <span>Add Time Slot</span>
@@ -212,10 +212,10 @@ const MySchedule = () => {
         {schedule[selectedDay].length === 0 ? (
           <div className="text-center py-12">
             <Calendar className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600 mb-4">No time slots scheduled for {selectedDay}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">No time slots scheduled for {selectedDay}</p>
             <button
               onClick={handleAddSlot}
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
             >
               Add First Time Slot
             </button>
@@ -223,16 +223,16 @@ const MySchedule = () => {
         ) : (
           <div className="space-y-4">
             {schedule[selectedDay].map((slot) => (
-              <div key={slot.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+              <div key={slot.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary-100 flex items-center justify-center">
-                    <Clock className="w-6 h-6 text-primary-600" />
+                  <div className="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900">
+                    <p className="font-semibold text-gray-900 dark:text-white">
                       {slot.startTime} - {slot.endTime}
                     </p>
-                    <p className="text-sm text-gray-600">
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
                       {slot.slots} appointment slots • 30 minutes each
                     </p>
                   </div>
@@ -240,20 +240,20 @@ const MySchedule = () => {
                 <div className="flex items-center space-x-3">
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${
                     slot.status === 'available' 
-                      ? 'bg-green-100 text-green-800' 
-                      : 'bg-gray-100 text-gray-800'
+                      ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300' 
+                      : 'bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-300'
                   }`}>
                     {slot.status === 'available' ? 'Available' : 'Unavailable'}
                   </span>
                   <button
                     onClick={() => handleEditSlot(slot)}
-                    className="p-2 text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                    className="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors"
                   >
                     <Edit2 className="w-5 h-5" />
                   </button>
                   <button
                     onClick={() => handleDeleteSlot(slot.id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    className="p-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-5 h-5" />
                   </button>
@@ -267,56 +267,56 @@ const MySchedule = () => {
       {/* Add/Edit Regular Slot Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full">
-            <div className="border-b px-6 py-4">
-              <h2 className="text-xl font-bold text-gray-900">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-md w-full">
+            <div className="border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 {editMode ? 'Edit Time Slot' : 'Add Time Slot'}
               </h2>
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Start Time *
                 </label>
                 <input
                   type="time"
                   value={formData.startTime}
                   onChange={(e) => setFormData({...formData, startTime: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   End Time *
                 </label>
                 <input
                   type="time"
                   value={formData.endTime}
                   onChange={(e) => setFormData({...formData, endTime: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Status *
                 </label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                 >
                   <option value="available">Available</option>
                   <option value="unavailable">Unavailable</option>
                 </select>
               </div>
 
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-sm text-gray-700">
+              <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
                   <strong>Note:</strong> Slots are 30 minutes each. 
                   {formData.startTime && formData.endTime && (
                     <span className="block mt-1">
@@ -329,14 +329,14 @@ const MySchedule = () => {
               <div className="flex space-x-3 pt-4">
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
+                  className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
                   {editMode ? 'Update' : 'Add'} Slot
                 </button>
                 <button
                   type="button"
                   onClick={() => setShowModal(false)}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
+                  className="px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors font-medium"
                 >
                   Cancel
                 </button>
