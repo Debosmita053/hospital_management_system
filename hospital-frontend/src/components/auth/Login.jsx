@@ -21,48 +21,37 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-<<<<<<< Updated upstream
-    const result = await login(email, password);
-    
-    if (!result.success) {
-      toast.error(result.error);
-    } else {
-      // Navigation AFTER successful login
-      switch (result.user.role) {
-        case 'admin':
-          navigate('/admin');
-          break;
-        case 'doctor':
-          navigate('/doctor');
-          break;
-        case 'nurse':
-        case 'lab_technician':
-        case 'pharmacist':
-        case 'ward_boy':
-          navigate('/staff');
-          break;
-        default:
-          navigate('/login');
-      }
-=======
     try {
       const result = await login(email, password);
-
-      if (result.success) {
-        toast.success('Login successful!');
-
-        // Redirect based on role
-        const role = result.user.role;
-        if (role === 'admin') navigate('/admin');
-        else if (role === 'doctor') navigate('/doctor');
-        else if (role === 'patient') navigate('/patient');
-        else if (role === 'nurse') navigate('/nurse');
-      } else {
+      
+      if (!result.success) {
         toast.error(result.error);
+      } else {
+        toast.success('Login successful!');
+        
+        // Navigation based on role
+        switch (result.user.role) {
+          case 'admin':
+            navigate('/admin');
+            break;
+          case 'doctor':
+            navigate('/doctor');
+            break;
+          case 'patient':
+            navigate('/patient');
+            break;
+          case 'nurse':
+          case 'lab_technician':
+          case 'pharmacist':
+          case 'ward_boy':
+            navigate('/staff');
+            break;
+          default:
+            navigate('/login');
+        }
       }
     } catch (error) {
       toast.error('An unexpected error occurred');
->>>>>>> Stashed changes
     }
 
     setLoading(false);

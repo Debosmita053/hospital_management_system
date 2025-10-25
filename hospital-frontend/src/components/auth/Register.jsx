@@ -111,54 +111,29 @@ const Register = () => {
         phone: formData.phone,
         dateOfBirth: formData.dateOfBirth,
         gender: formData.gender,
-<<<<<<< Updated upstream
-        // Doctor specific
-        ...(formData.role === 'doctor' && {
-          specialization: formData.specialization,
-          licenseNumber: formData.licenseNumber,
-          yearsOfExperience: formData.yearsOfExperience,
-          qualifications: formData.qualifications,
-        }),
-        // Staff specific
-        ...((formData.role === 'nurse' || formData.role === 'lab_technician' || formData.role === 'pharmacist' || formData.role === 'ward_boy') && {
-          department: formData.department,
-          employeeId: formData.employeeId,
-          qualifications: formData.qualifications,
-=======
-        ...(formData.role === 'patient' && {
-          address: {
-            street: formData.address,
-          },
-          emergencyContact: {
-            phone: formData.emergencyContact,
-          },
->>>>>>> Stashed changes
-        }),
-        ...(formData.role === 'doctor' && {
-          specialization: 'General Medicine', // Default specialization
-          licenseNumber: 'TEMP' + Date.now(), // Temporary license
-          department: null, // Will be assigned later
-        }),
+        qualifications: formData.qualifications,
       };
+
+      // Add role-specific fields
+      if (formData.role === 'doctor') {
+        userData.specialization = formData.specialization;
+        userData.licenseNumber = formData.licenseNumber;
+        userData.yearsOfExperience = formData.yearsOfExperience;
+      } else if (['nurse', 'lab_technician', 'pharmacist', 'ward_boy'].includes(formData.role)) {
+        userData.department = formData.department;
+        userData.employeeId = formData.employeeId;
+      }
 
       const result = await register(userData);
 
-<<<<<<< Updated upstream
-    if (result.success) {
-      toast.success('Registration successful!');
-      navigate('/login');
-    } else {
-      toast.error(result.error);
-=======
       if (result.success) {
         toast.success('Registration successful!');
-        navigate(`/${result.user.role}`);
+        navigate('/login');
       } else {
         toast.error(result.error);
       }
     } catch (error) {
       toast.error('An unexpected error occurred');
->>>>>>> Stashed changes
     }
 
     setLoading(false);

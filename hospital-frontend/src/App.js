@@ -13,12 +13,11 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import AdminLayout from './components/admin/AdminLayout';
 import AdminDashboard from './components/admin/Dashboard';
 import DoctorLayout from './components/doctor/DoctorLayout';
-<<<<<<< Updated upstream
 import StaffLayout from './components/staff/StaffLayout';
-=======
+
 import PatientDashboard from './components/patient/PatientDashboard';
 import NurseDashboard from './components/nurse/NurseDashboard';
->>>>>>> Stashed changes
+
 
 function App() {
   return (
