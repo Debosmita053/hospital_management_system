@@ -1,3 +1,4 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -45,6 +46,7 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/hospital_
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/dashboard', require('./routes/dashboard'));
 app.use('/api/patients', require('./routes/patients'));
 app.use('/api/doctors', require('./routes/doctors'));
 app.use('/api/staff', require('./routes/staff'));

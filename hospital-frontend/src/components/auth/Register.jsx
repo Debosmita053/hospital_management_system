@@ -93,7 +93,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!formData.dateOfBirth || !formData.gender) {
       toast.error('Please fill in all required fields');
       return;
@@ -101,16 +101,17 @@ const Register = () => {
 
     setLoading(true);
 
-    const userData = {
-      email: formData.email,
-      password: formData.password,
-      role: formData.role,
-      profileData: {
+    try {
+      const userData = {
+        email: formData.email,
+        password: formData.password,
+        role: formData.role,
         firstName: formData.firstName,
         lastName: formData.lastName,
         phone: formData.phone,
         dateOfBirth: formData.dateOfBirth,
         gender: formData.gender,
+<<<<<<< Updated upstream
         // Doctor specific
         ...(formData.role === 'doctor' && {
           specialization: formData.specialization,
@@ -123,17 +124,41 @@ const Register = () => {
           department: formData.department,
           employeeId: formData.employeeId,
           qualifications: formData.qualifications,
+=======
+        ...(formData.role === 'patient' && {
+          address: {
+            street: formData.address,
+          },
+          emergencyContact: {
+            phone: formData.emergencyContact,
+          },
+>>>>>>> Stashed changes
         }),
-      },
-    };
+        ...(formData.role === 'doctor' && {
+          specialization: 'General Medicine', // Default specialization
+          licenseNumber: 'TEMP' + Date.now(), // Temporary license
+          department: null, // Will be assigned later
+        }),
+      };
 
-    const result = await register(userData);
+      const result = await register(userData);
 
+<<<<<<< Updated upstream
     if (result.success) {
       toast.success('Registration successful!');
       navigate('/login');
     } else {
       toast.error(result.error);
+=======
+      if (result.success) {
+        toast.success('Registration successful!');
+        navigate(`/${result.user.role}`);
+      } else {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred');
+>>>>>>> Stashed changes
     }
 
     setLoading(false);

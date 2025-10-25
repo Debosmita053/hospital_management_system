@@ -117,3 +117,4 @@ medicalRecordSchema.pre('save', async function(next) {
 });
 
 module.exports = mongoose.model('MedicalRecord', medicalRecordSchema);
+

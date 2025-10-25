@@ -21,6 +21,7 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
+<<<<<<< Updated upstream
     const result = await login(email, password);
     
     if (!result.success) {
@@ -43,6 +44,25 @@ const Login = () => {
         default:
           navigate('/login');
       }
+=======
+    try {
+      const result = await login(email, password);
+
+      if (result.success) {
+        toast.success('Login successful!');
+
+        // Redirect based on role
+        const role = result.user.role;
+        if (role === 'admin') navigate('/admin');
+        else if (role === 'doctor') navigate('/doctor');
+        else if (role === 'patient') navigate('/patient');
+        else if (role === 'nurse') navigate('/nurse');
+      } else {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      toast.error('An unexpected error occurred');
+>>>>>>> Stashed changes
     }
 
     setLoading(false);

@@ -90,3 +90,4 @@ pharmacySchema.virtual('isExpired').get(function() {
 });
 
 module.exports = mongoose.model('Pharmacy', pharmacySchema);
+

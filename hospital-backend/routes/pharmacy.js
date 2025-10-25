@@ -10,17 +10,17 @@ const router = express.Router();
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      search, 
-      category, 
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      category,
       isLowStock,
       isExpired,
-      sortBy = 'name', 
-      sortOrder = 'asc' 
+      sortBy = 'name',
+      sortOrder = 'asc'
     } = req.query;
-    
+
     const query = { isActive: true };
     
     if (search) {
@@ -30,7 +30,7 @@ router.get('/', auth, async (req, res) => {
         { manufacturer: { $regex: search, $options: 'i' } }
       ];
     }
-    
+
     if (category) {
       query.category = category;
     }
@@ -59,7 +59,7 @@ router.get('/', auth, async (req, res) => {
       items,
       totalPages: Math.ceil(total / limit),
       currentPage: page,
-      total
+          total
     });
   } catch (error) {
     console.error('Get pharmacy items error:', error);
@@ -290,7 +290,7 @@ router.get('/dashboard', auth, async (req, res) => {
         { $group: { _id: null, total: { $sum: { $multiply: ['$stock.current', '$cost'] } } } }
       ])
     ]);
-
+    
     res.json({
       totalItems,
       lowStockItems,

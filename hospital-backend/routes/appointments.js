@@ -12,18 +12,18 @@ const router = express.Router();
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      search, 
-      status, 
-      date, 
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      status,
+      date,
       doctorId, 
       patientId,
-      sortBy = 'appointmentDate', 
-      sortOrder = 'asc' 
+      sortBy = 'appointmentDate',
+      sortOrder = 'asc'
     } = req.query;
-    
+
     const query = {};
     
     if (search) {
@@ -32,11 +32,11 @@ router.get('/', auth, async (req, res) => {
         { reason: { $regex: search, $options: 'i' } }
       ];
     }
-    
+
     if (status) {
       query.status = status;
     }
-    
+
     if (date) {
       const startDate = new Date(date);
       const endDate = new Date(date);
@@ -79,10 +79,10 @@ router.get('/', auth, async (req, res) => {
     const total = await Appointment.countDocuments(query);
 
     res.json({
-      appointments,
+        appointments,
       totalPages: Math.ceil(total / limit),
       currentPage: page,
-      total
+          total
     });
   } catch (error) {
     console.error('Get appointments error:', error);
@@ -169,8 +169,8 @@ router.post('/', auth, [
     });
 
     if (existingAppointment) {
-      return res.status(400).json({ 
-        message: 'Doctor has a conflicting appointment at this time' 
+      return res.status(400).json({
+        message: 'Doctor has a conflicting appointment at this time'
       });
     }
 
@@ -209,8 +209,8 @@ router.post('/', auth, [
 // @access  Private
 router.put('/:id', auth, async (req, res) => {
   try {
-    const appointment = await Appointment.findById(req.params.id);
-    if (!appointment) {
+      const appointment = await Appointment.findById(req.params.id);
+      if (!appointment) {
       return res.status(404).json({ message: 'Appointment not found' });
     }
 

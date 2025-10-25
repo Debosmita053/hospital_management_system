@@ -78,3 +78,4 @@ prescriptionSchema.pre('save', async function(next) {
 });
 
 module.exports = mongoose.model('Prescription', prescriptionSchema);
+

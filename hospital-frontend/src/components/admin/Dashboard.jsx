@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users, UserPlus, Calendar, DollarSign, TrendingUp, Activity } from 'lucide-react';
+import api from '../../services/api';
 
 // Helper function for Indian Rupee formatting
 const formatRupees = (amountString) => {
@@ -32,35 +33,65 @@ const StatCard = ({ title, value, change, icon: Icon, gradient }) => (
 );
 
 const AdminDashboard = () => {
+    const [stats, setStats] = useState({
+        totalPatients: 0,
+        totalDoctors: 0,
+        appointmentsToday: 0,
+        monthlyRevenue: 0
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetchStats();
+    }, []);
+
+    const fetchStats = async () => {
+        try {
+            const response = await api.get('/dashboard/admin');
+            setStats(response.data);
+        } catch (error) {
+            console.error('Error fetching admin stats:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600"></div>
+            </div>
+        );
+    }
     // Colorful gradient stats with Indian Rupee formatting
-    const stats = [
-        { 
-            title: 'Total Patients', 
-            value: '2,543', 
-            change: '+12.5%', 
-            icon: Users, 
-            gradient: 'bg-gradient-to-br from-blue-500 to-blue-600' 
+    const statsData = [
+        {
+            title: 'Total Patients',
+            value: stats.totalPatients.toLocaleString('en-IN'),
+            change: '+12.5%',
+            icon: Users,
+            gradient: 'bg-gradient-to-br from-blue-500 to-blue-600'
         },
-        { 
-            title: 'Total Doctors', 
-            value: '42', 
-            change: '+2', 
-            icon: UserPlus, 
-            gradient: 'bg-gradient-to-br from-green-500 to-green-600' 
+        {
+            title: 'Total Doctors',
+            value: stats.totalDoctors.toString(),
+            change: '+2',
+            icon: UserPlus,
+            gradient: 'bg-gradient-to-br from-green-500 to-green-600'
         },
-        { 
-            title: 'Appointments Today', 
-            value: '156', 
-            change: '+8.2%', 
-            icon: Calendar, 
-            gradient: 'bg-gradient-to-br from-purple-500 to-purple-600' 
+        {
+            title: 'Appointments Today',
+            value: stats.appointmentsToday.toString(),
+            change: '+8.2%',
+            icon: Calendar,
+            gradient: 'bg-gradient-to-br from-purple-500 to-purple-600'
         },
-        { 
-            title: 'Revenue (Month)', 
-            value: formatRupees('45231'), 
-            change: '+15.3%', 
-            icon: DollarSign, 
-            gradient: 'bg-gradient-to-br from-amber-500 to-amber-600' 
+        {
+            title: 'Revenue (Month)',
+            value: formatRupees(stats.monthlyRevenue.toString()),
+            change: '+15.3%',
+            icon: DollarSign,
+            gradient: 'bg-gradient-to-br from-amber-500 to-amber-600'
         },
     ];
 
@@ -88,7 +119,7 @@ const AdminDashboard = () => {
 
             {/* Colorful Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat, index) => (
+                {statsData.map((stat, index) => (
                     <StatCard key={index} {...stat} />
                 ))}
             </div>

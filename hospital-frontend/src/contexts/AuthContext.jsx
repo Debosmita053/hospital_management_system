@@ -1,5 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
+<<<<<<< Updated upstream
 import { useNavigate } from 'react-router-dom';
+=======
+import api from '../services/api';
+>>>>>>> Stashed changes
 import toast from 'react-hot-toast';
 
 export const AuthContext = createContext();
@@ -18,6 +22,7 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+<<<<<<< Updated upstream
   // Mock user database - Replace with your API calls
   const mockUsers = {
     // Admin
@@ -153,6 +158,78 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider value={value}>
       {!loading && children}
+=======
+  const login = async (email, password) => {
+    try {
+      const response = await api.post('/auth/login', { email, password });
+
+      const { token, user: userData } = response.data;
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+
+      return { success: true, user: userData };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Login failed';
+      return {
+        success: false,
+        error: errorMessage,
+      };
+    }
+  };
+
+  const register = async (userData) => {
+    try {
+      const response = await api.post('/auth/register', userData);
+
+      const { token, user: newUser } = response.data;
+
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(newUser));
+      setUser(newUser);
+
+      return { success: true, user: newUser };
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Registration failed';
+      return {
+        success: false,
+        error: errorMessage,
+      };
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setUser(null);
+      window.location.href = '/login';
+    }
+  };
+
+  const getCurrentUser = async () => {
+    try {
+      const response = await api.get('/auth/me');
+      const userData = response.data.user;
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return userData;
+    } catch (error) {
+      console.error('Get current user error:', error);
+      logout();
+      return null;
+    }
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, register, logout, getCurrentUser, loading }}>
+      {children}
+>>>>>>> Stashed changes
     </AuthContext.Provider>
   );
 };

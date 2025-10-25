@@ -12,17 +12,17 @@ const router = express.Router();
 // @access  Private
 router.get('/', auth, async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      search, 
-      status, 
-      dateFrom, 
+    const {
+      page = 1,
+      limit = 10,
+      search,
+      status,
+      dateFrom,
       dateTo,
-      sortBy = 'createdAt', 
-      sortOrder = 'desc' 
+      sortBy = 'createdAt',
+      sortOrder = 'desc'
     } = req.query;
-    
+
     const query = {};
     
     if (search) {
@@ -31,7 +31,7 @@ router.get('/', auth, async (req, res) => {
         { 'patient.patientId': { $regex: search, $options: 'i' } }
       ];
     }
-    
+
     if (status) {
       query.status = status;
     }
@@ -46,7 +46,7 @@ router.get('/', auth, async (req, res) => {
     // Role-based filtering
     if (req.user.role === 'patient') {
       const patient = await Patient.findOne({ user: req.user.id });
-      if (patient) {
+    if (patient) {
         query.patient = patient._id;
       } else {
         return res.json({ bills: [], totalPages: 0, currentPage: 1, total: 0 });
@@ -71,7 +71,7 @@ router.get('/', auth, async (req, res) => {
       bills,
       totalPages: Math.ceil(total / limit),
       currentPage: page,
-      total
+          total
     });
   } catch (error) {
     console.error('Get billing records error:', error);
